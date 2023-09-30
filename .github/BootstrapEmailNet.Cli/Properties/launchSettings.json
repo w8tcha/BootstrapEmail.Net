@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "BootstrapEmail.Cli": {
+      "commandName": "Project",
+      //"commandLineArgs": "-f EmailTemplate.html -d EmailTemplateTEST.html"
+      //"commandLineArgs": "-p 'emails/*' -d 'emails/compiled/*"
+      //"commandLineArgs": "-f Resources/EmailTemplate.html -d Content/Themes/cerulean/EmailTemplate.html -c Content/Themes/cerulean/bootstrap_email.json"
+
+      "commandLineArgs": "-s 'A button'"
+    }
+  }
+}

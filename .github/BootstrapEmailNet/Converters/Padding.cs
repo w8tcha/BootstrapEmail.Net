@@ -1,0 +1,34 @@
+﻿namespace BootstrapEmail.Net.Converters;
+
+using AngleSharp.Html.Dom;
+
+public class Padding : Base
+{
+    public Padding(IHtmlDocument document)
+        : base(document)
+    {
+    }
+
+    public virtual void Build()
+    {
+        foreach (var node in this.EachNode(
+                     "*[class^=p-], *[class^=pt-], *[class^=pr-], *[class^=pb-], *[class^=pl-], *[class^=px-], *[class^=py-], *[class*=' p-'], *[class*=' pt-'], *[class*=' pr-'], *[class*=' pb-'], *[class*=' pl-'], *[class*=' px-'], *[class*=' py-']"))
+        {
+            if (new[] { "table", "td", "a" }.Contains(node.NodeName.ToLower()))
+            {
+                return;
+            }
+
+            var paddingRegex = new Regex("(p[trblxy]?-(lg-)?\\d+)");
+            var classes = paddingRegex.Replace(node.ClassName, string.Empty).Trim();
+            node.ClassName = paddingRegex.Replace(node.ClassName, string.Empty).Trim();
+
+            Dictionary<string, object> templateContent = new()
+                                                             {
+                                                                 { "classes", classes }, { "contents", node.OuterHtml }
+                                                             };
+
+            node.OuterHtml = this.Template("table", templateContent);
+        }
+    }
+}
