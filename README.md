@@ -14,6 +14,8 @@
 
 <br>
 
+[![NuGet](https://img.shields.io/nuget/v/BootstrapEmail.Net.svg)](https://nuget.org/packages/BootstrapEmail.Net)
+
 [![build dotnet](https://github.com/w8tcha/BootstrapEmail.Net/actions/workflows/build.yml/badge.svg)](https://github.com/w8tcha/BootstrapEmail.Net/actions/workflows/build.yml)
 
 This is the .NET Version of  [Bootstrap Email]([https://bootstrapemail.com/docs/usage#command-line](https://github.com/bootstrap-email/bootstrap-email)) which was converted from Ruby to .NET (Core) 7
