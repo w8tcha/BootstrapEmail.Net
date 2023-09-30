@@ -2,7 +2,7 @@ name: build dotnet
 on:
   push:
     branches:
-      - master
+      - main
       
 jobs:
   build:
