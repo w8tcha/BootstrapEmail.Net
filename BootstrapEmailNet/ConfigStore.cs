@@ -9,7 +9,7 @@ public class ConfigStore
     /// path to main sass file.
     /// </summary>
     /// <value>path to main sass file.</value>
-    public string sass_email_location { get; set; }
+    public string sass_email_location { get; set; } = string.Empty;
 
     /// <summary>
     /// main sass file passed in as a string.
@@ -21,7 +21,7 @@ public class ConfigStore
     /// path to head sass file.
     /// </summary>
     /// <value>path to head sass file.</value>
-    public string sass_head_location { get; set; }  
+    public string sass_head_location { get; set; } = string.Empty;
 
     /// <summary>
     /// head sass file passed in as a string.
@@ -29,7 +29,7 @@ public class ConfigStore
     /// <value>head sass file passed in as a string.</value>
     public string sass_head_string { get; set; } = "bootstrap-head.scss";
 
-    public string sass_location { get; set; }
+    public string sass_location { get; set; } = string.Empty;
 
     /// <summary>
     /// array of directories for loading sass imports.
@@ -41,7 +41,7 @@ public class ConfigStore
     /// path to tmp folder for sass cache
     /// </summary>
     /// <value>path to tmp folder for sass cache.</value>
-    public string sass_cache_location { get; set; } 
+    public string sass_cache_location { get; set; } = string.Empty;
 
     /// <summary>
     /// turn on or off sass log when caching new sass

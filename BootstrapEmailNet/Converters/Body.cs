@@ -10,6 +10,11 @@ public class Body : Base
     {
         var body = this.Document.QuerySelector("body");
 
+        if (body == null)
+        {
+            return;
+        }
+
         Dictionary<string, object> templateContent = new()
                                                          {
                                                              { "classes", $"{body.GetAttribute("class")}body" },

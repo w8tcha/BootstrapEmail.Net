@@ -46,7 +46,7 @@ public class AddMissingMetaTags : Base
                               where this.Document.QuerySelector(tagHash["query"]) == null
                               select parser.ParseDocument(tagHash["code"]).QuerySelector(tagHash["query"]))
         {
-            headNode.Prepend(this.Document.CreateTextNode("\n    "), table);
+            headNode?.Prepend(this.Document.CreateTextNode("\n    "), table);
         }
     }
 }

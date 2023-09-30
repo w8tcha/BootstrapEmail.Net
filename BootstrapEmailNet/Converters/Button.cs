@@ -11,7 +11,7 @@ public class Button : Base
     {
         foreach (var node in this.EachNode(".btn"))
         {
-            var className = node.ClassName;
+            var className = node.ClassName ?? string.Empty; ;
 
             node.RemoveAttribute("class");
 
@@ -25,7 +25,6 @@ public class Button : Base
                                                              };
 
              node.OuterHtml = this.Template("button", templateContent);
-
         }
     }
 }

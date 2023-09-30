@@ -26,7 +26,7 @@ public class BootstrapEmailTests
     {
         var html = new BootstrapEmail(new ConfigStore()).Compile(
             """<a href="#" class="btn btn-primary">A button</a><a href="#" class="btn btn-secondary">B button</a>""",
-            null,
+            string.Empty,
             InputType.String);
 
         const string Expected = """

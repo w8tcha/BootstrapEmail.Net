@@ -36,7 +36,7 @@ public class Stack : Base
 
             Dictionary<string, object> content = new()
                                                      {
-                                                         { "classes", node.ClassName }, { "contents", html.ToString() }
+                                                         { "classes", node.ClassName ?? string.Empty }, { "contents", html.ToString() }
                                                      };
 
             node.OuterHtml = this.Template("table-to-tr", content);
@@ -62,7 +62,7 @@ public class Stack : Base
 
             Dictionary<string, object> content = new()
                                                      {
-                                                         { "classes", node.ClassName }, { "contents", html.ToString() }
+                                                         { "classes", node.ClassName ?? string.Empty }, { "contents", html.ToString() }
                                                      };
 
             node.OuterHtml = this.Template("table-to-tbody", content);

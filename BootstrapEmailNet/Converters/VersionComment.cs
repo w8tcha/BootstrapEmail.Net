@@ -9,9 +9,12 @@ public class VersionComment : Base
 
     private INode BootstrapEmailComment()
     {
-        var version = this.GetType().Assembly.GetName().Version.ToString(3);
+        var version = this.GetType().Assembly.GetName().Version;
 
-        return this.Document.CreateComment($" Compiled with Bootstrap Email version: {version} ");
+        return this.Document.CreateComment(
+            version != null
+                ? $" Compiled with Bootstrap Email version: {version.ToString(3)} "
+                : $" Compiled with Bootstrap Email");
     }
 
     public virtual void Build()
@@ -20,9 +23,13 @@ public class VersionComment : Base
 
         var commentNode = this.BootstrapEmailComment();
 
-        head?.Prepend(commentNode);
+        if (head != null)
+        {
+            head.Prepend(commentNode);
 
-        head.InsertBefore(this.Document.CreateTextNode("\r\n    "), commentNode);
+            head.InsertBefore(this.Document.CreateTextNode("\r\n    "), commentNode);
+        }
+
         commentNode.InsertAfter(this.Document.CreateTextNode("\r"));
     }
 }

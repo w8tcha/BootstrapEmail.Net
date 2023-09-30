@@ -23,7 +23,10 @@ public class Hr : Base
 
             var table = parser.ParseDocument(this.Template("table", templateContent)).QuerySelector("table");
 
-            node.ReplaceWith(table);
+            if (table != null)
+            {
+                node.ReplaceWith(table);
+            }
         }
     }
 }

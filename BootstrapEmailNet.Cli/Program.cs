@@ -133,7 +133,7 @@ internal class Program
 
                     break;
                 case InputType.String:
-                    Console.WriteLine(bsEmail.Compile(input, null,type));
+                    Console.WriteLine(bsEmail.Compile(input,string.Empty,type));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

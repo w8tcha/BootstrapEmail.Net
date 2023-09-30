@@ -39,7 +39,7 @@ public class BootstrapEmail
     /// <param name="output">The output.</param>
     /// <param name="type">The type.</param>
     /// <returns>System.String.</returns>
-    public string Compile(string input, string? output, InputType type)
+    public string Compile(string input, string output, InputType type)
     {
         switch (type)
         {
@@ -133,14 +133,21 @@ public class BootstrapEmail
             var folderName = Path.GetDirectoryName(filePath);
             var fileName = Path.GetFileName(filePath);
 
-            var targetFolderPath = Path.Combine(folderName, Constants.Compiled);
-
-            if (!Directory.Exists(targetFolderPath))
+            if (folderName != null)
             {
-                Directory.CreateDirectory(targetFolderPath);
-            }
+                var targetFolderPath = Path.Combine(folderName, Constants.Compiled);
 
-            savePath = Path.Combine(targetFolderPath, fileName);
+                if (!Directory.Exists(targetFolderPath))
+                {
+                    Directory.CreateDirectory(targetFolderPath);
+                }
+
+                savePath = Path.Combine(targetFolderPath, fileName);
+            }
+            else
+            {
+                savePath = Path.Combine(filePath, fileName);
+            }
         }
         else
         {
@@ -160,7 +167,7 @@ public class BootstrapEmail
 
         foreach (var file in files)
         {
-            this.Compile(file, null, InputType.File);
+            this.Compile(file, string.Empty, InputType.File);
         }
     }
 }

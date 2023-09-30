@@ -11,7 +11,7 @@ public class Badge : Base
     {
         foreach (var node in this.EachNode(".badge"))
         {
-            var classes = node.ClassName;
+            var classes = node.ClassName ?? string.Empty;
             node.RemoveAttribute("class");
 
             Dictionary<string, object> templateContent = new()

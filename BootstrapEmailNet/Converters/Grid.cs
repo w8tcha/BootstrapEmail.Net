@@ -11,20 +11,19 @@ public class Grid : Base
 
     public virtual void Build()
     {
-
         foreach (var node in this.EachNode(".row"))
         {
             // Parse columns first
             var innerHtml = this.ParseColumns(node);
 
-            Dictionary<string, object> tableToTr = new() { { "classes", node.ClassName },
+            Dictionary<string, object> tableToTr = new() { { "classes", node.ClassName ?? string.Empty },
                                                              { "contents", innerHtml } };
 
             var tableToTrContent = this.Template("table-to-tr", tableToTr);
 
             Dictionary<string, object> templateContent = new()
                                                              {
-                                                                 { "classes", node.ClassName },
+                                                                 { "classes", node.ClassName ?? string.Empty },
                                                                  { "contents", tableToTrContent }
                                                              };
 
@@ -41,9 +40,9 @@ public class Grid : Base
     {
         var parsedHtml = new StringBuilder();
 
-        foreach (var templateContent in this.EachChildNode(element, "*[class*=col]").Select(node => new Dictionary<string, object>()
+        foreach (var templateContent in this.EachChildNode(element, "*[class*=col]").Select(node => new Dictionary<string, object>
                      {
-                         { "classes", node.ClassName },
+                         { "classes", node.ClassName ?? string.Empty },
                          { "contents", node.InnerHtml }
                      }))
         {

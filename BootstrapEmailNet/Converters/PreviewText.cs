@@ -29,6 +29,9 @@ public class PreviewText : Base
 
         var previewElement = parser.ParseDocument(this.Template("div", templateContent)).QuerySelector("div");
 
-        previewNode.ReplaceWith(previewElement);
+        if (previewElement != null)
+        {
+            previewNode.ReplaceWith(previewElement);
+        }
     }
 }

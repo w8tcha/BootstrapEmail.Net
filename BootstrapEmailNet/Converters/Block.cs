@@ -11,14 +11,15 @@ public class Block : Base
     {
         foreach (var node in this.EachNode("block, .to-table"))
         {
+            var className = node.ClassName ?? string.Empty;
+
             // add .to-table if it's not already there
-            var classList = node.ClassName.Split().ToList();
+            var classList = className.Split().ToList();
             classList.Add("to-table");
-            var className = string.Join(" ", classList.Distinct());
 
             Dictionary<string, object> templateContent = new()
                                                              {
-                                                                 { "classes", className },
+                                                                 { "classes", string.Join(" ", classList.Distinct()) },
                                                                  { "contents", node.InnerHtml }
                                                              };
 

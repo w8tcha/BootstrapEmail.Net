@@ -11,7 +11,7 @@ public class Alert : Base
     {
         foreach (var node in this.EachNode(".alert"))
         {
-            var classes = node.ClassName;
+            var classes = node.ClassName ?? string.Empty;
             node.RemoveAttribute("class");
 
             Dictionary<string, object> templateContent = new()

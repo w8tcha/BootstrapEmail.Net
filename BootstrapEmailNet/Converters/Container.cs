@@ -13,7 +13,7 @@ public class Container : Base
         {
             Dictionary<string, object> templateContent = new()
                                                              {
-                                                                 { "classes", node.ClassName },
+                                                                 { "classes", node.ClassName ?? string.Empty},
                                                                  { "contents", node.InnerHtml }
                                                              };
 
@@ -24,7 +24,7 @@ public class Container : Base
         {
             Dictionary<string, object> templateContent = new()
                                                              {
-                                                                 { "classes", node.ClassName },
+                                                                 { "classes", node.ClassName ?? string.Empty },
                                                                  { "contents", node.InnerHtml }
                                                              };
 

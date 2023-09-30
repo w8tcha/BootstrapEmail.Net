@@ -30,7 +30,7 @@ public class Align : Base
             return;
         }
 
-        node.ClassName = node.ClassName.Replace(fullType, string.Empty).Trim();
+        node.ClassName = node.ClassName?.Replace(fullType, string.Empty).Trim();
 
         Dictionary<string, object> templateContent = new()
                                                          {
@@ -42,6 +42,11 @@ public class Align : Base
                                                          };
 
         var table = parser.ParseDocument(this.Template("table", templateContent)).QuerySelector("table");
+
+        if (table == null)
+        {
+            return;
+        }
 
         table.SetAttribute("align", type);
 

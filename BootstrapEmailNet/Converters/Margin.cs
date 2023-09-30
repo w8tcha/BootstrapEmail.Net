@@ -13,10 +13,11 @@ public class Margin : Base
     {
         foreach (var node in this.EachNode("*[class^='my-'], *[class^='mt-'], *[class^='mb-'], *[class*=' my-'], *[class*=' mt-'], *[class*=' mb-']"))
         {
-            var topClass = Regex.Match(node.ClassName, @"m[ty]{1}-(lg-)?(\d+)").Value;
-            var bottomClass = Regex.Match(node.ClassName, @"m[by]{1}-(lg-)?(\d+)").Value;
+            var className = node.ClassName ?? string.Empty;
+            var topClass = Regex.Match(className, @"m[ty]{1}-(lg-)?(\d+)").Value;
+            var bottomClass = Regex.Match(className, @"m[by]{1}-(lg-)?(\d+)").Value;
 
-            var nodeCssClass = Regex.Replace(node.ClassName, @"(m[tby]{1}-(lg-)?\d+)", string.Empty).Trim();
+            var nodeCssClass = Regex.Replace(className, @"(m[tby]{1}-(lg-)?\d+)", string.Empty).Trim();
 
             node.SetAttribute("class", nodeCssClass);
 

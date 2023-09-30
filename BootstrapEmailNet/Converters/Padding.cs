@@ -20,8 +20,8 @@ public class Padding : Base
             }
 
             var paddingRegex = new Regex("(p[trblxy]?-(lg-)?\\d+)");
-            var classes = paddingRegex.Replace(node.ClassName, string.Empty).Trim();
-            node.ClassName = paddingRegex.Replace(node.ClassName, string.Empty).Trim();
+            var classes = paddingRegex.Replace(node.ClassName ?? string.Empty, string.Empty).Trim();
+            node.ClassName = paddingRegex.Replace(node.ClassName ?? string.Empty, string.Empty).Trim();
 
             Dictionary<string, object> templateContent = new()
                                                              {
