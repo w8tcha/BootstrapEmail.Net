@@ -14,6 +14,8 @@
 
 <br>
 
+[![build dotnet](https://github.com/w8tcha/BootstrapEmail.Net/actions/workflows/build.yml/badge.svg)](https://github.com/w8tcha/BootstrapEmail.Net/actions/workflows/build.yml)
+
 This is the .NET Version of  [Bootstrap Email]([https://bootstrapemail.com/docs/usage#command-line](https://github.com/bootstrap-email/bootstrap-email)) which was converted from Ruby to .NET (Core) 7
 
 Bootstrap Email takes most of its inspiration from these two wonderful frameworks, [Bootstrap](https://getbootstrap.com) and [Tailwind](https://tailwindcss.com) but for HTML emails. Working with HTML in emails is never easy because of the nuances of email vs the web. With Bootstrap Email you don't have to understand all the nuance and it allows you to write emails like you would a website.
