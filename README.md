@@ -41,8 +41,5 @@ BootstrapEmail.Cli -s '<a href="#" class="btn btn-primary">Some Button</a>'
 ````
 ### specify a config json file to use custom scss files
 ````
-cat input.html | bootstrap-email
-### specify config path to use to customize things like colors
-````
 bootstrap-email -c bootstrap-email.json
 ````
