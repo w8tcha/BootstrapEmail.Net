@@ -7,8 +7,6 @@
 
   <p align="center">
     If you know Bootstrap, you know Bootstrap Email.
-    <br>
-    <a href="https://v1.bootstrapemail.com/docs/introduction"><strong>Explore Bootstrap Email docs »</strong></a>
   </p>
 </p>
 
@@ -24,26 +22,66 @@ Bootstrap Email takes most of its inspiration from these two wonderful framework
 
 ## Setup
 There are a few different ways you can use Bootstrap Email to compile emails:
-- Use the dll
-- Via the command line with the BootstrapEmailNet.Cli:
 
-### compile all files ending in .html in the current directory
+### Use the dll
+
+#### compile all files ending in .html in the current directory
+
+```c#
+var config = new ConfigStore();
+
+var bsEmail = new BootstrapEmail(config);
+
+bsEmail.Compile(string.Empty, string.Empty, InputType.File);
+```
+#### compile the file email.html and save it to the file out.html
+
+```c#
+var config = new ConfigStore();
+
+var bsEmail = new BootstrapEmail(config);
+
+bsEmail.Compile("email.html", "out.html", InputType.File);
+```
+#### specify a path pattern and a destination directory for compiled emails to be saved to
+
+```c#
+var config = new ConfigStore();
+
+var bsEmail = new BootstrapEmail(config);
+
+bsEmail.Compile("emails/*", "mails/compiled/", InputType.Pattern);
+```
+
+#### compile for a string
+
+```c#
+var config = new ConfigStore();
+
+var bsEmail = new BootstrapEmail(config);
+
+bsEmail.Compile("<a href='#' class='btn btn-primary'>Some Button</a>", string.Empty, InputType.String);
+```
+
+### Via the command line with the BootstrapEmailNet.Cli:
+
+#### compile all files ending in .html in the current directory
 ````
 BootstrapEmail.Cli
 ````
-### compile the file email.html and save it to the file out.html
+#### compile the file email.html and save it to the file out.html
 ````
 BootstrapEmail.Cli -f email.html -d out.html
 ````
-### specify a path pattern and a destination directory for compiled emails to be saved to
+#### specify a path pattern and a destination directory for compiled emails to be saved to
 ````
 BootstrapEmail.Cli -p 'emails/*' -d 'emails/compiled/*'
 ````
-### compile for a string
+#### compile for a string
 ````
 BootstrapEmail.Cli -s '<a href="#" class="btn btn-primary">Some Button</a>'
 ````
-### specify a config json file to use custom scss files
+#### specify a config json file to use custom scss files
 ````
-bootstrap-email -c bootstrap-email.json
+BootstrapEmail.Cli -c bootstrap-email.json
 ````
