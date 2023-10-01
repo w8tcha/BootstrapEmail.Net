@@ -106,7 +106,7 @@ public class Compiler
     /// </summary>
     /// <param name="html">The HTML.</param>
     /// <returns>System.String.</returns>
-    private static string AddLayout(string html)
+    private string AddLayout(string html)
     {
         var config = Configuration.Default;
         using var context = BrowsingContext.New(config);
@@ -117,7 +117,7 @@ public class Compiler
             return html;
         }
 
-        return Erb.Template(Path.Combine(AppContext.BaseDirectory, "core/layout.html.erb"), html);
+        return Erb.Template(Path.Combine(AppContext.BaseDirectory, Constants.SassDir, this.Config.ConfigStore.layout_file), html);
     }
 
     /// <summary>

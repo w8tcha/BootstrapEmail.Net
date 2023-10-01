@@ -29,6 +29,10 @@ public class ConfigStore
     /// <value>head sass file passed in as a string.</value>
     public string sass_head_string { get; set; } = "bootstrap-head.scss";
 
+    /// <summary>
+    /// Gets or sets the sass location.
+    /// </summary>
+    /// <value>The sass location.</value>
     public string sass_location { get; set; } = string.Empty;
 
     /// <summary>
@@ -42,6 +46,12 @@ public class ConfigStore
     /// </summary>
     /// <value>path to tmp folder for sass cache.</value>
     public string sass_cache_location { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the layout file.
+    /// </summary>
+    /// <value>The layout file.</value>
+    public string layout_file { get; set; } = "layout.html.erb";
 
     /// <summary>
     /// turn on or off sass log when caching new sass
