@@ -30,11 +30,6 @@ public static class Constants
     public const string SassCache = ".sass-cache";
 
     /// <summary>
-    /// The sass folder name
-    /// </summary>
-    public const string SassDir = "core";
-
-    /// <summary>
     /// The default output folder
     /// </summary>
     public const string Compiled = "compiled";

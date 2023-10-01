@@ -8,7 +8,7 @@ public class Config
     /// <summary>
     /// The configuration store
     /// </summary>
-    private readonly ConfigStore configStore;
+    public readonly ConfigStore ConfigStore;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Config"/> class.
@@ -16,7 +16,7 @@ public class Config
     /// <param name="configStore">The configuration store.</param>
     public Config(ConfigStore configStore)
     {
-        this.configStore = configStore;
+        this.ConfigStore = configStore;
     }
 
     /// <summary>
@@ -58,7 +58,7 @@ public class Config
     /// <returns>System.String.</returns>
     public string SassLocation()
     {
-        return this.configStore.sass_location;
+        return this.ConfigStore.sass_location;
     }
 
     /// <summary>
@@ -67,9 +67,9 @@ public class Config
     /// <returns>System.String[].</returns>
     public string[] SassLoadPaths()
     {
-        string[] pathsArray = { Path.Combine(AppContext.BaseDirectory, Constants.SassDir) };
+        string[] pathsArray = { Path.Combine(AppContext.BaseDirectory, this.SassLocation()) };
 
-        var customLoadPaths = this.configStore.sass_load_paths;
+        var customLoadPaths = this.ConfigStore.sass_load_paths;
 
         return pathsArray.Concat(customLoadPaths).ToArray();
     }
@@ -80,7 +80,7 @@ public class Config
     /// <returns>System.String.</returns>
     public string SassCacheLocation()
     {
-        var option = this.configStore.sass_cache_location;
+        var option = this.ConfigStore.sass_cache_location;
 
         return !string.IsNullOrEmpty(option)
                    ? option
@@ -94,7 +94,7 @@ public class Config
 
     public bool SassLogEnabled()
     {
-        return this.configStore.sass_log_enabled;
+        return this.ConfigStore.sass_log_enabled;
     }
 
     /// <summary>
@@ -104,14 +104,14 @@ public class Config
     /// <returns>System.Nullable&lt;System.String&gt;.</returns>
     private string? ConfigForOption(string option)
     {
-        var property = this.configStore.GetType().GetProperty(option);
+        var property = this.ConfigStore.GetType().GetProperty(option);
 
         if (property == null)
         {
             return string.Empty;
         }
 
-        var value = property.GetValue(this.configStore);
+        var value = property.GetValue(this.ConfigStore);
 
         return value != null ? value.ToString() : string.Empty;
     }

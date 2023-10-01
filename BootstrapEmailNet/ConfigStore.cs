@@ -33,7 +33,7 @@ public class ConfigStore
     /// Gets or sets the sass location.
     /// </summary>
     /// <value>The sass location.</value>
-    public string sass_location { get; set; } = string.Empty;
+    public string sass_location { get; set; } = "core";
 
     /// <summary>
     /// array of directories for loading sass imports.
@@ -58,4 +58,10 @@ public class ConfigStore
     /// </summary>
     /// <value>turn on or off sass log when caching new sass</value>
     public bool sass_log_enabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether [compile only body].
+    /// </summary>
+    /// <value><c>true</c> if [compile only body]; otherwise, <c>false</c>.</value>
+    public bool CompileOnlyBody { get; set; }
 }

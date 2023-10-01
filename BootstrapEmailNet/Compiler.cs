@@ -117,7 +117,7 @@ public class Compiler
             return html;
         }
 
-        return Erb.Template(Path.Combine(AppContext.BaseDirectory, Constants.SassDir, this.Config.ConfigStore.layout_file), html);
+        return Erb.Template(Path.Combine(AppContext.BaseDirectory, this.Config.SassLocation(), this.Config.ConfigStore.layout_file), html);
     }
 
     /// <summary>
@@ -187,7 +187,9 @@ public class Compiler
     /// <returns>System.String.</returns>
     public string FinalizeDocument()
     {
-        var html = this.Document.ToHtml().Replace(">\n", ">\r\n").Replace("}\n", "}\r\n");
+        var html = this.Config.ConfigStore.CompileOnlyBody
+                       ? this.Document.Body!.InnerHtml.Replace(">\n", ">\r\n").Replace("}\n", "}\r\n")
+                       : this.Document.ToHtml().Replace(">\n", ">\r\n").Replace("}\n", "}\r\n");
 
         // TODO optimize
         ///html = SupportUrlTokens.Replace(html);
