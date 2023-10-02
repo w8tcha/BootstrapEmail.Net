@@ -4,8 +4,8 @@ using AngleSharp.Html.Dom;
 
 public class Padding : Base
 {
-    public Padding(IHtmlDocument document)
-        : base(document)
+    public Padding(IHtmlDocument document, Config config)
+        : base(document, config)
     {
     }
 

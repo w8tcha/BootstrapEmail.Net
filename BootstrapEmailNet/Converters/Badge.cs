@@ -2,8 +2,8 @@
 
 public class Badge : Base
 {
-    public Badge(IHtmlDocument document)
-        : base(document)
+    public Badge(IHtmlDocument document, Config config)
+        : base(document, config)
     {
     }
 

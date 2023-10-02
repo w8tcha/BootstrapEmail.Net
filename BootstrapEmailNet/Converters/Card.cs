@@ -2,8 +2,8 @@
 
 public class Card : Base
 {
-    public Card(IHtmlDocument document)
-        : base(document)
+    public Card(IHtmlDocument document, Config config)
+        : base(document, config)
     {
     }
 

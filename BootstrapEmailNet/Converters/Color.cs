@@ -2,8 +2,8 @@
 
 public class Color : Base
 {
-    public Color(IHtmlDocument document)
-        : base(document)
+    public Color(IHtmlDocument document, Config config)
+        : base(document, config)
     {
     }
 

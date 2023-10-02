@@ -2,8 +2,8 @@
 
 public class Block : Base
 {
-    public Block(IHtmlDocument document)
-        : base(document)
+    public Block(IHtmlDocument document, Config config)
+        : base(document, config)
     {
     }
 

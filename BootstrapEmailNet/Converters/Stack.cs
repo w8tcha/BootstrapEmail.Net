@@ -6,8 +6,8 @@ using System.Text;
 
 public class Stack : Base
 {
-    public Stack(IHtmlDocument document)
-        : base(document)
+    public Stack(IHtmlDocument document, Config config)
+        : base(document, config)
     {
     }
 

@@ -2,8 +2,8 @@
 
 public class Align : Base
 {
-    public Align(IHtmlDocument document)
-        : base(document)
+    public Align(IHtmlDocument document, Config config)
+        : base(document, config)
     {
     }
 

@@ -2,8 +2,8 @@
 
 public class PreviewText : Base
 {
-    public PreviewText(IHtmlDocument document)
-        : base(document)
+    public PreviewText(IHtmlDocument document, Config config)
+        : base(document, config)
     {
     }
 

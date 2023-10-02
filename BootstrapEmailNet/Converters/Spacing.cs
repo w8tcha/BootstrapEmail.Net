@@ -2,8 +2,8 @@
 
 public class Spacing : Base
 {
-    public Spacing(IHtmlDocument document)
-        : base(document)
+    public Spacing(IHtmlDocument document, Config config)
+        : base(document, config)
     {
     }
 

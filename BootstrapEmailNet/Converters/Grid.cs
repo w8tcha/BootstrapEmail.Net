@@ -4,8 +4,8 @@ using System.Text;
 
 public class Grid : Base
 {
-    public Grid(IHtmlDocument document)
-        : base(document)
+    public Grid(IHtmlDocument document, Config config)
+        : base(document, config)
     {
     }
 

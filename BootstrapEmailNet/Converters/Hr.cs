@@ -2,8 +2,8 @@
 
 public class Hr : Base
 {
-    public Hr(IHtmlDocument document)
-        : base(document)
+    public Hr(IHtmlDocument document, Config config)
+        : base(document, config)
     {
     }
 

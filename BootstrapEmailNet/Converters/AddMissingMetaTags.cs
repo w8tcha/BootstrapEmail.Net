@@ -31,8 +31,13 @@ public class AddMissingMetaTags : Base
                                                                                      }
                                                                              }.ToList();
 
-    public AddMissingMetaTags(IHtmlDocument document)
-        : base(document)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AddMissingMetaTags"/> class.
+    /// </summary>
+    /// <param name="document">The document.</param>
+    /// <param name="config">The configuration.</param>
+    public AddMissingMetaTags(IHtmlDocument document, Config config)
+        : base(document, config)
     {
     }
 

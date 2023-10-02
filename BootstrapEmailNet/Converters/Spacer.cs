@@ -2,8 +2,8 @@
 
 public class Spacer : Base
 {
-    public Spacer(IHtmlDocument document)
-        : base(document)
+    public Spacer(IHtmlDocument document, Config config)
+        : base(document, config)
     {
     }
 

@@ -22,7 +22,7 @@ public static class Constants
     /// <summary>
     /// The core templates folder name
     /// </summary>
-    public const string CoreTemplatesDir = "core/templates";
+    public const string CoreTemplatesDir = "templates";
 
     /// <summary>
     /// The sass cache folder name

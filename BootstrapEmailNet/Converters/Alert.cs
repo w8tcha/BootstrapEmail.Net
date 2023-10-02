@@ -2,8 +2,8 @@
 
 public class Alert : Base
 {
-    public Alert(IHtmlDocument document)
-        : base(document)
+    public Alert(IHtmlDocument document, Config config)
+        : base(document, config)
     {
     }
 

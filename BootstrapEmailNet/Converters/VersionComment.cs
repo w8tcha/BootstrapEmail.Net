@@ -2,8 +2,8 @@
 
 public class VersionComment : Base
 {
-    public VersionComment(IHtmlDocument document)
-        : base(document)
+    public VersionComment(IHtmlDocument document, Config config)
+        : base(document, config)
     {
     }
 

@@ -125,29 +125,29 @@ public class Compiler
     /// </summary>
     public void CompileHtml()
     {
-        new Body(this.Document).Build();
+        new Body(this.Document, this.Config).Build();
 
-        new Block(this.Document).Build();
-        new Button(this.Document).Build();
+        new Block(this.Document, this.Config).Build();
+        new Button(this.Document, this.Config).Build();
 
-        new Badge(this.Document).Build();
-        new Alert(this.Document).Build();
-        new Card(this.Document).Build();
-        new Hr(this.Document).Build();
-        new Container(this.Document).Build();
-        new Grid(this.Document).Build();
-        new Stack(this.Document).Build();
-        new Color(this.Document).Build();
-        new Spacing(this.Document).Build();
-        new Margin(this.Document).Build();
+        new Badge(this.Document, this.Config).Build();
+        new Alert(this.Document, this.Config).Build();
+        new Card(this.Document, this.Config).Build();
+        new Hr(this.Document, this.Config).Build();
+        new Container(this.Document, this.Config).Build();
+        new Grid(this.Document, this.Config).Build();
+        new Stack(this.Document, this.Config).Build();
+        new Color(this.Document, this.Config).Build();
+        new Spacing(this.Document, this.Config).Build();
+        new Margin(this.Document, this.Config).Build();
 
-        new Spacer(this.Document).Build();
-        new Align(this.Document).Build();
+        new Spacer(this.Document, this.Config).Build();
+        new Align(this.Document, this.Config).Build();
 
-        new Padding(this.Document).Build();
-        new PreviewText(this.Document).Build();
-        new Table(this.Document).Build();
-        new Paragraph(this.Document).Build();
+        new Padding(this.Document, this.Config).Build();
+        new PreviewText(this.Document, this.Config).Build();
+        new Table(this.Document, this.Config).Build();
+        new Paragraph(this.Document, this.Config).Build();
     }
 
     /// <summary>
@@ -175,10 +175,10 @@ public class Compiler
     public void ConfigureHtml()
     {
         HeadStyle.Build(this.Document, this.Config);
-        new AddMissingMetaTags(this.Document).Build();
-        new VersionComment(this.Document).Build();
+        new AddMissingMetaTags(this.Document, this.Config).Build();
+        new VersionComment(this.Document, this.Config).Build();
 
-        new Td(this.Document).Build();
+        new Td(this.Document, this.Config).Build();
     }
 
     /// <summary>

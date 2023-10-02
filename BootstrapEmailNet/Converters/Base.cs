@@ -11,6 +11,8 @@ public abstract class Base
     /// <value>The document.</value>
     public IHtmlDocument Document { get; set; }
 
+    public Config Config { get; set; }
+
     /// <summary>
     /// The cached templates
     /// </summary>
@@ -20,9 +22,11 @@ public abstract class Base
     /// Initializes a new instance of the <see cref="Base"/> class.
     /// </summary>
     /// <param name="document">The document.</param>
-    protected Base(IHtmlDocument document)
+    /// <param name="config">The configuration.</param>
+    protected Base(IHtmlDocument document, Config config)
     {
        this.Document = document;
+       this.Config = config;
     }
 
     /// <summary>
@@ -43,7 +47,7 @@ public abstract class Base
         {
             this.cachedTemplates = new Dictionary<string, string>();
 
-            var path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, Constants.CoreTemplatesDir, $"{file}.html"));
+            var path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, this.Config.SassLocation(), Constants.CoreTemplatesDir, $"{file}.html"));
             stringContent = File.ReadAllText(path).TrimEnd('\n');
 
             this.cachedTemplates[file] = stringContent;

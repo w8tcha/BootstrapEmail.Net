@@ -33,8 +33,10 @@ public class Config
 
         if (!string.IsNullOrEmpty(fileName))
         {
-            var path = Path.Combine(string.IsNullOrEmpty(location) ? AppContext.BaseDirectory : location, fileName);
-
+            var path = string.IsNullOrEmpty(location)
+                           ? Path.Combine(AppContext.BaseDirectory, this.SassLocation(), fileName)
+                           : Path.Combine(location, fileName);
+            
             if (File.Exists(path))
             {
                 return File.ReadAllText(path);
@@ -45,10 +47,10 @@ public class Config
 
         var locations = Array.FindAll(
             lookupLocations,
-            path => File.Exists(Path.GetFullPath(path, AppContext.BaseDirectory)));
+            path => File.Exists(Path.GetFullPath(path, Path.Combine(AppContext.BaseDirectory, this.SassLocation()))));
 
         return locations.Length > 0
-                   ? File.ReadAllText(Path.GetFullPath(locations[0], AppContext.BaseDirectory))
+                   ? File.ReadAllText(Path.GetFullPath(locations[0], Path.Combine(AppContext.BaseDirectory, this.SassLocation())))
                    : string.Empty;
     }
 

@@ -2,8 +2,8 @@
 
 public class Table : Base
 {
-    public Table(IHtmlDocument document)
-        : base(document)
+    public Table(IHtmlDocument document, Config config)
+        : base(document, config)
     {
     }
 

@@ -2,8 +2,8 @@
 
 public class Paragraph : Base
 {
-    public Paragraph(IHtmlDocument document)
-        : base(document)
+    public Paragraph(IHtmlDocument document, Config config)
+        : base(document, config)
     {
     }
 

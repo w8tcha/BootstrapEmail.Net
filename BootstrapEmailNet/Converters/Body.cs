@@ -2,7 +2,7 @@
 
 public class Body : Base
 {
-    public Body(IHtmlDocument document) : base(document)
+    public Body(IHtmlDocument document, Config config) : base(document, config)
     {
     }
 

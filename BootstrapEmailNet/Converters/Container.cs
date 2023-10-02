@@ -2,8 +2,8 @@
 
 public class Container : Base
 {
-    public Container(IHtmlDocument document)
-        : base(document)
+    public Container(IHtmlDocument document, Config config)
+        : base(document, config)
     {
     }
 

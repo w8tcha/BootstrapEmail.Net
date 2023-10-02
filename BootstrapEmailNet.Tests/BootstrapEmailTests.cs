@@ -24,7 +24,9 @@ public class BootstrapEmailTests
     [Fact]
     public void TestStringInput()
     {
-        var html = new BootstrapEmail(new ConfigStore()).Compile(
+        var config = new ConfigStore();
+
+        var html = new BootstrapEmail(config).Compile(
             """<a href="#" class="btn btn-primary">A button</a><a href="#" class="btn btn-secondary">B button</a>""",
             string.Empty,
             InputType.String);
