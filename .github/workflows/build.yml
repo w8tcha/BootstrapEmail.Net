@@ -22,3 +22,5 @@ jobs:
         run: dotnet restore BootstrapEmail.Net.sln
       - name: Build
         run: dotnet build BootstrapEmail.Net.sln
+      - name: Test
+        run: dotnet test BootstrapEmail.Net.sln
