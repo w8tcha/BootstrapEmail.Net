@@ -191,8 +191,6 @@ public class Compiler
                        ? this.Document.Body!.InnerHtml.Replace(">\n", ">\r\n").Replace("}\n", "}\r\n")
                        : this.Document.ToHtml().Replace(">\n", ">\r\n").Replace("}\n", "}\r\n");
 
-        // TODO optimize
-        ///html = SupportUrlTokens.Replace(html);
         html = EnsureDoctype.Replace(html);
         html = ForceEncoding.Replace(html);
 
