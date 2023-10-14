@@ -60,7 +60,7 @@ public class Compiler
                 _ => input
             };
 
-        html = AddLayout(html);
+        html = this.AddLayout(html);
 
         this.SassCompiler = new SassCompiler(new SassOptions { IncludePaths = this.Config.SassLoadPaths() });
 

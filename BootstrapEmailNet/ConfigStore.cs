@@ -33,7 +33,7 @@ public class ConfigStore
     /// Gets or sets the sass location.
     /// </summary>
     /// <value>The sass location.</value>
-    public string sass_location { get; set; } = "core";
+    public string sass_location { get; set; } = "core/";
 
     /// <summary>
     /// array of directories for loading sass imports.
