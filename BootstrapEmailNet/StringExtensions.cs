@@ -12,7 +12,7 @@ public static class StringExtensions
     /// <returns>System.String.</returns>
     public static string ReplaceMultipleSpacesWithSingleSpace(this string str)
     {
-        return Regex.Replace(str, @"\s+", " ");
+        return Regex.Replace(str, @"\s+", " ", RegexOptions.None, TimeSpan.FromMilliseconds(100));
     }
 
     /// <summary>

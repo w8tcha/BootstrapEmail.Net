@@ -19,7 +19,7 @@ public class Padding : Base
                 return;
             }
 
-            var paddingRegex = new Regex("(p[trblxy]?-(lg-)?\\d+)");
+            var paddingRegex = new Regex("(p[trblxy]?-(lg-)?\\d+)", RegexOptions.None, TimeSpan.FromMilliseconds(100));
             var classes = paddingRegex.Replace(node.ClassName ?? string.Empty, string.Empty).Trim();
             node.ClassName = paddingRegex.Replace(node.ClassName ?? string.Empty, string.Empty).Trim();
 

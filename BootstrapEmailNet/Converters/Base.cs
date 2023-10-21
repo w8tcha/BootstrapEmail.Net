@@ -89,12 +89,12 @@ public abstract class Base
 
     protected bool IsMarginTop(IElement node)
     {
-        return node.ClassName != null && Regex.IsMatch(node.ClassName, @"m[ty]{1}-(lg-)?\d+");
+        return node.ClassName != null && Regex.IsMatch(node.ClassName, @"m[ty]{1}-(lg-)?\d+", RegexOptions.None, TimeSpan.FromMilliseconds(100));
     }
 
     protected bool IsMarginBottom(IElement node)
     {
-        return node.ClassName != null && Regex.IsMatch(node.ClassName, @"m[by]{1}-(lg-)?\d+");
+        return node.ClassName != null && Regex.IsMatch(node.ClassName, @"m[by]{1}-(lg-)?\d+", RegexOptions.None, TimeSpan.FromMilliseconds(100));
     }
 
     protected bool IsTable(IElement node)

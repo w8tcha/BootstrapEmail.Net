@@ -69,17 +69,6 @@ public class Compiler
         this.Document = this.PreMailer.Document;
     }
 
-    /*
-    public object PerformMultipartCompile()
-    {
-        return new { text = this.PerformTextCompile(), html = this.PerformHtmlCompile() };
-    }
-
-    public string PerformTextCompile()
-    {
-        return this.PlainText();
-    }*/
-
     /// <summary>
     /// Performs the HTML compile.
     /// </summary>

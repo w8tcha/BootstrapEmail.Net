@@ -11,7 +11,7 @@ public class Button : Base
     {
         foreach (var node in this.EachNode(".btn"))
         {
-            var className = node.ClassName ?? string.Empty; ;
+            var className = node.ClassName ?? string.Empty;
 
             node.RemoveAttribute("class");
 

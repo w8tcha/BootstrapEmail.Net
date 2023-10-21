@@ -8,7 +8,7 @@ using CommandLine.Text;
 /// <summary>
 /// Class Program.
 /// </summary>
-internal class Program
+public class Program
 {
     /// <summary>
     /// Defines the entry point of the application.

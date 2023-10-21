@@ -9,9 +9,9 @@ public class Td : Base
 
     public virtual void Build()
     {
-        var regexTextAlign = new Regex("text-align:(.*?);");
+        var regexTextAlign = new Regex("text-align:(.*?);", RegexOptions.None, TimeSpan.FromMilliseconds(100));
 
-        var regexBackgroundColor = new Regex("background-color:(.*?);|background-color:(.*?){7}$");
+        var regexBackgroundColor = new Regex("background-color:(.*?);|background-color:(.*?){7}$", RegexOptions.None, TimeSpan.FromMilliseconds(100));
 
         foreach (var node in this.EachNode("td"))
         {

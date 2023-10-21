@@ -84,14 +84,15 @@ public class Config
     {
         var option = this.ConfigStore.sass_cache_location;
 
-        return !string.IsNullOrEmpty(option)
-                   ? option
-                   : Path.Combine(
-                       Directory.Exists(AppContext.BaseDirectory)
-                           ? Directory.GetCurrentDirectory()
-                           : Path.GetTempPath(),
-                       Constants.SassCache,
-                       Constants.SassTypes.SassEmail);
+        if (!string.IsNullOrEmpty(option))
+        {
+            return option;
+        }
+
+        return Path.Combine(
+            Directory.Exists(AppContext.BaseDirectory) ? Directory.GetCurrentDirectory() : Path.GetTempPath(),
+            Constants.SassCache,
+            Constants.SassTypes.SassEmail);
     }
 
     public bool SassLogEnabled()
