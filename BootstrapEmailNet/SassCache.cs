@@ -63,8 +63,6 @@ public class SassCache
 
         using var lockFile = File.Open(lockPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
         
-        //lockFile.Lock(0, lockFile.Length);
-
         return Cached(cachePath) ? File.ReadAllText(cachePath) : this.CompileAndCacheScss(cachePath);
     }
 

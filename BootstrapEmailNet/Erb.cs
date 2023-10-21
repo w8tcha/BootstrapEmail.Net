@@ -3,7 +3,7 @@
 /// <summary>
 /// Class Erb.
 /// </summary>
-public class Erb
+public static class Erb
 {
     /// <summary>
     /// The main layout template
