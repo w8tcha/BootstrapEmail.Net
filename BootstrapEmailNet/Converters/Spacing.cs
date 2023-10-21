@@ -17,12 +17,12 @@ public class Spacing : Base
             var children = node.Children.Where(e => e != node.Children.Last());
             foreach (var child in children)
             {
-                if (this.IsMarginBottom(child))
+                if (IsMarginBottom(child))
                 {
                     continue;
                 }
 
-                this.AddClass(child, $"mb-{spacer}");
+                AddClass(child, $"mb-{spacer}");
             }
         }
     }

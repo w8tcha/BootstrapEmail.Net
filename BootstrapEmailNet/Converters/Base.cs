@@ -69,7 +69,7 @@ public abstract class Base
         return nodes.ToList();
     }
 
-    public List<IElement> EachChildNode(IElement node, string cssLookup)
+    public static List<IElement> EachChildNode(IElement node, string cssLookup)
     {
         // sort by youngest child and traverse backwards up the tree
         var nodes = node.QuerySelectorAll(cssLookup).OrderByDescending(x => x.Ancestors().Count());
@@ -77,32 +77,32 @@ public abstract class Base
         return nodes.ToList();
     }
 
-    protected void AddClass(IElement node, string className)
+    protected static void AddClass(IElement node, string className)
     {
         node.SetAttribute("class", $"{node.ClassName} {className}".ReplaceMultipleSpacesWithSingleSpace().Trim());
     }
 
-    protected bool IsMargin(IElement node)
+    protected static bool IsMargin(IElement node)
     {
-        return this.IsMarginTop(node) || this.IsMarginBottom(node);
+        return IsMarginTop(node) || IsMarginBottom(node);
     }
 
-    protected bool IsMarginTop(IElement node)
+    protected static bool IsMarginTop(IElement node)
     {
         return node.ClassName != null && Regex.IsMatch(node.ClassName, @"m[ty]{1}-(lg-)?\d+", RegexOptions.None, TimeSpan.FromMilliseconds(100));
     }
 
-    protected bool IsMarginBottom(IElement node)
+    protected static bool IsMarginBottom(IElement node)
     {
         return node.ClassName != null && Regex.IsMatch(node.ClassName, @"m[by]{1}-(lg-)?\d+", RegexOptions.None, TimeSpan.FromMilliseconds(100));
     }
 
-    protected bool IsTable(IElement node)
+    protected static bool IsTable(IElement node)
     {
         return node.NodeName.ToLower() == "table";
     }
 
-    protected bool IsTd(IElement node)
+    protected static bool IsTd(IElement node)
     {
         return node.NodeName.ToLower() == "td";
     }

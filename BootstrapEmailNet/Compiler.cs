@@ -152,12 +152,6 @@ public class Compiler
         this.PreMailer.MoveCssInline(css: cssString );
     }
 
-    /*
-    public string PlainText()
-    {
-        // TODO : Not supported yet in PreMailer.NET
-    }*/
-
     /// <summary>
     /// Configures the HTML.
     /// </summary>

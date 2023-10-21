@@ -29,7 +29,7 @@ public class Grid : Base
 
             if (node.QuerySelector("*[class*=col-lg-]") != null)
             {
-                this.AddClass(node, "row-responsive");
+                AddClass(node, "row-responsive");
             }
 
             node.OuterHtml = this.Template("div", templateContent);
@@ -40,7 +40,7 @@ public class Grid : Base
     {
         var parsedHtml = new StringBuilder();
 
-        foreach (var templateContent in this.EachChildNode(element, "*[class*=col]").Select(node => new Dictionary<string, object>
+        foreach (var templateContent in EachChildNode(element, "*[class*=col]").Select(node => new Dictionary<string, object>
                      {
                          { "classes", node.ClassName ?? string.Empty },
                          { "contents", node.InnerHtml }

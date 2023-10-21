@@ -1,6 +1,6 @@
 ﻿namespace BootstrapEmail.Net.Converters;
 
-public class EnsureDoctype
+public static class EnsureDoctype
 {
     public static string Replace(string html)
     {

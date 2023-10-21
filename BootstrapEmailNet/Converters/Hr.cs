@@ -13,7 +13,7 @@ public class Hr : Base
 
         foreach (var node in this.EachNode("hr"))
         {
-            var defaultMargin = this.IsMargin(node) ? string.Empty : "my-5" ;
+            var defaultMargin = IsMargin(node) ? string.Empty : "my-5" ;
 
             Dictionary<string, object> templateContent = new()
                                                              {

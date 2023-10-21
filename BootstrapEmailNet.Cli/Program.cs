@@ -136,7 +136,7 @@ public class Program
                     Console.WriteLine(bsEmail.Compile(input,string.Empty,type));
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
         }
         else

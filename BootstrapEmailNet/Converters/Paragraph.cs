@@ -9,7 +9,7 @@ public class Paragraph : Base
 
     public virtual void Build()
     {
-        foreach (var node in this.EachNode("p").Where(node => !this.IsMargin(node)))
+        foreach (var node in this.EachNode("p").Where(node => !IsMargin(node)))
         {
             //this.AddClass(node, "mb-4");
         }

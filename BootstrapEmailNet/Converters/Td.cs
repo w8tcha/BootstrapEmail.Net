@@ -56,7 +56,7 @@ public class Td : Base
         foreach (var node in from node in this.EachNode("table")
                              where node.HasAttribute("bgcolor")
                              let color = node.GetAttribute("bgcolor")
-                             where color.Equals(string.Empty)
+                             where string.IsNullOrEmpty(color)
                              select node)
         {
             node.RemoveAttribute("bgcolor");

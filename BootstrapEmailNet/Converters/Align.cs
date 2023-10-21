@@ -25,7 +25,7 @@ public class Align : Base
     {
         var parser = new HtmlParser();
 
-        if (this.IsTable(node) || this.IsTd(node))
+        if (IsTable(node) || IsTd(node))
         {
             return;
         }
