@@ -23,14 +23,12 @@ public class Stack : Base
         {
             var html = new StringBuilder();
 
-            foreach (var child in node.Children)
+            foreach (var templateContent in node.Children.Select(child => new Dictionary<string, object>()
+                                                                              {
+                                                                                  { "classes", "stack-cell" },
+                                                                                  { "contents", child.OuterHtml }
+                                                                              }))
             {
-                Dictionary<string, object> templateContent = new()
-                                                                 {
-                                                                     { "classes", "stack-cell" },
-                                                                     { "contents", child.OuterHtml }
-                                                                 };
-
                 html.Append(this.Template("td", templateContent));
             }
 
@@ -49,14 +47,12 @@ public class Stack : Base
         {
             var html = new StringBuilder();
 
-            foreach (var child in node.Children)
+            foreach (var templateContent in node.Children.Select(child => new Dictionary<string, object>()
+                                                                              {
+                                                                                  { "classes", "stack-cell" },
+                                                                                  { "contents", child.OuterHtml }
+                                                                              }))
             {
-                Dictionary<string, object> templateContent = new()
-                                                                 {
-                                                                     { "classes", "stack-cell" },
-                                                                     { "contents", child.OuterHtml }
-                                                                 };
-
                 html.Append(this.Template("tr", templateContent));
             }
 

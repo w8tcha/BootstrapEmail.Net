@@ -8,7 +8,7 @@ using CommandLine.Text;
 /// <summary>
 /// Class Program.
 /// </summary>
-public class Program
+public static class Program
 {
     /// <summary>
     /// Defines the entry point of the application.
@@ -85,7 +85,7 @@ public class Program
         else if (options.File is not null)
         {
             input = string.Join(" ", options.File);
-            
+
             if (!string.IsNullOrEmpty(options.Destination))
             {
                 output = string.Join(" ", options.Destination);
@@ -133,10 +133,8 @@ public class Program
 
                     break;
                 case InputType.String:
-                    Console.WriteLine(bsEmail.Compile(input,string.Empty,type));
+                    Console.WriteLine(bsEmail.Compile(input, string.Empty, type));
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
         }
         else

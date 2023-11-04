@@ -38,7 +38,7 @@ public abstract class Base
     public string Template(string file, Dictionary<string, object> localsHash)
     {
         string stringContent;
-     
+
         if (this.cachedTemplates.TryGetValue(file, out var template))
         {
             stringContent = template;

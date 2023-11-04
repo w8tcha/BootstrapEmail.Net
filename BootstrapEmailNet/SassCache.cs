@@ -1,4 +1,4 @@
-﻿namespace BootstrapEmail.Net; 
+﻿namespace BootstrapEmail.Net;
 
 using System.Security.Cryptography;
 
@@ -62,7 +62,7 @@ public class SassCache
         Directory.CreateDirectory($"{this.cacheDir}/{this.checksum}");
 
         using var lockFile = File.Open(lockPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
-        
+
         return Cached(cachePath) ? File.ReadAllText(cachePath) : this.CompileAndCacheScss(cachePath);
     }
 
@@ -94,14 +94,12 @@ public class SassCache
     {
         var checkSums = new[] { GetChecksum(this.sassConfig) };
 
-        foreach (var loadPath in this.config.SassLoadPaths())
+        foreach (var path in this.config.SassLoadPaths()
+                     .Select(
+                         loadPath => Directory.EnumerateFiles(loadPath, "*.scss", SearchOption.AllDirectories).ToList())
+                     .SelectMany(files => files))
         {
-            var files = Directory.EnumerateFiles(loadPath, "*.scss", SearchOption.AllDirectories).ToList();
-
-            foreach (var path in files)
-            {
-                _ = checkSums.Append(GetChecksum(File.ReadAllText(path)));
-            }
+            _ = checkSums.Append(GetChecksum(File.ReadAllText(path)));
         }
 
         return GetChecksum(string.Join(string.Empty, checkSums));

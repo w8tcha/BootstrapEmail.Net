@@ -116,7 +116,7 @@ public class BootstrapEmail
     }
 
     /// <summary>
-    /// compile the file 
+    /// compile the file
     /// </summary>
     /// <param name="relativeFilePath">The relative file path.</param>
     /// <param name="savePath">The save path.</param>

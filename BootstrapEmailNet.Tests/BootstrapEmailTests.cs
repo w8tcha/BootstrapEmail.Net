@@ -101,7 +101,7 @@ public class BootstrapEmailTests
             var convertedHtml = bsEmail.Compile(fileContents, destination, InputType.String);
 
             var expectedHtml = File.ReadAllText(destination);
-            
+
             this.testOutputHelper.WriteLine($"🚀 Built {destination} (in {(DateTime.Now - startFileTime).TotalSeconds:0.00}s)");
 
             Assert.Equal(expectedHtml, convertedHtml, ignoreLineEndingDifferences: true);

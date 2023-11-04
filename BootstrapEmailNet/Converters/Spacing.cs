@@ -12,16 +12,12 @@ public class Spacing : Base
         foreach (var node in this.EachNode("*[class*=space-y-]"))
         {
             var className = node.ClassName ?? string.Empty;
-            var spacer = className.Split(' ').FirstOrDefault(c => c.StartsWith("space-y-"));
+            var spacer = Array.Find(className.Split(' '), c => c.StartsWith("space-y-"));
             spacer = spacer?[7..];
             var children = node.Children.Where(e => e != node.Children.Last());
-            foreach (var child in children)
-            {
-                if (IsMarginBottom(child))
-                {
-                    continue;
-                }
 
+            foreach (var child in children.Where(child => !IsMarginBottom(child)))
+            {
                 AddClass(child, $"mb-{spacer}");
             }
         }

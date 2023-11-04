@@ -36,7 +36,7 @@ public class Config
             var path = string.IsNullOrEmpty(location)
                            ? Path.Combine(AppContext.BaseDirectory, this.SassLocation(), fileName)
                            : Path.Combine(location, fileName);
-            
+
             if (File.Exists(path))
             {
                 return File.ReadAllText(path);

@@ -14,7 +14,7 @@ public class VersionComment : Base
         return this.Document.CreateComment(
             version != null
                 ? $" Compiled with Bootstrap Email version: {version.ToString(3)} "
-                : $" Compiled with Bootstrap Email");
+                : " Compiled with Bootstrap Email");
     }
 
     public virtual void Build()

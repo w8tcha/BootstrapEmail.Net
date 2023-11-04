@@ -19,7 +19,7 @@ public class Alert : Base
                                                                  { "classes", classes },
                                                                  { "contents", node.OuterHtml }
                                                              };
-            
+
             node.OuterHtml = this.Template("table", templateContent);
         }
     }

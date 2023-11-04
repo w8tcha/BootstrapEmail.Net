@@ -27,7 +27,7 @@ public class Margin : Base
             {
                 Dictionary<string, object> templateContent = new()
                                                                  {
-                                                                     { "classes", $"s-{Regex.Replace(topClass, @"m[ty]{1}-", string.Empty, RegexOptions.None, TimeSpan.FromMilliseconds(100))}" },
+                                                                     { "classes", $"s-{Regex.Replace(topClass, "m[ty]{1}-", string.Empty, RegexOptions.None, TimeSpan.FromMilliseconds(100))}" },
                                                                      {
                                                                          "contents",
                                                                          ""
@@ -43,7 +43,7 @@ public class Margin : Base
             {
                 Dictionary<string, object> templateContent = new()
                                                                  {
-                                                                     { "classes", $"s-{Regex.Replace(bottomClass, @"m[by]{1}-", string.Empty, RegexOptions.None, TimeSpan.FromMilliseconds(100))}" },
+                                                                     { "classes", $"s-{Regex.Replace(bottomClass, "m[by]{1}-", string.Empty, RegexOptions.None, TimeSpan.FromMilliseconds(100))}" },
                                                                      {
                                                                          "contents",
                                                                          ""
