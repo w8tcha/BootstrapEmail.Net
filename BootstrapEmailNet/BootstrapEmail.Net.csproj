@@ -36,7 +36,7 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AngleSharp" Version="1.0.6" />
+    <PackageReference Include="AngleSharp" Version="1.0.7" />
     <PackageReference Include="libsassnetstandard" Version="3.3.8" />
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
     <PackageReference Include="PreMailer.Net" Version="2.4.0" />
