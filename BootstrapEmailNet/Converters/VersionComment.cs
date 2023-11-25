@@ -1,7 +1,17 @@
 ﻿namespace BootstrapEmail.Net.Converters;
 
+/// <summary>
+/// Class VersionComment.
+/// Implements the <see cref="BootstrapEmail.Net.Converters.Base" />
+/// </summary>
+/// <seealso cref="BootstrapEmail.Net.Converters.Base" />
 public class VersionComment : Base
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="VersionComment"/> class.
+    /// </summary>
+    /// <param name="document">The document.</param>
+    /// <param name="config">The configuration.</param>
     public VersionComment(IHtmlDocument document, Config config)
         : base(document, config)
     {

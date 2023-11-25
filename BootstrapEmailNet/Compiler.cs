@@ -7,6 +7,8 @@ using LibSass.Compiler.Options;
 
 using PreMailer.Net;
 
+using System.IO;
+
 /// <summary>
 /// Class Compiler.
 /// </summary>
@@ -149,7 +151,13 @@ public class Compiler
         cssString = cssString.Replace("border-width:", "border:");
         cssString = cssString.Replace("Margin", "margin", StringComparison.InvariantCulture);
 
-        this.PreMailer.MoveCssInline(css: cssString );
+        var result = this.PreMailer.MoveCssInline(css: cssString );
+
+        // Log Warnings
+        foreach (var warning in result.Warnings)
+        {
+            Console.WriteLine(warning);
+        }
     }
 
     /// <summary>
