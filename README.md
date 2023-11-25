@@ -1,8 +1,13 @@
 # BootstrapEmail.NET
-
-![logo](https://github.com/w8tcha/BootstrapEmail.Net/blob/main/bootstrap-email.png)
-
-If you know Bootstrap, you know Bootstrap Email.
+<br>
+  <p align="center">
+  <a href="https://bootstrapemail.com">
+    <img src="https://bootstrapemail.com/img/icons/logo.png" alt="" width=72 height=72>
+  </a>
+  <p align="center">
+    If you know Bootstrap, you know Bootstrap Email.
+  </p>
+<br>
 
 [![NuGet](https://img.shields.io/nuget/v/BootstrapEmail.Net.svg)](https://nuget.org/packages/BootstrapEmail.Net)
 
