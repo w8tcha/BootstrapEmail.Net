@@ -1,6 +1,6 @@
-BootstrapEmail.NET
+# BootstrapEmail.NET
 
-[![logo](https://github.com/w8tcha/BootstrapEmail.Net/blob/main/bootstrap-email.png)
+![logo](https://github.com/w8tcha/BootstrapEmail.Net/blob/main/bootstrap-email.png)
 
 If you know Bootstrap, you know Bootstrap Email.
 
