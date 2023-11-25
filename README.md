@@ -1,22 +1,14 @@
-<p align="center">
-  <a href="https://bootstrapemail.com">
-    <img src="https://bootstrapemail.com/img/icons/logo.png" alt="" width=72 height=72>
-  </a>
+BootstrapEmail.NET
 
-  <h3 align="center">BootstrapEmail.NET</h3>
+[![logo](https://github.com/w8tcha/BootstrapEmail.Net/blob/main/bootstrap-email.png)
 
-  <p align="center">
-    If you know Bootstrap, you know Bootstrap Email.
-  </p>
-</p>
-
-<br>
+If you know Bootstrap, you know Bootstrap Email.
 
 [![NuGet](https://img.shields.io/nuget/v/BootstrapEmail.Net.svg)](https://nuget.org/packages/BootstrapEmail.Net)
 
 [![build dotnet](https://github.com/w8tcha/BootstrapEmail.Net/actions/workflows/build.yml/badge.svg)](https://github.com/w8tcha/BootstrapEmail.Net/actions/workflows/build.yml)
 
-This is the .NET Version of  [Bootstrap Email]([https://bootstrapemail.com/docs/usage#command-line](https://github.com/bootstrap-email/bootstrap-email)) which was converted from Ruby to .NET (Core) 7
+This is the .NET Version of  [Bootstrap Email](https://github.com/bootstrap-email/bootstrap-email) which was converted from Ruby to .NET (Core) 7/8
 
 Bootstrap Email takes most of its inspiration from these two wonderful frameworks, [Bootstrap](https://getbootstrap.com) and [Tailwind](https://tailwindcss.com) but for HTML emails. Working with HTML in emails is never easy because of the nuances of email vs the web. With Bootstrap Email you don't have to understand all the nuance and it allows you to write emails like you would a website.
 
