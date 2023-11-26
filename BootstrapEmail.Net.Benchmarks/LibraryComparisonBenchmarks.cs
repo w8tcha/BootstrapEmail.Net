@@ -3,6 +3,7 @@ namespace BootstrapEmail.Net.Benchmarks;
 using System.Collections.Generic;
 
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Configs;
 
 [ShortRunJob]
 [MemoryDiagnoser]
@@ -116,22 +117,22 @@ public class LibraryComparisonBenchmarks
                                                  """);
     }
 
-    [Benchmark(Baseline = true, Description = "UnDotNet.BootstrapEmail")]
+    [Benchmark(Baseline = true, Description = "BootstrapEmail.Net")]
+    //[BenchmarkCategory("Basic")]
+#pragma warning disable CA1822 // Mark members as static
+    public string BootstrapEmailNet()
+#pragma warning restore CA1822 // Mark members as static
+    {
+        var bsEmail = new BootstrapEmail(new ConfigStore());
+
+        return bsEmail.Compile("<a href='#' class='btn btn-primary'>Some Button</a>", string.Empty, InputType.String);
+    }
+
+    [Benchmark(Description = "UnDotNet.BootstrapEmail")]
     //[BenchmarkCategory("Basic")]
     public string UnDotNetBootstrapEmail()
     {
         var compiler = new UnDotNet.BootstrapEmail.BootstrapCompiler(this.Data.Html);
         return compiler.Html();
-    }
-
-    [Benchmark(Description = "BootstrapEmail.Net")]
-    //[BenchmarkCategory("Basic")]
-    public static string BootstrapEmailNet()
-    {
-        var config = new ConfigStore();
-
-        var bsEmail = new BootstrapEmail(config);
-
-        return bsEmail.Compile("<a href='#' class='btn btn-primary'>Some Button</a>", string.Empty, InputType.String);
     }
 }
