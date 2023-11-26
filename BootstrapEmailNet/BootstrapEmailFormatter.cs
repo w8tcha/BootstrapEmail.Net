@@ -55,12 +55,12 @@ internal class BootstrapEmailFormatter : HtmlMarkupFormatter
         var before = string.Empty;
         var singleLine = content.Replace(Symbols.LineFeed, Symbols.Space);
 
-        if (text.NextSibling is ICharacterData == false)
+        if (text.NextSibling is not ICharacterData)
         {
             singleLine = singleLine.TrimEnd();
         }
 
-        if (singleLine.Length > 0 && text.PreviousSibling is ICharacterData == false && singleLine[0].IsSpaceCharacter())
+        if (singleLine.Length > 0 && text.PreviousSibling is not ICharacterData && singleLine[0].IsSpaceCharacter())
         {
             singleLine = singleLine.TrimStart();
             before = this.IndentBefore();
