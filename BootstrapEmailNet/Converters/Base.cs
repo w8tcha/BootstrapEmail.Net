@@ -25,8 +25,8 @@ public abstract class Base
     /// <param name="config">The configuration.</param>
     protected Base(IHtmlDocument document, Config config)
     {
-       this.Document = document;
-       this.Config = config;
+        this.Document = document;
+        this.Config = config;
     }
 
     /// <summary>
@@ -47,7 +47,12 @@ public abstract class Base
         {
             this.cachedTemplates = new Dictionary<string, string>();
 
-            var path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, this.Config.SassLocation(), Constants.CoreTemplatesDir, $"{file}.html"));
+            var path = Path.GetFullPath(
+                Path.Combine(
+                    AppContext.BaseDirectory,
+                    this.Config.SassLocation(),
+                    Constants.CoreTemplatesDir,
+                    $"{file}.html"));
             stringContent = File.ReadAllText(path).TrimEnd('\n');
 
             this.cachedTemplates[file] = stringContent;
@@ -89,21 +94,29 @@ public abstract class Base
 
     protected static bool IsMarginTop(IElement node)
     {
-        return node.ClassName != null && Regex.IsMatch(node.ClassName, @"m[ty]{1}-(lg-)?\d+", RegexOptions.None, TimeSpan.FromMilliseconds(100));
+        return node.ClassName != null && Regex.IsMatch(
+                   node.ClassName,
+                   @"m[ty]{1}-(lg-)?\d+",
+                   RegexOptions.None,
+                   TimeSpan.FromMilliseconds(100));
     }
 
     protected static bool IsMarginBottom(IElement node)
     {
-        return node.ClassName != null && Regex.IsMatch(node.ClassName, @"m[by]{1}-(lg-)?\d+", RegexOptions.None, TimeSpan.FromMilliseconds(100));
+        return node.ClassName != null && Regex.IsMatch(
+                   node.ClassName,
+                   @"m[by]{1}-(lg-)?\d+",
+                   RegexOptions.None,
+                   TimeSpan.FromMilliseconds(100));
     }
 
     protected static bool IsTable(IElement node)
     {
-        return node.NodeName.ToLower() == "table";
+        return node.NodeName.Equals("table", StringComparison.OrdinalIgnoreCase);
     }
 
     protected static bool IsTd(IElement node)
     {
-        return node.NodeName.ToLower() == "td";
+        return node.NodeName.Equals("td", StringComparison.OrdinalIgnoreCase);
     }
 }

@@ -4,6 +4,8 @@ using AngleSharp.Html.Dom;
 
 public class Padding : Base
 {
+    private static readonly string[] NodesNames = { "table", "td", "a" };
+
     public Padding(IHtmlDocument document, Config config)
         : base(document, config)
     {
@@ -14,7 +16,7 @@ public class Padding : Base
         foreach (var node in this.EachNode(
                      "*[class^=p-], *[class^=pt-], *[class^=pr-], *[class^=pb-], *[class^=pl-], *[class^=px-], *[class^=py-], *[class*=' p-'], *[class*=' pt-'], *[class*=' pr-'], *[class*=' pb-'], *[class*=' pl-'], *[class*=' px-'], *[class*=' py-']"))
         {
-            if (new[] { "table", "td", "a" }.Contains(node.NodeName.ToLower()))
+            if (NodesNames.Contains(node.NodeName.ToLower()))
             {
                 return;
             }

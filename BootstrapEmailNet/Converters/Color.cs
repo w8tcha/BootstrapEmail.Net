@@ -11,7 +11,7 @@ public class Color : Base
     {
         foreach (var node in this.EachNode("*[class*=bg-]"))
         {
-            if (node.NodeName.ToLower() != "div")
+            if (!node.NodeName.Equals("div", StringComparison.OrdinalIgnoreCase))
             {
                 continue;
             }

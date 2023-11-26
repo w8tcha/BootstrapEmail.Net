@@ -1,13 +1,13 @@
 ﻿namespace BootstrapEmail.Net;
 
+using System.IO;
+
 using global::BootstrapEmail.Net.Converters;
 
 using LibSass.Compiler;
 using LibSass.Compiler.Options;
 
 using PreMailer.Net;
-
-using System.IO;
 
 /// <summary>
 /// Class Compiler.
@@ -180,9 +180,8 @@ public class Compiler
     {
         var html = this.Config.ConfigStore.CompileOnlyBody
                        ? this.Document.Body!.InnerHtml.Replace(">\n", ">\r\n").Replace("}\n", "}\r\n")
-                       : this.Document.ToHtml().Replace(">\n", ">\r\n").Replace("}\n", "}\r\n");
+                       : this.Document.ToHtml(new BootstrapEmailFormatter());
 
-        html = EnsureDoctype.Replace(html);
         html = ForceEncoding.Replace(html);
 
         return html;
