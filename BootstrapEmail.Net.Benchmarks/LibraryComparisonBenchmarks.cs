@@ -126,7 +126,7 @@ public class LibraryComparisonBenchmarks
 
     [Benchmark(Description = "BootstrapEmail.Net")]
     //[BenchmarkCategory("Basic")]
-    public string BootstrapEmailNet()
+    public static string BootstrapEmailNet()
     {
         var config = new ConfigStore();
 
