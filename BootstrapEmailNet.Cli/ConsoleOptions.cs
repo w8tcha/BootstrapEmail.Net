@@ -20,6 +20,12 @@ public class ConsoleOptions
     public string? Config { get; set; }
 
     /// <summary>
+    /// Return the plain text version of the email.
+    /// </summary>
+    [Option('t', "text", Required = false, HelpText = "Return the plain text version of the email.")]
+    public string? Text { get; set; }
+
+    /// <summary>
     /// HTML string to be to be compiled rather than a file.
     /// </summary>
     [Option(

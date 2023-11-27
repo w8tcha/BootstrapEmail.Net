@@ -5,6 +5,7 @@
 /// </summary>
 public class ConfigStore
 {
+#pragma warning disable IDE1006 // Naming Styles
     /// <summary>
     /// path to main sass file.
     /// </summary>
@@ -58,6 +59,12 @@ public class ConfigStore
     /// </summary>
     /// <value>turn on or off sass log when caching new sass</value>
     public bool sass_log_enabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether Return the plain text version of the email..
+    /// </summary>
+    public bool plain_text { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
 
     /// <summary>
     /// Gets or sets a value indicating whether [compile only body].

@@ -45,6 +45,12 @@ public class Compiler
     public SassCompiler SassCompiler { get; set; }
 
     /// <summary>
+    /// Gets or sets the input HTML.
+    /// </summary>
+    /// <value>The input HTML.</value>
+    public string InputHtml { get; set; }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="Compiler"/> class.
     /// </summary>
     /// <param name="input">The input.</param>
@@ -55,20 +61,38 @@ public class Compiler
         this.Config = new Config(config);
         this.Type = type;
 
-        var html = this.Type switch
+        this.InputHtml = this.Type switch
             {
                 InputType.String => input,
                 InputType.File => File.ReadAllText(input),
                 _ => input
             };
 
-        html = this.AddLayout(html);
+        var html = this.AddLayout(this.InputHtml);
 
         this.SassCompiler = new SassCompiler(new SassOptions { IncludePaths = this.Config.SassLoadPaths() });
 
         this.PreMailer = new PreMailer(html);
 
         this.Document = this.PreMailer.Document;
+    }
+
+    /// <summary>
+    /// Performs the multipart compile.
+    /// </summary>
+    /// <returns>System.Object.</returns>
+    public object PerformMultipartCompile()
+    {
+        return new { text = this.PerformTextCompile(), html = this.PerformHtmlCompile() };
+    }
+
+    /// <summary>
+    /// Performs the text compile.
+    /// </summary>
+    /// <returns>System.String.</returns>
+    public string PerformTextCompile()
+    {
+        return this.PlainText();
     }
 
     /// <summary>
@@ -139,6 +163,11 @@ public class Compiler
         new PreviewText(this.Document, this.Config).Build();
         new Table(this.Document, this.Config).Build();
         new Paragraph(this.Document, this.Config).Build();
+    }
+
+    public string PlainText()
+    {
+        return HtmlUtilities.ConvertToPlainText(this.InputHtml);
     }
 
     /// <summary>

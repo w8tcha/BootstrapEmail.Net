@@ -22,6 +22,24 @@ public class BootstrapEmailTests
     /// Compile html to String Test
     /// </summary>
     [Fact]
+    public void ConvertToTextStringInput()
+    {
+        var config = new ConfigStore { plain_text = true };
+
+        var html = new BootstrapEmail(config).Compile(
+            """<a href="#" class="btn btn-primary">A button</a> <a href="#" class="btn btn-secondary">B button</a>""",
+            string.Empty,
+            InputType.String);
+
+        const string Expected = "A buttonB button";
+
+        Assert.Equal(Expected, html);
+    }
+
+    /// <summary>
+    /// Compile html to String Test
+    /// </summary>
+    [Fact]
     public void TestStringInput()
     {
         var config = new ConfigStore();

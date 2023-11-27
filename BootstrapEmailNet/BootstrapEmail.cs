@@ -112,7 +112,7 @@ public class BootstrapEmail
         var compilerString = new Compiler(input, config: this.config);
 
         return
-            compilerString.PerformFullCompile();
+            this.config.plain_text ? compilerString.PerformTextCompile() : compilerString.PerformFullCompile();
     }
 
     /// <summary>
