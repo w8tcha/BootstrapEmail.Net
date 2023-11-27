@@ -13,6 +13,14 @@ public class BootstrapEmail
     /// <summary>
     /// Initializes a new instance of the <see cref="BootstrapEmail"/> class.
     /// </summary>
+    public BootstrapEmail()
+    {
+        this.config = new ConfigStore();
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BootstrapEmail"/> class.
+    /// </summary>
     /// <param name="configStore">The configuration store.</param>
     public BootstrapEmail(ConfigStore configStore)
     {

@@ -3,7 +3,6 @@ namespace BootstrapEmail.Net.Benchmarks;
 using System.Collections.Generic;
 
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Configs;
 
 [ShortRunJob]
 [MemoryDiagnoser]
@@ -117,15 +116,15 @@ public class LibraryComparisonBenchmarks
                                                  """);
     }
 
+    private static readonly BootstrapEmail BsEmail = new();
+
     [Benchmark(Baseline = true, Description = "BootstrapEmail.Net")]
     //[BenchmarkCategory("Basic")]
-#pragma warning disable CA1822 // Mark members as static
     public string BootstrapEmailNet()
-#pragma warning restore CA1822 // Mark members as static
     {
-        var bsEmail = new BootstrapEmail(new ConfigStore());
+        //var bsEmail = new BootstrapEmail(new ConfigStore());
 
-        return bsEmail.Compile(this.Data.Html, string.Empty, InputType.String);
+        return BsEmail.Compile(this.Data.Html, string.Empty, InputType.String);
     }
 
     [Benchmark(Description = "UnDotNet.BootstrapEmail")]
