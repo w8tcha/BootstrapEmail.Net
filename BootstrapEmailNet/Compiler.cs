@@ -161,7 +161,6 @@ public class Compiler
 
         new Padding(this.Document, this.Config).Build();
         new PreviewText(this.Document, this.Config).Build();
-        new Table(this.Document, this.Config).Build();
         new Paragraph(this.Document, this.Config).Build();
     }
 
@@ -176,9 +175,6 @@ public class Compiler
     public void InlineCss()
     {
         var cssString = SassCache.Compile(Constants.SassTypes.SassEmail, this.Config, style: SassOutputStyle.Expanded);
-
-        cssString = cssString.Replace("border-width:", "border:");
-        cssString = cssString.Replace("Margin", "margin", StringComparison.InvariantCulture);
 
         var result = this.PreMailer.MoveCssInline(css: cssString );
 
@@ -208,7 +204,7 @@ public class Compiler
     public string FinalizeDocument()
     {
         var html = this.Config.ConfigStore.CompileOnlyBody
-                       ? this.Document.Body!.InnerHtml.Replace(">\n", ">\r\n").Replace("}\n", "}\r\n")
+                       ? this.Document.Body!.InnerHtml
                        : this.Document.ToHtml(new BootstrapEmailFormatter());
 
         html = ForceEncoding.Replace(html);

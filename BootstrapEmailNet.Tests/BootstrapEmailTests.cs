@@ -66,11 +66,11 @@ public class BootstrapEmailTests
                                 		</style>
                                 	</head>
                                 	<body style="margin: 0;padding: 0;border: 0;outline: 0;width: 100%;min-width: 100%;height: 100%;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-family: Helvetica, Arial, sans-serif;line-height: 24px;font-weight: normal;font-size: 16px;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;background-color: #ffffff;color: #000000" bgcolor="#ffffff">
-                                		<table class="body" valign="top" role="presentation" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" style="margin: 0;padding: 0;border: 0;outline: 0;width: 100%;min-width: 100%;height: 100%;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-family: Helvetica, Arial, sans-serif;line-height: 24px;font-weight: normal;font-size: 16px;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;background-color: #ffffff;color: #000000">
+                                		<table class="body" valign="top" role="presentation" bgcolor="#ffffff" style="margin: 0;padding: 0;border: 0;outline: 0;width: 100%;min-width: 100%;height: 100%;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-family: Helvetica, Arial, sans-serif;line-height: 24px;font-weight: normal;font-size: 16px;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;background-color: #ffffff;color: #000000" border="0" cellpadding="0" cellspacing="0">
                                 			<tbody>
                                 				<tr>
                                 					<td valign="top" style="line-height: 24px;font-size: 16px;margin: 0" align="left">
-                                						<table class="btn btn-primary" role="presentation" border="0" cellpadding="0" cellspacing="0" style="border-radius: 6px;border-collapse: separate">
+                                						<table class="btn btn-primary" role="presentation" style="border-radius: 6px;border-collapse: separate" border="0" cellpadding="0" cellspacing="0">
                                 							<tbody>
                                 								<tr>
                                 									<td style="line-height: 24px;font-size: 16px;margin: 0;border-radius: 6px;" align="center" bgcolor="#0d6efd">
@@ -79,7 +79,7 @@ public class BootstrapEmailTests
                                 								</tr>
                                 							</tbody>
                                 						</table>
-                                						<table class="btn btn-secondary" role="presentation" border="0" cellpadding="0" cellspacing="0" style="border-radius: 6px;border-collapse: separate">
+                                						<table class="btn btn-secondary" role="presentation" style="border-radius: 6px;border-collapse: separate" border="0" cellpadding="0" cellspacing="0">
                                 							<tbody>
                                 								<tr>
                                 									<td style="line-height: 24px;font-size: 16px;margin: 0;border-radius: 6px;" align="center" bgcolor="#718096">
@@ -114,6 +114,8 @@ public class BootstrapEmailTests
 
         var bsEmail = new BootstrapEmail(new ConfigStore());
 
+        bsEmail.ClearSassCache();
+
         foreach (var file in files)
         {
             this.testOutputHelper.WriteLine("🧪 Start test...");
@@ -127,10 +129,10 @@ public class BootstrapEmailTests
 
             this.testOutputHelper.WriteLine($"🚀 Built {destination} (in {(DateTime.Now - startFileTime).TotalSeconds:0.00}s)");
 
+            // File.WriteAllText(destination, convertedHtml);
+
             Assert.Equal(expectedHtml, convertedHtml, ignoreLineEndingDifferences: true);
         }
-
-        bsEmail.ClearSassCache();
 
         this.testOutputHelper.WriteLine($"Finished compiling tests in {(DateTime.Now - startTime).TotalSeconds:0.00}s 🎉");
     }
