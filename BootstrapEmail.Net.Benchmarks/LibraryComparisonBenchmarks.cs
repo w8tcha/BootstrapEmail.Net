@@ -125,7 +125,7 @@ public class LibraryComparisonBenchmarks
     {
         var bsEmail = new BootstrapEmail(new ConfigStore());
 
-        return bsEmail.Compile("<a href='#' class='btn btn-primary'>Some Button</a>", string.Empty, InputType.String);
+        return bsEmail.Compile(this.Data.Html, string.Empty, InputType.String);
     }
 
     [Benchmark(Description = "UnDotNet.BootstrapEmail")]
