@@ -6,6 +6,11 @@ public class Padding : Base
 {
     private static readonly string[] NodesNames = { "table", "td", "a" };
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Padding"/> class.
+    /// </summary>
+    /// <param name="document">The document.</param>
+    /// <param name="config">The configuration.</param>
     public Padding(IHtmlDocument document, Config config)
         : base(document, config)
     {
@@ -21,11 +26,16 @@ public class Padding : Base
                 return;
             }
 
-            var paddingRegex = new Regex("(p[trblxy]?-(lg-)?\\d+)", RegexOptions.None, TimeSpan.FromMilliseconds(100));
-            var classes = paddingRegex.Replace(node.ClassName ?? string.Empty, string.Empty).Trim();
-            node.ClassName = paddingRegex.Replace(node.ClassName ?? string.Empty, string.Empty).Trim();
+            if (string.IsNullOrEmpty(node.ClassName))
+            {
+                continue;
+            }
 
-            var templateContent = new TemplateContent(classes, node.OuterHtml);
+            var paddingRegex = new Regex("(p[trblxy]?-(lg-)?\\d+)", RegexOptions.None, TimeSpan.FromMilliseconds(100));
+
+            node.ClassName = paddingRegex.Replace(node.ClassName, string.Empty).Trim();
+
+            var templateContent = new TemplateContent(node.ClassName, node.OuterHtml);
 
             node.OuterHtml = this.Template("table", templateContent);
         }

@@ -2,6 +2,11 @@
 
 public class PreviewText : Base
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PreviewText"/> class.
+    /// </summary>
+    /// <param name="document">The document.</param>
+    /// <param name="config">The configuration.</param>
     public PreviewText(IHtmlDocument document, Config config)
         : base(document, config)
     {

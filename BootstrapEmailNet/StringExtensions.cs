@@ -6,16 +6,6 @@
 public static class StringExtensions
 {
     /// <summary>
-    /// Replaces the multiple spaces with single space.
-    /// </summary>
-    /// <param name="str">The string.</param>
-    /// <returns>System.String.</returns>
-    public static string ReplaceMultipleSpacesWithSingleSpace(this string str)
-    {
-        return Regex.Replace(str, @"\s+", " ", RegexOptions.None, TimeSpan.FromMilliseconds(100));
-    }
-
-    /// <summary>
     /// Truncates a string with the specified limits and adds (...) to the end if truncated
     /// </summary>
     /// <param name="input">

@@ -2,6 +2,11 @@
 
 public class Spacer : Base
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Spacer"/> class.
+    /// </summary>
+    /// <param name="document">The document.</param>
+    /// <param name="config">The configuration.</param>
     public Spacer(IHtmlDocument document, Config config)
         : base(document, config)
     {

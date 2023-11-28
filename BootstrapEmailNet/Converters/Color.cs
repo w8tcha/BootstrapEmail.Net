@@ -2,6 +2,11 @@
 
 public class Color : Base
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Color"/> class.
+    /// </summary>
+    /// <param name="document">The document.</param>
+    /// <param name="config">The configuration.</param>
     public Color(IHtmlDocument document, Config config)
         : base(document, config)
     {

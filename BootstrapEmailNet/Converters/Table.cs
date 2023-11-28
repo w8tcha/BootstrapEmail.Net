@@ -2,6 +2,11 @@
 
 public class Table : Base
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Table"/> class.
+    /// </summary>
+    /// <param name="document">The document.</param>
+    /// <param name="config">The configuration.</param>
     public Table(IHtmlDocument document, Config config)
         : base(document, config)
     {
@@ -9,11 +14,9 @@ public class Table : Base
 
     public virtual void Build()
     {
-        foreach (var node in this.EachNode("table"))
+        foreach (var node in this.EachNode("table[bgcolor='']"))
         {
-            node.SetAttribute("border", "0");
-            node.SetAttribute("cellpadding", "0");
-            node.SetAttribute("cellspacing", "0");
+            node.RemoveAttribute("bgcolor");
         }
     }
 }

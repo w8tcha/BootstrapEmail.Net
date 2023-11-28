@@ -194,6 +194,7 @@ public class Compiler
         new AddMissingMetaTags(this.Document, this.Config).Build();
         new VersionComment(this.Document, this.Config).Build();
 
+        new Table(this.Document, this.Config).Build();
         new Td(this.Document, this.Config).Build();
     }
 

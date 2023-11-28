@@ -2,6 +2,11 @@
 
 public class Td : Base
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Td"/> class.
+    /// </summary>
+    /// <param name="document">The document.</param>
+    /// <param name="config">The configuration.</param>
     public Td(IHtmlDocument document, Config config)
         : base(document, config)
     {
@@ -51,15 +56,6 @@ public class Td : Base
                 node.SetAttribute("bgcolor", color.Trim());
                 node.SetAttribute("style", style.Replace(replace, string.Empty));
             }
-        }
-
-        foreach (var node in from node in this.EachNode("table")
-                             where node.HasAttribute("bgcolor")
-                             let color = node.GetAttribute("bgcolor")
-                             where string.IsNullOrEmpty(color)
-                             select node)
-        {
-            node.RemoveAttribute("bgcolor");
         }
     }
 }

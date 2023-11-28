@@ -14,26 +14,33 @@ public class Margin : Base
         foreach (var node in this.EachNode(
                      "*[class^='my-'], *[class^='mt-'], *[class^='mb-'], *[class*=' my-'], *[class*=' mt-'], *[class*=' mb-']"))
         {
-            var className = node.ClassName ?? string.Empty;
-            var topClass = Regex.Match(
-                className,
-                @"m[ty]{1}-(lg-)?(\d+)",
-                RegexOptions.None,
-                TimeSpan.FromMilliseconds(100)).Value;
-            var bottomClass = Regex.Match(
-                className,
-                @"m[by]{1}-(lg-)?(\d+)",
-                RegexOptions.None,
-                TimeSpan.FromMilliseconds(100)).Value;
+            var topClass = string.Empty;
+            var bottomClass = string.Empty;
 
-            var nodeCssClass = Regex.Replace(
-                className,
-                @"(m[tby]{1}-(lg-)?\d+)",
-                string.Empty,
-                RegexOptions.None,
-                TimeSpan.FromMilliseconds(100)).Trim();
+            if (!string.IsNullOrEmpty(node.ClassName))
+            {
+                var className = node.ClassName;
 
-            node.SetAttribute("class", nodeCssClass);
+                topClass = Regex.Match(
+                    className,
+                    @"m[ty]{1}-(lg-)?(\d+)",
+                    RegexOptions.None,
+                    TimeSpan.FromMilliseconds(100)).Value;
+                bottomClass = Regex.Match(
+                    className,
+                    @"m[by]{1}-(lg-)?(\d+)",
+                    RegexOptions.None,
+                    TimeSpan.FromMilliseconds(100)).Value;
+
+                var nodeCssClass = Regex.Replace(
+                    className,
+                    @"(m[tby]{1}-(lg-)?\d+)",
+                    string.Empty,
+                    RegexOptions.None,
+                    TimeSpan.FromMilliseconds(100)).Trim();
+
+                node.SetAttribute("class", nodeCssClass);
+            }
 
             var html = new StringBuilder();
 

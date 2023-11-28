@@ -2,6 +2,11 @@
 
 public class Block : Base
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Block"/> class.
+    /// </summary>
+    /// <param name="document">The document.</param>
+    /// <param name="config">The configuration.</param>
     public Block(IHtmlDocument document, Config config)
         : base(document, config)
     {
@@ -11,10 +16,9 @@ public class Block : Base
     {
         foreach (var node in this.EachNode("block, .to-table"))
         {
-            var className = node.ClassName ?? string.Empty;
+            var classList = node.ClassList;
 
             // add .to-table if it's not already there
-            var classList = className.Split().ToList();
             classList.Add("to-table");
 
             var templateContent = new TemplateContent(string.Join(" ", classList.Distinct()), node.InnerHtml);

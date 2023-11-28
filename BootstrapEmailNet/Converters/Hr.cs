@@ -2,6 +2,11 @@
 
 public class Hr : Base
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Hr"/> class.
+    /// </summary>
+    /// <param name="document">The document.</param>
+    /// <param name="config">The configuration.</param>
     public Hr(IHtmlDocument document, Config config)
         : base(document, config)
     {
@@ -13,9 +18,14 @@ public class Hr : Base
 
         foreach (var node in this.EachNode("hr"))
         {
-            var defaultMargin = IsMargin(node) ? string.Empty : "my-5";
+            if (!IsMargin(node))
+            {
+                node.ClassList.Add("my-5");
+            }
 
-            var templateContent = new TemplateContent($"{defaultMargin} hr {node.ClassName}", string.Empty);
+            node.ClassList.Add("hr");
+
+            var templateContent = new TemplateContent(node.ClassName!, string.Empty);
 
             var table = parser.ParseDocument(this.Template("table", templateContent)).QuerySelector("table");
 

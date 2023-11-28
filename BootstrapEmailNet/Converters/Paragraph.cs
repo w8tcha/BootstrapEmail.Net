@@ -2,6 +2,11 @@
 
 public class Paragraph : Base
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Paragraph"/> class.
+    /// </summary>
+    /// <param name="document">The document.</param>
+    /// <param name="config">The configuration.</param>
     public Paragraph(IHtmlDocument document, Config config)
         : base(document, config)
     {
@@ -9,9 +14,9 @@ public class Paragraph : Base
 
     public virtual void Build()
     {
-        foreach (var node in this.EachNode("p").Where(node => !IsMargin(node)))
+        /*foreach (var node in this.EachNode("p").Where(node => !IsMargin(node)))
         {
-            //this.AddClass(node, "mb-4");
-        }
+            AddClass(node, "mb-4");
+        }*/
     }
 }

@@ -4,6 +4,11 @@ using System.Text;
 
 public class Grid : Base
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Grid"/> class.
+    /// </summary>
+    /// <param name="document">The document.</param>
+    /// <param name="config">The configuration.</param>
     public Grid(IHtmlDocument document, Config config)
         : base(document, config)
     {
