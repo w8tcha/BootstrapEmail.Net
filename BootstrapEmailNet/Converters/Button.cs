@@ -15,16 +15,9 @@ public class Button : Base
 
             node.RemoveAttribute("class");
 
-            Dictionary<string, object> templateContent = new()
-                                                             {
-                                                                 { "classes", className },
-                                                                 {
-                                                                     "contents",
-                                                                     node.OuterHtml
-                                                                 }
-                                                             };
+            var templateContent = new TemplateContent(className, node.OuterHtml);
 
-             node.OuterHtml = this.Template("button", templateContent);
+            node.OuterHtml = this.Template("button", templateContent);
         }
     }
 }

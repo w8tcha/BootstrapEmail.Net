@@ -17,11 +17,7 @@ public class Block : Base
             var classList = className.Split().ToList();
             classList.Add("to-table");
 
-            Dictionary<string, object> templateContent = new()
-                                                             {
-                                                                 { "classes", string.Join(" ", classList.Distinct()) },
-                                                                 { "contents", node.InnerHtml }
-                                                             };
+            var templateContent = new TemplateContent(string.Join(" ", classList.Distinct()), node.InnerHtml);
 
             node.OuterHtml = this.Template("table", templateContent);
         }

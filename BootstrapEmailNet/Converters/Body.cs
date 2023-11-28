@@ -2,7 +2,8 @@
 
 public class Body : Base
 {
-    public Body(IHtmlDocument document, Config config) : base(document, config)
+    public Body(IHtmlDocument document, Config config)
+        : base(document, config)
     {
     }
 
@@ -15,14 +16,10 @@ public class Body : Base
             return;
         }
 
-        Dictionary<string, object> templateContent = new()
-                                                         {
-                                                             { "classes", $"{body.GetAttribute("class")}body" },
-                                                             {
-                                                                 "contents",
-                                                                 body.InnerHtml.Replace("\n", string.Empty)
-                                                             }
-                                                         };
+        var templateContent = new TemplateContent(
+            $"{body.GetAttribute("class")}body",
+            body.InnerHtml.Replace("\n", string.Empty));
+
         body.InnerHtml = $"\r\n    {this.Template("body", templateContent)}";
     }
 }

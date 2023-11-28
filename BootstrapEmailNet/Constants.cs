@@ -1,10 +1,20 @@
 ﻿namespace BootstrapEmail.Net;
 
 /// <summary>
-/// Class Constants.
+/// For globally or multiple times used constants
 /// </summary>
 public static class Constants
 {
+    /// <summary>
+    /// Template Content constants
+    /// </summary>
+    public struct Template
+    {
+        public const string Classes = "{{ classes }}";
+
+        public const string Contents = "{{ contents }}";
+    }
+
     /// <summary>
     /// Struct SassTypes
     /// </summary>

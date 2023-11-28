@@ -33,9 +33,9 @@ public abstract class Base
     /// Create Template
     /// </summary>
     /// <param name="file">The file.</param>
-    /// <param name="localsHash">The locals hash.</param>
+    /// <param name="templateContent">The template Content</param>
     /// <returns>System.String.</returns>
-    public string Template(string file, Dictionary<string, object> localsHash)
+    public string Template(string file, TemplateContent templateContent)
     {
         string stringContent;
 
@@ -58,12 +58,9 @@ public abstract class Base
             this.cachedTemplates[file] = stringContent;
         }
 
-        foreach (var (key, value) in localsHash)
-        {
-            stringContent = stringContent.Replace($"{{{{ {key} }}}}", value.ToString());
-        }
-
-        return stringContent;
+        return stringContent.Replace(Constants.Template.Classes, templateContent.Classes).Replace(
+            Constants.Template.Contents,
+            templateContent.Contents);
     }
 
     public List<IElement> EachNode(string cssLookup)
@@ -113,15 +110,5 @@ public abstract class Base
                    @"m[by]{1}-(lg-)?\d+",
                    RegexOptions.None,
                    TimeSpan.FromMilliseconds(100));
-    }
-
-    protected static bool IsTable(IElement node)
-    {
-        return node.NodeName.Equals("table", StringComparison.OrdinalIgnoreCase);
-    }
-
-    protected static bool IsTd(IElement node)
-    {
-        return node.NodeName.Equals("td", StringComparison.OrdinalIgnoreCase);
     }
 }

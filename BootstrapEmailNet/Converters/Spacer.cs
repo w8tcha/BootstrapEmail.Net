@@ -11,11 +11,7 @@ public class Spacer : Base
     {
         foreach (var node in this.EachNode("*[class*=s-]"))
         {
-            Dictionary<string, object> templateContent = new()
-                                                             {
-                                                                 { "classes", $"{node.ClassName} w-full" },
-                                                                 { "contents", "&nbsp;" }
-                                                             };
+            var templateContent = new TemplateContent($"{node.ClassName} w-full", "&nbsp;");
 
             node.OuterHtml = this.Template("table", templateContent);
         }

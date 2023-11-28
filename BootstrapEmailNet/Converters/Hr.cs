@@ -13,13 +13,9 @@ public class Hr : Base
 
         foreach (var node in this.EachNode("hr"))
         {
-            var defaultMargin = IsMargin(node) ? string.Empty : "my-5" ;
+            var defaultMargin = IsMargin(node) ? string.Empty : "my-5";
 
-            Dictionary<string, object> templateContent = new()
-                                                             {
-                                                                 { "classes", $"{defaultMargin} hr {node.ClassName}" },
-                                                                 { "contents", "" }
-                                                             };
+            var templateContent = new TemplateContent($"{defaultMargin} hr {node.ClassName}", string.Empty);
 
             var table = parser.ParseDocument(this.Template("table", templateContent)).QuerySelector("table");
 

@@ -16,8 +16,7 @@ public class Grid : Base
             // Parse columns first
             var innerHtml = this.ParseColumns(node);
 
-            Dictionary<string, object> tableToTr = new() { { "classes", node.ClassName ?? string.Empty },
-                                                             { "contents", innerHtml } };
+            var tableToTr = new TemplateContent(node.ClassName ?? string.Empty, innerHtml);
 
             var tableToTrContent = this.Template("table-to-tr", tableToTr);
 
@@ -26,11 +25,7 @@ public class Grid : Base
                 AddClass(node, "row-responsive");
             }
 
-            Dictionary<string, object> templateContent = new()
-                                                             {
-                                                                 { "classes", node.ClassName ?? string.Empty },
-                                                                 { "contents", tableToTrContent }
-                                                             };
+            var templateContent = new TemplateContent(node.ClassName ?? string.Empty, tableToTrContent);
 
             node.OuterHtml = this.Template("div", templateContent);
         }
@@ -40,11 +35,8 @@ public class Grid : Base
     {
         var parsedHtml = new StringBuilder();
 
-        foreach (var templateContent in EachChildNode(element, "*[class*=col]").Select(node => new Dictionary<string, object>
-                     {
-                         { "classes", node.ClassName ?? string.Empty },
-                         { "contents", node.InnerHtml }
-                     }))
+        foreach (var templateContent in EachChildNode(element, "*[class*=col]")
+                     .Select(node => new TemplateContent(node.ClassName ?? string.Empty, node.InnerHtml)))
         {
             parsedHtml.Append(this.Template("td", templateContent));
         }

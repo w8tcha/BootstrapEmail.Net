@@ -25,10 +25,7 @@ public class Padding : Base
             var classes = paddingRegex.Replace(node.ClassName ?? string.Empty, string.Empty).Trim();
             node.ClassName = paddingRegex.Replace(node.ClassName ?? string.Empty, string.Empty).Trim();
 
-            Dictionary<string, object> templateContent = new()
-                                                             {
-                                                                 { "classes", classes }, { "contents", node.OuterHtml }
-                                                             };
+            var templateContent = new TemplateContent(classes, node.OuterHtml);
 
             node.OuterHtml = this.Template("table", templateContent);
         }

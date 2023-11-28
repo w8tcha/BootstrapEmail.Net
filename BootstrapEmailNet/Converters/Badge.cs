@@ -14,11 +14,7 @@ public class Badge : Base
             var classes = node.ClassName ?? string.Empty;
             node.RemoveAttribute("class");
 
-            Dictionary<string, object> templateContent = new()
-                                                             {
-                                                                 { "classes", classes },
-                                                                 { "contents", node.OuterHtml }
-                                                             };
+            var templateContent = new TemplateContent(classes, node.OuterHtml);
 
             node.OuterHtml = this.Template("table-left", templateContent);
         }

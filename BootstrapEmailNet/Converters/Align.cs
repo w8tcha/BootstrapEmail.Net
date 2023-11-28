@@ -2,6 +2,11 @@
 
 public class Align : Base
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Align"/> class.
+    /// </summary>
+    /// <param name="document">The document.</param>
+    /// <param name="config">The configuration.</param>
     public Align(IHtmlDocument document, Config config)
         : base(document, config)
     {
@@ -14,7 +19,7 @@ public class Align : Base
         {
             var fullType = $"ax-{type}";
 
-            foreach (var node in this.EachNode($".{fullType}"))
+            foreach (var node in this.EachNode($".{fullType}:not(table):not(td)"))
             {
                 this.AlignHelper(node, fullType, type);
             }
@@ -25,21 +30,9 @@ public class Align : Base
     {
         var parser = new HtmlParser();
 
-        if (IsTable(node) || IsTd(node))
-        {
-            return;
-        }
+        node.ClassList.Remove(fullType);
 
-        node.ClassName = node.ClassName?.Replace(fullType, string.Empty).Trim();
-
-        Dictionary<string, object> templateContent = new()
-                                                         {
-                                                             { "classes", fullType },
-                                                             {
-                                                                 "contents",
-                                                                 node.ToHtml()
-                                                             }
-                                                         };
+        var templateContent = new TemplateContent(fullType, node.ToHtml());
 
         var table = parser.ParseDocument(this.Template("table", templateContent)).QuerySelector("table");
 

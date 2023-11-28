@@ -19,11 +19,7 @@ public class Color : Base
             var classes = node.ClassName;
             node.RemoveAttribute("class");
 
-            Dictionary<string, object> templateContent = new()
-                                                             {
-                                                                 { "classes", $"{classes} w-full" },
-                                                                 { "contents", node.InnerHtml }
-                                                             };
+            var templateContent = new TemplateContent($"{classes} w-full", node.InnerHtml);
 
             node.OuterHtml = this.Template("table", templateContent);
         }

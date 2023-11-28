@@ -1,4 +1,4 @@
-﻿namespace BootstrapEmail.Net;
+﻿namespace BootstrapEmail.Net.Objects;
 
 /// <summary>
 /// Class TemplateContent.

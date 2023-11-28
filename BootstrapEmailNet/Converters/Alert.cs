@@ -2,6 +2,11 @@
 
 public class Alert : Base
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Alert"/> class.
+    /// </summary>
+    /// <param name="document">The document.</param>
+    /// <param name="config">The configuration.</param>
     public Alert(IHtmlDocument document, Config config)
         : base(document, config)
     {
@@ -14,11 +19,7 @@ public class Alert : Base
             var classes = node.ClassName ?? string.Empty;
             node.RemoveAttribute("class");
 
-            Dictionary<string, object> templateContent = new()
-                                                             {
-                                                                 { "classes", classes },
-                                                                 { "contents", node.OuterHtml }
-                                                             };
+            var templateContent = new TemplateContent(classes, node.OuterHtml);
 
             node.OuterHtml = this.Template("table", templateContent);
         }

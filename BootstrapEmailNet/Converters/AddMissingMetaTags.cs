@@ -2,34 +2,26 @@
 
 public class AddMissingMetaTags : Base
 {
-    private static readonly List<Dictionary<string, string>> MetaTags = new List<Dictionary<string, string>>
-                                                                             {
-                                                                                 new()
-                                                                                     {
-                                                                                         { "query", "meta[http-equiv=\"Content-Type\"]" },
-                                                                                         { "code", "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" }
-                                                                                     },
-                                                                                 new()
-                                                                                     {
-                                                                                         { "query", "meta[http-equiv=\"x-ua-compatible\"]" },
-                                                                                         { "code", "<meta http-equiv=\"x-ua-compatible\" content=\"ie=edge\">" }
-                                                                                     },
-                                                                                 new()
-                                                                                     {
-                                                                                         { "query", "meta[name=\"x-apple-disable-message-reformatting\"]" },
-                                                                                         { "code", "<meta name=\"x-apple-disable-message-reformatting\">" }
-                                                                                     },
-                                                                                 new()
-                                                                                     {
-                                                                                         { "query", "meta[name=\"viewport\"]" },
-                                                                                         { "code", "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">" }
-                                                                                     },
-                                                                                 new()
-                                                                                     {
-                                                                                         { "query", "meta[name=\"format-detection\"]" },
-                                                                                         { "code", "<meta name=\"format-detection\" content=\"telephone=no, date=no, address=no, email=no\">" }
-                                                                                     }
-                                                                             }.ToList();
+    private record Tag(string Query, string Code);
+
+    private static readonly List<Tag> MetaTags = new()
+                                                     {
+                                                         new Tag(
+                                                             "meta[http-equiv=\"Content-Type\"]",
+                                                             "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">"),
+                                                         new Tag(
+                                                             "meta[http-equiv=\"x-ua-compatible\"]",
+                                                             "<meta http-equiv=\"x-ua-compatible\" content=\"ie=edge\">"),
+                                                         new Tag(
+                                                             "meta[name=\"x-apple-disable-message-reformatting\"]",
+                                                             "<meta name=\"x-apple-disable-message-reformatting\">"),
+                                                         new Tag(
+                                                             "meta[name=\"viewport\"]",
+                                                             "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"),
+                                                         new Tag(
+                                                             "meta[name=\"format-detection\"]",
+                                                             "<meta name=\"format-detection\" content=\"telephone=no, date=no, address=no, email=no\">")
+                                                     };
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AddMissingMetaTags"/> class.
@@ -47,11 +39,11 @@ public class AddMissingMetaTags : Base
 
         var parser = new HtmlParser();
 
-        foreach (var table in from tagHash in MetaTags
-                              where this.Document.QuerySelector(tagHash["query"]) == null
-                              select parser.ParseDocument(tagHash["code"]).QuerySelector(tagHash["query"]))
+        foreach (var table in from tag in MetaTags
+                              where this.Document.QuerySelector(tag.Query) == null
+                              select parser.ParseDocument(tag.Code).QuerySelector(tag.Query))
         {
-            headNode?.Prepend(this.Document.CreateTextNode("\n    "), table);
+            headNode?.Prepend(table);
         }
     }
 }

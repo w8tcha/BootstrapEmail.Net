@@ -10,6 +10,7 @@ public class PreviewText : Base
     public virtual void Build()
     {
         var previewNode = this.Document.QuerySelectorAll("preview").FirstOrDefault();
+
         if (previewNode == null)
         {
             return;
@@ -21,11 +22,7 @@ public class PreviewText : Base
         // apply spacing after the text max of 278 characters so it doesn't show body text
         previewNode.InnerHtml = previewNode.InnerHtml.Truncate(278, "&#847; &zwnj; &nbsp; ");
 
-        Dictionary<string, object> templateContent = new()
-                                                         {
-                                                             { "classes", "preview" },
-                                                             { "contents", previewNode.InnerHtml }
-                                                         };
+        var templateContent = new TemplateContent("preview", previewNode.InnerHtml);
 
         var previewElement = parser.ParseDocument(this.Template("div", templateContent)).QuerySelector("div");
 

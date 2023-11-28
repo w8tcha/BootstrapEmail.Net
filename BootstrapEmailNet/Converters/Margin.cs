@@ -39,14 +39,9 @@ public class Margin : Base
 
             if (!string.IsNullOrEmpty(topClass))
             {
-                Dictionary<string, object> templateContent = new()
-                                                                 {
-                                                                     {
-                                                                         "classes",
-                                                                         $"s-{Regex.Replace(topClass, "m[ty]{1}-", string.Empty, RegexOptions.None, TimeSpan.FromMilliseconds(100))}"
-                                                                     },
-                                                                     { "contents", "" }
-                                                                 };
+                var templateContent = new TemplateContent(
+                    $"s-{Regex.Replace(topClass, "m[ty]{1}-", string.Empty, RegexOptions.None, TimeSpan.FromMilliseconds(100))}",
+                    string.Empty);
 
                 html.Append(this.Template("div", templateContent));
             }
@@ -55,14 +50,9 @@ public class Margin : Base
 
             if (!string.IsNullOrEmpty(bottomClass))
             {
-                Dictionary<string, object> templateContent = new()
-                                                                 {
-                                                                     {
-                                                                         "classes",
-                                                                         $"s-{Regex.Replace(bottomClass, "m[by]{1}-", string.Empty, RegexOptions.None, TimeSpan.FromMilliseconds(100))}"
-                                                                     },
-                                                                     { "contents", "" }
-                                                                 };
+                var templateContent = new TemplateContent(
+                    $"s-{Regex.Replace(bottomClass, "m[by]{1}-", string.Empty, RegexOptions.None, TimeSpan.FromMilliseconds(100))}",
+                    string.Empty);
 
                 html.Append(this.Template("div", templateContent));
             }

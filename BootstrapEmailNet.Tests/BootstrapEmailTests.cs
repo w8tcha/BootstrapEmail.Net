@@ -129,7 +129,7 @@ public class BootstrapEmailTests
 
             this.testOutputHelper.WriteLine($"🚀 Built {destination} (in {(DateTime.Now - startFileTime).TotalSeconds:0.00}s)");
 
-            // File.WriteAllText(destination, convertedHtml);
+            //File.WriteAllText(destination, convertedHtml);
 
             Assert.Equal(expectedHtml, convertedHtml, ignoreLineEndingDifferences: true);
         }

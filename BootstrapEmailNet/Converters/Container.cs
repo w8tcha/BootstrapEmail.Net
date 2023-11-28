@@ -11,22 +11,14 @@ public class Container : Base
     {
         foreach (var node in this.EachNode(".container"))
         {
-            Dictionary<string, object> templateContent = new()
-                                                             {
-                                                                 { "classes", node.ClassName ?? string.Empty},
-                                                                 { "contents", node.InnerHtml }
-                                                             };
+            var templateContent = new TemplateContent(node.ClassName ?? string.Empty, node.InnerHtml);
 
             node.OuterHtml = this.Template("container", templateContent);
         }
 
         foreach (var node in this.EachNode(".container-fluid"))
         {
-            Dictionary<string, object> templateContent = new()
-                                                             {
-                                                                 { "classes", node.ClassName ?? string.Empty },
-                                                                 { "contents", node.InnerHtml }
-                                                             };
+            var templateContent = new TemplateContent(node.ClassName ?? string.Empty, node.InnerHtml);
 
             node.OuterHtml = this.Template("table", templateContent);
         }

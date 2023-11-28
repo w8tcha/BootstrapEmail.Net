@@ -1,6 +1,4 @@
-﻿
-
-namespace BootstrapEmail.Net.Converters;
+﻿namespace BootstrapEmail.Net.Converters;
 
 using System.Text;
 
@@ -23,19 +21,13 @@ public class Stack : Base
         {
             var html = new StringBuilder();
 
-            foreach (var templateContent in node.Children.Select(child => new Dictionary<string, object>()
-                                                                              {
-                                                                                  { "classes", "stack-cell" },
-                                                                                  { "contents", child.OuterHtml }
-                                                                              }))
+            foreach (var templateContent in node.Children.Select(
+                         child => new TemplateContent("stack-cell", child.OuterHtml)))
             {
                 html.Append(this.Template("td", templateContent));
             }
 
-            Dictionary<string, object> content = new()
-                                                     {
-                                                         { "classes", node.ClassName ?? string.Empty }, { "contents", html.ToString() }
-                                                     };
+            var content = new TemplateContent(node.ClassName ?? string.Empty, html.ToString());
 
             node.OuterHtml = this.Template("table-to-tr", content);
         }
@@ -47,19 +39,13 @@ public class Stack : Base
         {
             var html = new StringBuilder();
 
-            foreach (var templateContent in node.Children.Select(child => new Dictionary<string, object>()
-                                                                              {
-                                                                                  { "classes", "stack-cell" },
-                                                                                  { "contents", child.OuterHtml }
-                                                                              }))
+            foreach (var templateContent in node.Children.Select(
+                         child => new TemplateContent("stack-cell", child.OuterHtml)))
             {
                 html.Append(this.Template("tr", templateContent));
             }
 
-            Dictionary<string, object> content = new()
-                                                     {
-                                                         { "classes", node.ClassName ?? string.Empty }, { "contents", html.ToString() }
-                                                     };
+            var content = new TemplateContent(node.ClassName ?? string.Empty, html.ToString());
 
             node.OuterHtml = this.Template("table-to-tbody", content);
         }
