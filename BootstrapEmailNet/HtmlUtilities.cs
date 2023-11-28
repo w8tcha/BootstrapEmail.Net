@@ -2,7 +2,7 @@
 
 namespace BootstrapEmail.Net;
 
-public class HtmlUtilities
+public static class HtmlUtilities
 {
     /// <summary>
     /// Converts HTML to plain text / strips tags.

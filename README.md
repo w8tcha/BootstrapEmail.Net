@@ -27,27 +27,21 @@ There are a few different ways you can use Bootstrap Email to compile emails:
 #### compile all files ending in .html in the current directory
 
 ```c#
-var config = new ConfigStore();
-
-var bsEmail = new BootstrapEmail(config);
+var bsEmail = new BootstrapEmail();
 
 bsEmail.Compile(string.Empty, string.Empty, InputType.File);
 ```
 #### compile the file email.html and save it to the file out.html
 
 ```c#
-var config = new ConfigStore();
-
-var bsEmail = new BootstrapEmail(config);
+var bsEmail = new BootstrapEmail();
 
 bsEmail.Compile("email.html", "out.html", InputType.File);
 ```
 #### specify a path pattern and a destination directory for compiled emails to be saved to
 
 ```c#
-var config = new ConfigStore();
-
-var bsEmail = new BootstrapEmail(config);
+var bsEmail = new BootstrapEmail();
 
 bsEmail.Compile("emails/*", "mails/compiled/", InputType.Pattern);
 ```
@@ -55,9 +49,7 @@ bsEmail.Compile("emails/*", "mails/compiled/", InputType.Pattern);
 #### compile for a string
 
 ```c#
-var config = new ConfigStore();
-
-var bsEmail = new BootstrapEmail(config);
+var bsEmail = new BootstrapEmail();
 
 bsEmail.Compile("<a href='#' class='btn btn-primary'>Some Button</a>", string.Empty, InputType.String);
 ```

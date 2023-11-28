@@ -2,7 +2,7 @@
 
 public class AddMissingMetaTags : Base
 {
-    private record Tag(string Query, string Code);
+    private sealed record Tag(string Query, string Code);
 
     private static readonly List<Tag> MetaTags = new()
                                                      {
