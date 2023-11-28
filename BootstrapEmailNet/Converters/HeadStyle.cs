@@ -34,7 +34,7 @@ public static partial class HeadStyle
 
         var groups = RegexCustomCss().Matches(customCss);
 
-        customCss = (from @group in groups.Cast<Match>()
+        customCss = (from @group in groups
                      let selectors = RegexSelectors().Matches(@group.Value).Select(m => m.Groups[1].Value).Distinct()
                      let exist = selectors.Any(selector => doc.QuerySelector(selector) != null)
                      where !exist
@@ -44,9 +44,9 @@ public static partial class HeadStyle
         return $"\r\n      {defaultCss}{customCss}    ";
     }
 
-    [GeneratedRegex(@"\w*\.[\w\-]*[\s\S\n]+?(?=})}{1}")]
+    [GeneratedRegex(@"\w*\.[\w\-]*[\s\S\n]+?(?=})}{1}", RegexOptions.None)]
     private static partial Regex RegexCustomCss();
 
-    [GeneratedRegex(@"(\.[\w\-]*).*?((,+?)|{+?)")]
+    [GeneratedRegex(@"(\.[\w\-]*).*?((,+?)|{+?)", RegexOptions.None)]
     private static partial Regex RegexSelectors();
 }

@@ -82,9 +82,14 @@ public abstract class Base
         return nodes.ToList();
     }
 
+    /// <summary>
+    /// Adds the class name to the class list.
+    /// </summary>
+    /// <param name="node">The node.</param>
+    /// <param name="className">Name of the class.</param>
     protected static void AddClass(IElement node, string className)
     {
-        node.SetAttribute("class", $"{node.ClassName} {className}".ReplaceMultipleSpacesWithSingleSpace().Trim());
+        node.ClassList.Add(className);
     }
 
     protected static bool IsMargin(IElement node)

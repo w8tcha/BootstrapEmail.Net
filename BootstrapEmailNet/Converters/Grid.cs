@@ -21,16 +21,16 @@ public class Grid : Base
 
             var tableToTrContent = this.Template("table-to-tr", tableToTr);
 
+            if (node.QuerySelector("*[class*=col-lg-]") != null)
+            {
+                AddClass(node, "row-responsive");
+            }
+
             Dictionary<string, object> templateContent = new()
                                                              {
                                                                  { "classes", node.ClassName ?? string.Empty },
                                                                  { "contents", tableToTrContent }
                                                              };
-
-            if (node.QuerySelector("*[class*=col-lg-]") != null)
-            {
-                AddClass(node, "row-responsive");
-            }
 
             node.OuterHtml = this.Template("div", templateContent);
         }
