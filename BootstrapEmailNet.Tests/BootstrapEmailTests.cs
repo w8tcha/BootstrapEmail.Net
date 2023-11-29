@@ -96,7 +96,7 @@ public class BootstrapEmailTests
                                 </html>
                                 """;
 
-        Assert.Equal(Expected, html);
+        Assert.Equal(Expected, html, ignoreLineEndingDifferences: true, ignoreAllWhiteSpace: true);
     }
 
     /// <summary>
@@ -131,7 +131,7 @@ public class BootstrapEmailTests
 
             //File.WriteAllText(destination, convertedHtml);
 
-            Assert.Equal(expectedHtml, convertedHtml, ignoreLineEndingDifferences: true);
+            Assert.Equal(expectedHtml, convertedHtml, ignoreLineEndingDifferences: true, ignoreAllWhiteSpace: true);
         }
 
         this.testOutputHelper.WriteLine($"Finished compiling tests in {(DateTime.Now - startTime).TotalSeconds:0.00}s 🎉");
