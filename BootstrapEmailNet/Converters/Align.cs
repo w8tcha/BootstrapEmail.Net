@@ -14,7 +14,7 @@ public class Align : Base
 
     public virtual void Build()
     {
-        string[] types = { "left", "center", "right" };
+        string[] types = ["left", "center", "right"];
         foreach (var type in types)
         {
             var fullType = $"ax-{type}";

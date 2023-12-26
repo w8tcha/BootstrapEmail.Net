@@ -4,7 +4,7 @@ using AngleSharp.Html.Dom;
 
 public class Padding : Base
 {
-    private static readonly string[] NodesNames = { "table", "td", "a" };
+    private static readonly string[] NodesNames = ["table", "td", "a"];
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Padding"/> class.

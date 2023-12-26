@@ -43,7 +43,7 @@ public class Config
             }
         }
 
-        string[] lookupLocations = { $"{type}.scss", $"core/{type}.scss" };
+        string[] lookupLocations = [$"{type}.scss", $"core/{type}.scss"];
 
         var locations = Array.FindAll(
             lookupLocations,
@@ -69,7 +69,7 @@ public class Config
     /// <returns>System.String[].</returns>
     public string[] SassLoadPaths()
     {
-        string[] pathsArray = { Path.Combine(AppContext.BaseDirectory, this.SassLocation()) };
+        string[] pathsArray = [Path.Combine(AppContext.BaseDirectory, this.SassLocation())];
 
         var customLoadPaths = this.ConfigStore.sass_load_paths;
 
