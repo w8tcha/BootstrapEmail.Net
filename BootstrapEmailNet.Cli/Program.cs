@@ -132,7 +132,7 @@ public static class Program
                     bsEmail.Compile(filePath,  output, InputType.File);
 
                     break;
-                case InputType.String:
+                default:
                     Console.WriteLine(bsEmail.Compile(input, string.Empty, type));
                     break;
             }

@@ -164,6 +164,10 @@ public class Compiler
         new Paragraph(this.Document, this.Config).Build();
     }
 
+    /// <summary>
+    /// Converts the Html to text.
+    /// </summary>
+    /// <returns>System.String.</returns>
     public string PlainText()
     {
         return HtmlUtilities.ConvertToPlainText(this.InputHtml);

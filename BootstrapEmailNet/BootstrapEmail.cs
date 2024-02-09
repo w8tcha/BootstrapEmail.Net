@@ -8,14 +8,14 @@ public class BootstrapEmail
     /// <summary>
     /// The configuration
     /// </summary>
-    private readonly ConfigStore config;
+    private readonly ConfigStore _config;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BootstrapEmail"/> class.
     /// </summary>
     public BootstrapEmail()
     {
-        this.config = new ConfigStore();
+        this._config = new ConfigStore();
     }
 
     /// <summary>
@@ -24,7 +24,7 @@ public class BootstrapEmail
     /// <param name="configStore">The configuration store.</param>
     public BootstrapEmail(ConfigStore configStore)
     {
-        this.config = configStore;
+        this._config = configStore;
     }
 
     /// <summary>
@@ -32,7 +32,7 @@ public class BootstrapEmail
     /// </summary>
     public void ClearSassCache()
     {
-        var sassCacheLocation = new Config(this.config).SassCacheLocation();
+        var sassCacheLocation = new Config(this._config).SassCacheLocation();
 
         if (Directory.Exists(sassCacheLocation))
         {
@@ -93,7 +93,7 @@ public class BootstrapEmail
 
             Console.WriteLine($"Compiling file...{path}");
 
-            var compilerPattern = new Compiler(path, this.config, InputType.Pattern);
+            var compilerPattern = new Compiler(path, this._config, InputType.Pattern);
 
             var convertedHtml = compilerPattern.PerformFullCompile();
 
@@ -117,10 +117,10 @@ public class BootstrapEmail
     /// <returns>System.String.</returns>
     private string StringCompile(string input)
     {
-        var compilerString = new Compiler(input, config: this.config);
+        var compilerString = new Compiler(input, config: this._config);
 
         return
-            this.config.plain_text ? compilerString.PerformTextCompile() : compilerString.PerformFullCompile();
+            this._config.plain_text ? compilerString.PerformTextCompile() : compilerString.PerformFullCompile();
     }
 
     /// <summary>
@@ -132,7 +132,7 @@ public class BootstrapEmail
     {
         var filePath = Path.GetFullPath(relativeFilePath, AppContext.BaseDirectory);
 
-        var compilerFile = new Compiler(filePath, this.config, InputType.File);
+        var compilerFile = new Compiler(filePath, this._config, InputType.File);
 
         var compiledHtml = compilerFile.PerformFullCompile();
 

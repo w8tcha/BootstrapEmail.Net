@@ -1,5 +1,10 @@
 ﻿namespace BootstrapEmail.Net.Converters;
 
+/// <summary>
+/// Class Paragraph.
+/// Implements the <see cref="BootstrapEmail.Net.Converters.Base" />
+/// </summary>
+/// <seealso cref="BootstrapEmail.Net.Converters.Base" />
 public class Paragraph : Base
 {
     /// <summary>
@@ -12,6 +17,9 @@ public class Paragraph : Base
     {
     }
 
+    /// <summary>
+    /// Builds this instance.
+    /// </summary>
     public virtual void Build()
     {
         /*foreach (var node in this.EachNode("p").Where(node => !IsMargin(node)))

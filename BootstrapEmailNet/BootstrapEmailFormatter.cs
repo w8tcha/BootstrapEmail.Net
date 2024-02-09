@@ -60,11 +60,13 @@ internal class BootstrapEmailFormatter : HtmlMarkupFormatter
             singleLine = singleLine.TrimEnd();
         }
 
-        if (singleLine.Length > 0 && text.PreviousSibling is not ICharacterData && singleLine[0].IsSpaceCharacter())
+        if (singleLine.Length <= 0 || text.PreviousSibling is ICharacterData || !singleLine[0].IsSpaceCharacter())
         {
-            singleLine = singleLine.TrimStart();
-            before = this.IndentBefore();
+            return before + EscapeText(singleLine);
         }
+
+        singleLine = singleLine.TrimStart();
+        before = this.IndentBefore();
 
         return before + EscapeText(singleLine);
     }
@@ -108,5 +110,6 @@ internal class BootstrapEmailFormatter : HtmlMarkupFormatter
         return content.Length > 0 && content[^1].IsSpaceCharacter();
     }
 
-    private string IndentBefore(int i = 0) => this.NewLine + string.Join(string.Empty, Enumerable.Repeat(this.indentString, this.indentCount - i));
+    private string IndentBefore(int i = 0) =>
+        $"{this.NewLine}{string.Join(string.Empty, Enumerable.Repeat(this.indentString, this.indentCount - i))}";
 }

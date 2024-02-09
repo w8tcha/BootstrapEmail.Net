@@ -4,20 +4,36 @@ using System.Collections.Generic;
 
 using BenchmarkDotNet.Attributes;
 
+/// <summary>
+/// Class LibraryComparisonBenchmarks.
+/// </summary>
 [ShortRunJob]
 [MemoryDiagnoser]
-//[CategoriesColumn]
-//[GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
 public class LibraryComparisonBenchmarks
 {
+    /// <summary>
+    /// Class TestData.
+    /// </summary>
     public record TestData(string Label, string Html)
     {
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString() => this.Label;
     }
 
+    /// <summary>
+    /// Gets or sets the data.
+    /// </summary>
+    /// <value>The data.</value>
     [ParamsSource(nameof(GetTestTemplates))]
     public TestData Data { get; set; }
 
+    /// <summary>
+    /// Gets the test templates.
+    /// </summary>
+    /// <returns>System.Collections.Generic.IEnumerable&lt;BootstrapEmail.Net.Benchmarks.LibraryComparisonBenchmarks.TestData&gt;.</returns>
     public static IEnumerable<TestData> GetTestTemplates()
     {
         yield return new TestData("basic", """

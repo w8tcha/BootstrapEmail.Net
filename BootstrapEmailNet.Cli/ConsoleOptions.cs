@@ -26,7 +26,7 @@ public class ConsoleOptions
     public string? Text { get; set; }
 
     /// <summary>
-    /// HTML string to be to be compiled rather than a file.
+    /// HTML string to be compiled rather than a file.
     /// </summary>
     [Option(
         's',

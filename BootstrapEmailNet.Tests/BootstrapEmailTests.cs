@@ -7,7 +7,7 @@ using Xunit.Abstractions;
 /// </summary>
 public class BootstrapEmailTests
 {
-    private readonly ITestOutputHelper testOutputHelper;
+    private readonly ITestOutputHelper _testOutputHelper;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BootstrapEmailTests"/> class.
@@ -15,7 +15,7 @@ public class BootstrapEmailTests
     /// <param name="testOutputHelper">The test output helper.</param>
     public BootstrapEmailTests(ITestOutputHelper testOutputHelper)
     {
-        this.testOutputHelper = testOutputHelper;
+        this._testOutputHelper = testOutputHelper;
     }
 
     /// <summary>
@@ -31,9 +31,9 @@ public class BootstrapEmailTests
             string.Empty,
             InputType.String);
 
-        const string Expected = "A buttonB button";
+        const string expected = "A buttonB button";
 
-        Assert.Equal(Expected, html);
+        Assert.Equal(expected, html);
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public class BootstrapEmailTests
             string.Empty,
             InputType.String);
 
-        const string Expected = """
+        const string expected = """
                                 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
                                 <html>
                                 	<head>
@@ -96,7 +96,7 @@ public class BootstrapEmailTests
                                 </html>
                                 """;
 
-        Assert.Equal(Expected, html, ignoreLineEndingDifferences: true, ignoreAllWhiteSpace: true);
+        Assert.Equal(expected, html, ignoreLineEndingDifferences: true, ignoreAllWhiteSpace: true);
     }
 
     /// <summary>
@@ -105,7 +105,7 @@ public class BootstrapEmailTests
     [Fact]
     public void TestFileInput()
     {
-        this.testOutputHelper.WriteLine("🧪 Starting tests...");
+        this._testOutputHelper.WriteLine("🧪 Starting tests...");
         var startTime = DateTime.Now;
 
         var path = Path.GetFullPath("tests/input", Directory.GetCurrentDirectory());
@@ -118,7 +118,7 @@ public class BootstrapEmailTests
 
         foreach (var file in files)
         {
-            this.testOutputHelper.WriteLine("🧪 Start test...");
+            this._testOutputHelper.WriteLine("🧪 Start test...");
 
             var startFileTime = DateTime.Now;
             var fileContents = File.ReadAllText(file);
@@ -127,13 +127,13 @@ public class BootstrapEmailTests
 
             var expectedHtml = File.ReadAllText(destination);
 
-            this.testOutputHelper.WriteLine($"🚀 Built {destination} (in {(DateTime.Now - startFileTime).TotalSeconds:0.00}s)");
+            this._testOutputHelper.WriteLine($"🚀 Built {destination} (in {(DateTime.Now - startFileTime).TotalSeconds:0.00}s)");
 
             //File.WriteAllText(destination, convertedHtml);
 
             Assert.Equal(expectedHtml, convertedHtml, ignoreLineEndingDifferences: true, ignoreAllWhiteSpace: true);
         }
 
-        this.testOutputHelper.WriteLine($"Finished compiling tests in {(DateTime.Now - startTime).TotalSeconds:0.00}s 🎉");
+        this._testOutputHelper.WriteLine($"Finished compiling tests in {(DateTime.Now - startTime).TotalSeconds:0.00}s 🎉");
     }
 }
