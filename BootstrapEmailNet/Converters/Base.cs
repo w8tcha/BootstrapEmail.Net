@@ -11,12 +11,16 @@ public abstract class Base
     /// <value>The document.</value>
     public IHtmlDocument Document { get; set; }
 
+    /// <summary>
+    /// Gets or sets the configuration.
+    /// </summary>
+    /// <value>The configuration.</value>
     public Config Config { get; set; }
 
     /// <summary>
     /// The cached templates
     /// </summary>
-    private Dictionary<string, string> cachedTemplates = new();
+    private Dictionary<string, string> cachedTemplates = [];
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Base"/> class.
@@ -45,7 +49,7 @@ public abstract class Base
         }
         else
         {
-            this.cachedTemplates = new Dictionary<string, string>();
+            this.cachedTemplates = [];
 
             var path = Path.GetFullPath(
                 Path.Combine(
@@ -68,7 +72,7 @@ public abstract class Base
         // sort by youngest child and traverse backwards up the tree
         var nodes = this.Document.QuerySelectorAll(cssLookup).OrderByDescending(x => x.Ancestors().Count());
 
-        return nodes.ToList();
+        return [.. nodes];
     }
 
     public static List<IElement> EachChildNode(IElement node, string cssLookup)
@@ -76,7 +80,7 @@ public abstract class Base
         // sort by youngest child and traverse backwards up the tree
         var nodes = node.QuerySelectorAll(cssLookup).OrderByDescending(x => x.Ancestors().Count());
 
-        return nodes.ToList();
+        return [.. nodes];
     }
 
     /// <summary>

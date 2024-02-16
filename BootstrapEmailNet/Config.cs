@@ -73,7 +73,7 @@ public class Config
 
         var customLoadPaths = this.ConfigStore.sass_load_paths;
 
-        return pathsArray.Concat(customLoadPaths).ToArray();
+        return [.. pathsArray, .. customLoadPaths];
     }
 
     /// <summary>
