@@ -1,4 +1,6 @@
-﻿namespace BootstrapEmail.Net;
+﻿using System.Reflection;
+
+namespace BootstrapEmail.Net;
 
 using System.IO;
 
@@ -58,23 +60,28 @@ public class Compiler
     /// <param name="type">The type.</param>
     public Compiler(string input, ConfigStore config, InputType type = InputType.String)
     {
-        this.Config = new Config(config);
-        this.Type = type;
+	    this.Config = new Config(config);
+	    this.Type = type;
 
-        this.InputHtml = this.Type switch
-            {
-                InputType.String => input,
-                InputType.File => File.ReadAllText(input),
-                _ => input
-            };
+	    this.InputHtml = this.Type switch
+	    {
+		    InputType.String => input,
+		    InputType.File => File.ReadAllText(input),
+		    _ => input
+	    };
 
-        var html = this.AddLayout(this.InputHtml);
+	    if (!Directory.Exists(Path.Combine(AppContext.BaseDirectory, this.Config.SassLocation())))
+	    {
+		    GetEmbeddedCoreFiles();
+	    }
 
-        this.SassCompiler = new SassCompiler(new SassOptions { IncludePaths = this.Config.SassLoadPaths() });
+	    var html = this.AddLayout(this.InputHtml);
 
-        this.PreMailer = new PreMailer(html);
+	    this.SassCompiler = new SassCompiler(new SassOptions { IncludePaths = this.Config.SassLoadPaths() });
 
-        this.Document = this.PreMailer.Document;
+	    this.PreMailer = new PreMailer(html);
+
+	    this.Document = this.PreMailer.Document;
     }
 
     /// <summary>
@@ -215,5 +222,38 @@ public class Compiler
         html = ForceEncoding.Replace(html);
 
         return html;
+    }
+
+	/// <summary>
+	/// Gets the embedded core files.
+	/// </summary>
+	private void GetEmbeddedCoreFiles()
+    {
+	    var assembly = typeof(BootstrapEmail).GetTypeInfo().Assembly;
+
+	    foreach (var s in assembly.GetManifestResourceNames())
+	    {
+		    WriteResourceToFile(assembly, s,
+			    s.Replace("BootstrapEmail.Net.", "").Replace("scss.", "scss\\").Replace("components.", "components\\")
+				    .Replace("helpers.", "helpers\\").Replace("utilities.", "utilities\\")
+				    .Replace("variables.", "variables\\").Replace("templates.", "templates\\").Replace("core.", "core\\"));
+	    }
+    }
+
+	/// <summary>
+	/// Writes the embedded resource to file.
+	/// </summary>
+	/// <param name="assembly">The assembly.</param>
+	/// <param name="resourceName">Name of the resource.</param>
+	/// <param name="fileName">Name of the file.</param>
+	public void WriteResourceToFile(Assembly assembly, string resourceName, string fileName)
+    {
+	    using var resource = assembly.GetManifestResourceStream(resourceName);
+
+	    Directory.CreateDirectory(Path.GetDirectoryName(fileName));
+
+	    using var file = new FileStream(fileName, FileMode.Create, FileAccess.Write);
+
+	    resource?.CopyTo(file);
     }
 }

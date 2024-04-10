@@ -26,7 +26,7 @@ public class Config
     /// <returns>System.String.</returns>
     public string SassStringFor(string type)
     {
-        var subType = type.Replace("bootstrap-", string.Empty);
+		var subType = type.Replace("bootstrap-", string.Empty);
         var fileName = this.ConfigForOption($"sass_{subType}_string");
 
         var location = this.ConfigForOption($"sass_{subType}_location");

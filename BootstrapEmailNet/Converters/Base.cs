@@ -98,6 +98,11 @@ public abstract class Base
         return IsMarginTop(node) || IsMarginBottom(node);
     }
 
+    /// <summary>
+    /// Determines whether [is margin top] [the specified node].
+    /// </summary>
+    /// <param name="node">The node.</param>
+    /// <returns>bool.</returns>
     protected static bool IsMarginTop(IElement node)
     {
         return node.ClassName != null && Regex.IsMatch(

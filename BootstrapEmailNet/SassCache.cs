@@ -56,10 +56,10 @@ public class SassCache
     /// <returns>System.String.</returns>
     public string Compile()
     {
-        var cachePath = $"{this.cacheDir}/{this.checksum}/{this.type}.css";
-        var lockPath = $"{this.cacheDir}/{this.checksum}/{this.type}.css.lock";
+        var cachePath = Path.Combine(this.cacheDir,  this.checksum, $"{this.type}.css");
+        var lockPath = Path.Combine(this.cacheDir, this.checksum, $"{this.type}css.lock");
 
-        Directory.CreateDirectory($"{this.cacheDir}/{this.checksum}");
+        Directory.CreateDirectory(Path.Combine(this.cacheDir, this.checksum));
 
         using var lockFile = File.Open(lockPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
 

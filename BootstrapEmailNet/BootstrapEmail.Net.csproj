@@ -8,7 +8,7 @@
   </PropertyGroup>
 
 	<PropertyGroup>
-		<Version>1.4.1</Version>
+		<Version>1.4.2</Version>
 		<Title>Bootstrap Email</Title>
 		<PackageIcon>bootstrap-email.png</PackageIcon>
 		<Description>Bootstrap stylesheet, compiler, and inliner for responsive and consistent emails with the Bootstrap syntax you know and love.</Description>
@@ -20,6 +20,204 @@
 		<Copyright>Copyright (c) .NET Version Ingo Herbote</Copyright>
 		<PackageLicenseFile>LICENSE.MD</PackageLicenseFile>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="core\bootstrap-email.scss" />
+	  <None Remove="core\bootstrap-head.scss" />
+	  <None Remove="core\layout.html.erb" />
+	  <None Remove="core\scss\components\_alert.scss" />
+	  <None Remove="core\scss\components\_badge.scss" />
+	  <None Remove="core\scss\components\_button.scss" />
+	  <None Remove="core\scss\components\_card.scss" />
+	  <None Remove="core\scss\components\_container.scss" />
+	  <None Remove="core\scss\components\_grid.scss" />
+	  <None Remove="core\scss\components\_hr.scss" />
+	  <None Remove="core\scss\components\_image.scss" />
+	  <None Remove="core\scss\components\_preview.scss" />
+	  <None Remove="core\scss\components\_stack.scss" />
+	  <None Remove="core\scss\components\_table.scss" />
+	  <None Remove="core\scss\helpers\_functions.scss" />
+	  <None Remove="core\scss\helpers\_mixins.scss" />
+	  <None Remove="core\scss\helpers\_selectors_for_utils.scss" />
+	  <None Remove="core\scss\utilities\_background.scss" />
+	  <None Remove="core\scss\utilities\_border-radius.scss" />
+	  <None Remove="core\scss\utilities\_border.scss" />
+	  <None Remove="core\scss\utilities\_color.scss" />
+	  <None Remove="core\scss\utilities\_display.scss" />
+	  <None Remove="core\scss\utilities\_sizing.scss" />
+	  <None Remove="core\scss\utilities\_spacing.scss" />
+	  <None Remove="core\scss\utilities\_text-decoration.scss" />
+	  <None Remove="core\scss\utilities\_typography.scss" />
+	  <None Remove="core\scss\utilities\_valign.scss" />
+	  <None Remove="core\scss\variables\_body.scss" />
+	  <None Remove="core\scss\variables\_borders.scss" />
+	  <None Remove="core\scss\variables\_buttons.scss" />
+	  <None Remove="core\scss\variables\_colors.scss" />
+	  <None Remove="core\scss\variables\_tables.scss" />
+	  <None Remove="core\scss\variables\_typography.scss" />
+	  <None Remove="core\scss\variables\_utilities.scss" />
+	  <None Remove="core\scss\_helpers.scss" />
+	  <None Remove="core\scss\_reboot_email.scss" />
+	  <None Remove="core\scss\_reboot_head.scss" />
+	  <None Remove="core\scss\_variables.scss" />
+	  <None Remove="core\templates\body.html" />
+	  <None Remove="core\templates\button.html" />
+	  <None Remove="core\templates\container.html" />
+	  <None Remove="core\templates\div.html" />
+	  <None Remove="core\templates\table-left.html" />
+	  <None Remove="core\templates\table-to-tbody.html" />
+	  <None Remove="core\templates\table-to-tr.html" />
+	  <None Remove="core\templates\table.html" />
+	  <None Remove="core\templates\td.html" />
+	  <None Remove="core\templates\tr.html" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="core\bootstrap-email.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\bootstrap-head.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\layout.html.erb">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\components\_alert.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\components\_badge.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\components\_button.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\components\_card.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\components\_container.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\components\_grid.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\components\_hr.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\components\_image.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\components\_preview.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\components\_stack.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\components\_table.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\helpers\_functions.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\helpers\_mixins.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\helpers\_selectors_for_utils.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\utilities\_background.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\utilities\_border-radius.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\utilities\_border.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\utilities\_color.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\utilities\_display.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\utilities\_sizing.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\utilities\_spacing.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\utilities\_text-decoration.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\utilities\_typography.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\utilities\_valign.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\variables\_body.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\variables\_borders.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\variables\_buttons.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\variables\_colors.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\variables\_tables.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\variables\_typography.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\variables\_utilities.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\_helpers.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\_reboot_email.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\_reboot_head.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\scss\_variables.scss">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\templates\body.html">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\templates\button.html">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\templates\container.html">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\templates\div.html">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\templates\table-left.html">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\templates\table-to-tbody.html">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\templates\table-to-tr.html">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\templates\table.html">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\templates\td.html">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="core\templates\tr.html">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	</ItemGroup>
 
 	<ItemGroup>
 	  <None Include="..\bootstrap-email.png">
@@ -36,163 +234,35 @@
 	  </None>
 	</ItemGroup>
 
+	<ItemGroup>
+		<Content Include="bin\Release\net7.0\libsass32.dll">
+			<Pack>true</Pack>
+			<PackagePath>lib\net7.0</PackagePath>
+		</Content>
+		<Content Include="bin\Release\net7.0\libsass64.dll">
+			<Pack>true</Pack>
+			<PackagePath>lib\net7.0</PackagePath>
+		</Content>
+		<Content Include="bin\Release\net8.0\libsass32.dll">
+			<Pack>true</Pack>
+			<PackagePath>lib\net8.0</PackagePath>
+		</Content>
+		<Content Include="bin\Release\net8.0\libsass64.dll">
+			<Pack>true</Pack>
+			<PackagePath>lib\net8.0</PackagePath>
+		</Content>
+	</ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="1.1.2" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.60" />
-    <PackageReference Include="libsassnetstandard" Version="3.3.8" />
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
+    <PackageReference Include="libsassnetstandard" Version="3.3.8" />
     <PackageReference Include="PreMailer.Net" Version="2.5.0" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.23.0.88079">
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.23.1.88495">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="core\bootstrap-email.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\bootstrap-head.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\layout.html.erb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\components\_alert.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\components\_badge.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\components\_button.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\components\_card.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\components\_container.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\components\_grid.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\components\_hr.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\components\_image.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\components\_preview.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\components\_stack.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\components\_table.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\helpers\_functions.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\helpers\_mixins.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\helpers\_selectors_for_utils.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\utilities\_background.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\utilities\_border-radius.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\utilities\_border.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\utilities\_color.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\utilities\_display.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\utilities\_sizing.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\utilities\_spacing.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\utilities\_text-decoration.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\utilities\_typography.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\utilities\_valign.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\variables\_body.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\variables\_borders.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\variables\_buttons.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\variables\_colors.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\variables\_tables.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\variables\_typography.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\variables\_utilities.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\_helpers.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\_reboot_email.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\_reboot_head.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\scss\_variables.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\templates\body.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\templates\button.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\templates\container.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\templates\div.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\templates\table-left.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\templates\table-to-tbody.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\templates\table-to-tr.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\templates\table.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\templates\td.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="core\templates\tr.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
