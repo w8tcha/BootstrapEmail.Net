@@ -40,7 +40,7 @@ public class ConfigStore
     /// array of directories for loading sass imports.
     /// </summary>
     /// <value>array of directories for loading sass imports.</value>
-    public string[] sass_load_paths { get; set; } = Array.Empty<string>();
+    public string[] sass_load_paths { get; set; } = [];
 
     /// <summary>
     /// path to tmp folder for sass cache

@@ -72,12 +72,14 @@ public class Compiler
 
 	    if (!Directory.Exists(Path.Combine(AppContext.BaseDirectory, this.Config.SassLocation())))
 	    {
-		    GetEmbeddedCoreFiles();
+			GetEmbeddedCoreFiles();
 	    }
 
 	    var html = this.AddLayout(this.InputHtml);
 
-	    this.SassCompiler = new SassCompiler(new SassOptions { IncludePaths = this.Config.SassLoadPaths() });
+	    html = EnsureDoctype.Replace(html);
+
+		this.SassCompiler = new SassCompiler(new SassOptions { IncludePaths = this.Config.SassLoadPaths() });
 
 	    this.PreMailer = new PreMailer(html);
 
@@ -201,7 +203,7 @@ public class Compiler
     /// </summary>
     public void ConfigureHtml()
     {
-        HeadStyle.Build(this.Document, this.Config);
+		HeadStyle.Build(this.Document, this.Config);
         new AddMissingMetaTags(this.Document, this.Config).Build();
         new VersionComment(this.Document, this.Config).Build();
 
@@ -227,13 +229,13 @@ public class Compiler
 	/// <summary>
 	/// Gets the embedded core files.
 	/// </summary>
-	private void GetEmbeddedCoreFiles()
+	private static void GetEmbeddedCoreFiles()
     {
 	    var assembly = typeof(BootstrapEmail).GetTypeInfo().Assembly;
 
 	    foreach (var s in assembly.GetManifestResourceNames())
 	    {
-		    WriteResourceToFile(assembly, s,
+			WriteResourceToFile(assembly, s,
 			    s.Replace("BootstrapEmail.Net.", "").Replace("scss.", "scss\\").Replace("components.", "components\\")
 				    .Replace("helpers.", "helpers\\").Replace("utilities.", "utilities\\")
 				    .Replace("variables.", "variables\\").Replace("templates.", "templates\\").Replace("core.", "core\\"));
@@ -246,7 +248,7 @@ public class Compiler
 	/// <param name="assembly">The assembly.</param>
 	/// <param name="resourceName">Name of the resource.</param>
 	/// <param name="fileName">Name of the file.</param>
-	public void WriteResourceToFile(Assembly assembly, string resourceName, string fileName)
+	public static void WriteResourceToFile(Assembly assembly, string resourceName, string fileName)
     {
 	    using var resource = assembly.GetManifestResourceStream(resourceName);
 

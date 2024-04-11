@@ -1,5 +1,8 @@
 ﻿namespace BootstrapEmail.Net.Converters;
 
+/// <summary>
+/// Class Body.
+/// </summary>
 public class Body : Base
 {
     /// <summary>
@@ -12,7 +15,10 @@ public class Body : Base
     {
     }
 
-    public virtual void Build()
+	/// <summary>
+	/// Builds this instance.
+	/// </summary>
+	public virtual void Build()
     {
         var body = this.Document.QuerySelector("body");
 
@@ -22,7 +28,7 @@ public class Body : Base
         }
 
         var templateContent = new TemplateContent(
-            $"{body.GetAttribute("class")}body",
+            $"{body.GetAttribute("class")} body",
             body.InnerHtml.Replace("\n", string.Empty));
 
         body.InnerHtml = $"\r\n    {this.Template("body", templateContent)}";

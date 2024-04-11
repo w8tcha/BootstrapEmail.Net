@@ -8,7 +8,7 @@
   </PropertyGroup>
 
 	<PropertyGroup>
-		<Version>1.4.2</Version>
+		<Version>1.4.3</Version>
 		<Title>Bootstrap Email</Title>
 		<PackageIcon>bootstrap-email.png</PackageIcon>
 		<Description>Bootstrap stylesheet, compiler, and inliner for responsive and consistent emails with the Bootstrap syntax you know and love.</Description>
@@ -235,17 +235,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Content Include="bin\Release\net7.0\libsass32.dll">
-			<Pack>true</Pack>
-			<PackagePath>lib\net7.0</PackagePath>
-		</Content>
 		<Content Include="bin\Release\net7.0\libsass64.dll">
 			<Pack>true</Pack>
 			<PackagePath>lib\net7.0</PackagePath>
-		</Content>
-		<Content Include="bin\Release\net8.0\libsass32.dll">
-			<Pack>true</Pack>
-			<PackagePath>lib\net8.0</PackagePath>
 		</Content>
 		<Content Include="bin\Release\net8.0\libsass64.dll">
 			<Pack>true</Pack>
