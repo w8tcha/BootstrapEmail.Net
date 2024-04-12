@@ -75,7 +75,7 @@ public class Compiler
 			GetEmbeddedCoreFiles();
 	    }
 
-	    var html = this.AddLayout(this.InputHtml);
+		var html = this.AddLayout(this.InputHtml);
 
 	    html = EnsureDoctype.Replace(html);
 
@@ -235,10 +235,16 @@ public class Compiler
 
 	    foreach (var s in assembly.GetManifestResourceNames())
 	    {
-			WriteResourceToFile(assembly, s,
-			    s.Replace("BootstrapEmail.Net.", "").Replace("scss.", "scss\\").Replace("components.", "components\\")
-				    .Replace("helpers.", "helpers\\").Replace("utilities.", "utilities\\")
-				    .Replace("variables.", "variables\\").Replace("templates.", "templates\\").Replace("core.", "core\\"));
+		    var fileName = s.Replace("BootstrapEmail.Net.", "").Replace(".", "\\");
+
+		    var lastIndex = fileName.LastIndexOf(Path.DirectorySeparatorChar);
+
+		    fileName = string.Concat(fileName.AsSpan(0, lastIndex), ".", fileName.AsSpan(lastIndex + 1));
+
+		    fileName = fileName.Replace($"layout{Path.DirectorySeparatorChar}html.erb", "layout.html.erb");
+
+		    WriteResourceToFile(assembly, s,
+			    fileName);
 	    }
     }
 

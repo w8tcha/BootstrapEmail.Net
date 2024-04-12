@@ -1,26 +1,42 @@
 ﻿namespace BootstrapEmail.Net.Converters;
 
+/// <summary>
+/// Class HeadStyle.
+/// </summary>
 public static partial class HeadStyle
 {
-    public static void Build(IHtmlDocument doc, Config config)
+	/// <summary>
+	/// Builds the specified document.
+	/// </summary>
+	/// <param name="doc">The document.</param>
+	/// <param name="config">The configuration.</param>
+	public static void Build(IHtmlDocument doc, Config config)
     {
         var styleNode = BootstrapEmailHead(doc, config);
 
-        if (doc.Head != null)
+        if (doc.Head == null)
         {
-            doc.Head.AppendChild(styleNode);
-
-            doc.Head.InsertBefore(doc.CreateTextNode("  "), styleNode);
+	        return;
         }
 
-        styleNode.InsertAfter(doc.CreateTextNode("\r\n  "));
+        var headStyle = doc.Head.QuerySelector("style");
+
+        if (headStyle != null)
+        {
+	        headStyle.TextContent = styleNode.TextContent;
+        }
+        else
+        {
+	        doc.Head.AppendChild(styleNode);
+	        doc.Head.InsertBefore(doc.CreateTextNode("  "), styleNode);
+	        styleNode.InsertAfter(doc.CreateTextNode("\r\n  "));
+        }
     }
 
-    private static INode BootstrapEmailHead(IDocument doc, Config config)
+	private static IHtmlStyleElement BootstrapEmailHead(IDocument doc, Config config)
     {
-        var style = doc.CreateElement("style");
-        style.SetAttribute("type", "text/css");
-        style.InnerHtml = PurgedCssFromHead(doc, config);
+        var style = doc.CreateElement<IHtmlStyleElement>();
+		style.TextContent = PurgedCssFromHead(doc, config);
         return style;
     }
 
