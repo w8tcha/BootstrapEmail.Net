@@ -57,22 +57,22 @@ bsEmail.Compile("<a href='#' class='btn btn-primary'>Some Button</a>", string.Em
 ### Via the command line with the BootstrapEmailNet.Cli:
 
 #### compile all files ending in .html in the current directory
-````
-BootstrapEmail.Cli
+```` cmd
+> BootstrapEmail.Cli
 ````
 #### compile the file email.html and save it to the file out.html
-````
-BootstrapEmail.Cli -f email.html -d out.html
+```` cmd
+> BootstrapEmail.Cli -f email.html -d out.html
 ````
 #### specify a path pattern and a destination directory for compiled emails to be saved to
-````
-BootstrapEmail.Cli -p 'emails/*' -d 'emails/compiled/*'
+```` cmd
+> BootstrapEmail.Cli -p 'emails/*' -d 'emails/compiled/*'
 ````
 #### compile for a string
-````
-BootstrapEmail.Cli -s '<a href="#" class="btn btn-primary">Some Button</a>'
+```` cmd
+> BootstrapEmail.Cli -s '<a href="#" class="btn btn-primary">Some Button</a>'
 ````
 #### specify a config json file to use custom scss files
-````
-BootstrapEmail.Cli -c bootstrap-email.json
+```` cmd
+> BootstrapEmail.Cli -c bootstrap-email.json
 ````
