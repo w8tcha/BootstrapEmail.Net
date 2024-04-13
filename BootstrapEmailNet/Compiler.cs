@@ -110,7 +110,7 @@ public class Compiler
     /// <returns>System.String.</returns>
     public string PerformHtmlCompile()
     {
-        this.CompileHtml();
+		this.CompileHtml();
         this.InlineCss();
         this.ConfigureHtml();
         return this.FinalizeDocument();
@@ -189,13 +189,20 @@ public class Compiler
     {
         var cssString = SassCache.Compile(Constants.SassTypes.SassEmail, this.Config, style: SassOutputStyle.Expanded);
 
-        var result = this.PreMailer.MoveCssInline(css: cssString );
+        var result = this.PreMailer.MoveCssInline(css: cssString + GetExistingInlineCss());
 
         // Log Warnings
         foreach (var warning in result.Warnings)
         {
             Console.WriteLine(warning);
         }
+    }
+
+    private string? GetExistingInlineCss()
+    {
+	    var test = this.Document.Head;
+
+	    return test?.QuerySelector("style")?.TextContent;
     }
 
     /// <summary>
@@ -254,7 +261,7 @@ public class Compiler
 	/// <param name="assembly">The assembly.</param>
 	/// <param name="resourceName">Name of the resource.</param>
 	/// <param name="fileName">Name of the file.</param>
-	public static void WriteResourceToFile(Assembly assembly, string resourceName, string fileName)
+	private static void WriteResourceToFile(Assembly assembly, string resourceName, string fileName)
     {
 	    using var resource = assembly.GetManifestResourceStream(resourceName);
 

@@ -23,7 +23,7 @@ public static partial class HeadStyle
 
         if (headStyle != null)
         {
-	        headStyle.TextContent = styleNode.TextContent;
+	        headStyle.TextContent += styleNode.TextContent;
         }
         else
         {

@@ -1,5 +1,8 @@
 ﻿namespace BootstrapEmail.Net.Converters;
 
+/// <summary>
+/// Class Table.
+/// </summary>
 public class Table : Base
 {
     /// <summary>
@@ -12,7 +15,10 @@ public class Table : Base
     {
     }
 
-    public virtual void Build()
+	/// <summary>
+	/// Builds this instance.
+	/// </summary>
+	public virtual void Build()
     {
         foreach (var node in this.EachNode("table[bgcolor='']"))
         {
