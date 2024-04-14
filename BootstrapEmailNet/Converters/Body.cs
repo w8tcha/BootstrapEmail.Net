@@ -28,7 +28,7 @@ public class Body : Base
         }
 
         var templateContent = new TemplateContent(
-            $"{body.GetAttribute("class")} body",
+            string.IsNullOrEmpty(body.ClassName) ? "body" : $"{body.ClassName} body",
             body.InnerHtml.Replace("\n", string.Empty));
 
         body.InnerHtml = $"\r\n    {this.Template("body", templateContent)}";

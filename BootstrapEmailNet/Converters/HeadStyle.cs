@@ -36,7 +36,10 @@ public static partial class HeadStyle
 	private static IHtmlStyleElement BootstrapEmailHead(IDocument doc, Config config)
     {
         var style = doc.CreateElement<IHtmlStyleElement>();
+
+        style.Type = "text/css";
 		style.TextContent = PurgedCssFromHead(doc, config);
+
         return style;
     }
 

@@ -200,9 +200,9 @@ public class Compiler
 
     private string? GetExistingInlineCss()
     {
-	    var test = this.Document.Head;
+	    var head = this.Document.Head;
 
-	    return test?.QuerySelector("style")?.TextContent;
+	    return head?.QuerySelector("style")?.TextContent;
     }
 
     /// <summary>
@@ -265,7 +265,12 @@ public class Compiler
     {
 	    using var resource = assembly.GetManifestResourceStream(resourceName);
 
-	    Directory.CreateDirectory(Path.GetDirectoryName(fileName));
+        var dirName = Path.GetDirectoryName(fileName);
+
+        if (!string.IsNullOrEmpty(dirName))
+        {
+	        Directory.CreateDirectory(dirName);
+		}
 
 	    using var file = new FileStream(fileName, FileMode.Create, FileAccess.Write);
 

@@ -7,7 +7,7 @@ using Xunit.Abstractions;
 /// </summary>
 public class BootstrapEmailTests
 {
-    private readonly ITestOutputHelper _testOutputHelper;
+    private readonly ITestOutputHelper testOutputHelper;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BootstrapEmailTests"/> class.
@@ -15,7 +15,7 @@ public class BootstrapEmailTests
     /// <param name="testOutputHelper">The test output helper.</param>
     public BootstrapEmailTests(ITestOutputHelper testOutputHelper)
     {
-        this._testOutputHelper = testOutputHelper;
+        this.testOutputHelper = testOutputHelper;
     }
 
     /// <summary>
@@ -53,7 +53,7 @@ public class BootstrapEmailTests
                                 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
                                 <html>
                                 	<head>
-                                		<!-- Compiled with Bootstrap Email version: 1.4.4 -->
+                                		<!-- Compiled with Bootstrap Email version: 1.4.5 -->
                                 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
                                 		<meta http-equiv="x-ua-compatible" content="ie=edge">
                                 		<meta name="x-apple-disable-message-reformatting">
@@ -105,7 +105,7 @@ public class BootstrapEmailTests
     [Fact]
     public void TestFileInput()
     {
-        this._testOutputHelper.WriteLine("🧪 Starting tests...");
+        this.testOutputHelper.WriteLine("🧪 Starting tests...");
         var startTime = DateTime.Now;
 
         var path = Path.GetFullPath("tests/input", Directory.GetCurrentDirectory());
@@ -118,7 +118,7 @@ public class BootstrapEmailTests
 
         foreach (var file in files)
         {
-            this._testOutputHelper.WriteLine("🧪 Start test...");
+            this.testOutputHelper.WriteLine("🧪 Start test...");
 
             var startFileTime = DateTime.Now;
             var fileContents = File.ReadAllText(file);
@@ -127,13 +127,13 @@ public class BootstrapEmailTests
 
             var expectedHtml = File.ReadAllText(destination);
 
-            this._testOutputHelper.WriteLine($"🚀 Built {destination} (in {(DateTime.Now - startFileTime).TotalSeconds:0.00}s)");
+            this.testOutputHelper.WriteLine($"🚀 Built {destination} (in {(DateTime.Now - startFileTime).TotalSeconds:0.00}s)");
 
             //File.WriteAllText(destination, convertedHtml);
 
             Assert.Equal(expectedHtml, convertedHtml, ignoreLineEndingDifferences: true, ignoreAllWhiteSpace: true);
         }
 
-        this._testOutputHelper.WriteLine($"Finished compiling tests in {(DateTime.Now - startTime).TotalSeconds:0.00}s 🎉");
+        this.testOutputHelper.WriteLine($"Finished compiling tests in {(DateTime.Now - startTime).TotalSeconds:0.00}s 🎉");
     }
 }

@@ -2,7 +2,7 @@
   "profiles": {
     "BootstrapEmail.Cli": {
       "commandName": "Project",
-      "commandLineArgs": "-f EmailTemplate.html -d EmailTemplateTEST.html"
+      "commandLineArgs": "-f source.html -d result.html"
       //"commandLineArgs": "-p 'emails/*' -d 'emails/compiled/*"
       //"commandLineArgs": "-s 'A button'"
     }

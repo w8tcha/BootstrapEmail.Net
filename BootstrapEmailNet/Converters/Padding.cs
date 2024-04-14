@@ -2,6 +2,9 @@
 
 using AngleSharp.Html.Dom;
 
+/// <summary>
+/// Class Padding.
+/// </summary>
 public class Padding : Base
 {
     private static readonly string[] NodesNames = ["table", "td", "a"];
