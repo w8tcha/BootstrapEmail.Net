@@ -37,12 +37,6 @@ public class ConfigStore
     public string sass_location { get; set; } = "core/";
 
     /// <summary>
-    /// array of directories for loading sass imports.
-    /// </summary>
-    /// <value>array of directories for loading sass imports.</value>
-    public string[] sass_load_paths { get; set; } = [];
-
-    /// <summary>
     /// path to tmp folder for sass cache
     /// </summary>
     /// <value>path to tmp folder for sass cache.</value>
@@ -61,7 +55,7 @@ public class ConfigStore
     public bool sass_log_enabled { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether Return the plain text version of the email..
+    /// Gets or sets a value indicating whether Return the plain text version of the email.
     /// </summary>
     public bool plain_text { get; set; }
 #pragma warning restore IDE1006 // Naming Styles

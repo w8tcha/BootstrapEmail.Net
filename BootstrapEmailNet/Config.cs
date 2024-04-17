@@ -54,11 +54,11 @@ public class Config
                    : string.Empty;
     }
 
-    /// <summary>
-    /// Gets the sass folder location
-    /// </summary>
-    /// <returns>System.String.</returns>
-    public string SassLocation()
+	/// <summary>
+	/// Gets the sass folder location
+	/// </summary>
+	/// <returns>System.String.</returns>
+	public string SassLocation()
     {
         return this.ConfigStore.sass_location;
     }
@@ -71,9 +71,7 @@ public class Config
     {
         string[] pathsArray = [Path.Combine(AppContext.BaseDirectory, this.SassLocation())];
 
-        var customLoadPaths = this.ConfigStore.sass_load_paths;
-
-        return [.. pathsArray, .. customLoadPaths];
+        return [.. pathsArray];
     }
 
     /// <summary>
