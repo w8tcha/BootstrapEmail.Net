@@ -67,15 +67,15 @@ public abstract class Base
             templateContent.Contents);
     }
 
-    public List<IElement> EachNode(string cssLookup)
-    {
-        // sort by youngest child and traverse backwards up the tree
-        var nodes = this.Document.QuerySelectorAll(cssLookup).OrderByDescending(x => x.Ancestors().Count());
+	public List<IElement> EachNode(string cssLookup)
+	{
+		// sort by youngest child and traverse backwards up the tree
+		var nodes = this.Document.QuerySelectorAll(cssLookup).OrderByDescending(x => x.Ancestors().Count());
 
-        return [.. nodes];
-    }
+		return [.. nodes];
+	}
 
-    public static List<IElement> EachChildNode(IElement node, string cssLookup)
+	public static List<IElement> EachChildNode(IElement node, string cssLookup)
     {
         // sort by youngest child and traverse backwards up the tree
         var nodes = node.QuerySelectorAll(cssLookup).OrderByDescending(x => x.Ancestors().Count());

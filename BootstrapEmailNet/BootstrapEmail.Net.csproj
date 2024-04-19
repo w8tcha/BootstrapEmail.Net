@@ -235,21 +235,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Content Include="bin\Release\net7.0\libsass64.dll">
-			<Pack>true</Pack>
-			<PackagePath>lib\net7.0</PackagePath>
+		<Content Include="BootstrapEmail.Net.targets" PackagePath="build/BootstrapEmail.Net.targets" />
+		<Content Include="dart-sass.win-x64/**/*.*" Pack="true" PackagePath="lib/net8.0/dart-sass.win-x64">
+			<PackageCopyToOutput>true</PackageCopyToOutput>
 		</Content>
-		<Content Include="bin\Release\net8.0\libsass64.dll">
-			<Pack>true</Pack>
-			<PackagePath>lib\net8.0</PackagePath>
-		</Content>
-	</ItemGroup>
+   </ItemGroup>		
 
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="1.1.2" />
+    <PackageReference Include="Citizen17.DartSass" Version="2.3.0" />
+    <PackageReference Include="DartSass.Native.win-x64" Version="1.74.1" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.60" />
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
-    <PackageReference Include="libsassnetstandard" Version="3.3.8" />
     <PackageReference Include="PreMailer.Net" Version="2.5.0" />
     <PackageReference Include="SonarAnalyzer.CSharp" Version="9.23.2.88755">
       <PrivateAssets>all</PrivateAssets>

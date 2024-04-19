@@ -1,13 +1,12 @@
 ﻿using System.Reflection;
 
+using Citizen17.DartSass;
+
 namespace BootstrapEmail.Net;
 
 using System.IO;
 
 using global::BootstrapEmail.Net.Converters;
-
-using LibSass.Compiler;
-using LibSass.Compiler.Options;
 
 using PreMailer.Net;
 
@@ -41,12 +40,6 @@ public class Compiler
     public PreMailer PreMailer { get; set; }
 
     /// <summary>
-    /// Gets or sets the sass compiler.
-    /// </summary>
-    /// <value>The sass compiler.</value>
-    public SassCompiler SassCompiler { get; set; }
-
-    /// <summary>
     /// Gets or sets the input HTML.
     /// </summary>
     /// <value>The input HTML.</value>
@@ -78,8 +71,6 @@ public class Compiler
 		var html = this.AddLayout(this.InputHtml);
 
 	    html = EnsureDoctype.Replace(html);
-
-		this.SassCompiler = new SassCompiler(new SassOptions { IncludePaths = this.Config.SassLoadPaths() });
 
 	    this.PreMailer = new PreMailer(html);
 
@@ -187,14 +178,19 @@ public class Compiler
     /// </summary>
     public void InlineCss()
     {
-        var cssString = SassCache.Compile(Constants.SassTypes.SassEmail, this.Config, style: SassOutputStyle.Expanded);
+        var cssString = SassCache.Compile(Constants.SassTypes.SassEmail, this.Config, style: StyleType.Expanded);
 
         var result = this.PreMailer.MoveCssInline(css: cssString + GetExistingInlineCss());
 
         // Log Warnings
+        if (!this.Config.SassLogEnabled())
+        {
+	        return;
+        }
+
         foreach (var warning in result.Warnings)
         {
-            Console.WriteLine(warning);
+	        Console.WriteLine(warning);
         }
     }
 

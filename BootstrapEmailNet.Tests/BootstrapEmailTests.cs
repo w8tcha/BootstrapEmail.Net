@@ -42,9 +42,7 @@ public class BootstrapEmailTests
     [Fact]
     public void TestStringInput()
     {
-        var config = new ConfigStore();
-
-        var html = new BootstrapEmail(config).Compile(
+        var html = new BootstrapEmail().Compile(
             """<a href="#" class="btn btn-primary">A button</a><a href="#" class="btn btn-secondary">B button</a>""",
             string.Empty,
             InputType.String);
@@ -62,6 +60,7 @@ public class BootstrapEmailTests
                                 		
                                 		<style type="text/css">
                                       body,table,td{font-family:Helvetica,Arial,sans-serif !important}.ExternalClass{width:100%}.ExternalClass,.ExternalClass p,.ExternalClass span,.ExternalClass font,.ExternalClass td,.ExternalClass div{line-height:150%}a{text-decoration:none}*{color:inherit}a[x-apple-data-detectors],u+#body a,#MessageViewBody a{color:inherit;text-decoration:none;font-size:inherit;font-family:inherit;font-weight:inherit;line-height:inherit}img{-ms-interpolation-mode:bicubic}table:not([class^=s-]){font-family:Helvetica,Arial,sans-serif;mso-table-lspace:0pt;mso-table-rspace:0pt;border-spacing:0px;border-collapse:collapse}table:not([class^=s-]) td{border-spacing:0px;border-collapse:collapse}@media screen and (max-width: 600px){*[class*=s-lg-]>tbody>tr>td{font-size:0 !important;line-height:0 !important;height:0 !important}}
+                                
                                     
                                 		</style>
                                 	</head>

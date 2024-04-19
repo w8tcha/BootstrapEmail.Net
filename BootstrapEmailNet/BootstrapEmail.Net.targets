@@ -1,0 +1,9 @@
+﻿<Project>
+
+  <ItemGroup>
+    <Files Include="$(MSBuildThisFileDirectory)/../lib/net8.0/dart-sass.win-x64/**/*.*" />
+  </ItemGroup>
+  <Target Name="CopyFiles" AfterTargets="Build">
+    <Copy SourceFiles="@(Files)" DestinationFolder="$(TargetDir)/dart-sass.win-x64/%(RecursiveDir)" />
+  </Target>
+</Project>

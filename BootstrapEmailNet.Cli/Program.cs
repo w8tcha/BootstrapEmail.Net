@@ -116,6 +116,8 @@ public static class Program
             config = JsonSerializer.Deserialize<ConfigStore>(jsonString)!;
         }
 
+        //config.sass_log_enabled = true;
+
         var bsEmail = new BootstrapEmail(config);
 
         if (!string.IsNullOrEmpty(input))
@@ -129,7 +131,7 @@ public static class Program
                 case InputType.File:
                     var filePath = Path.GetFullPath(input, Directory.GetCurrentDirectory());
 
-                    bsEmail.Compile(filePath,  output, InputType.File);
+                    bsEmail.Compile(filePath, output, InputType.File);
 
                     break;
                 default:

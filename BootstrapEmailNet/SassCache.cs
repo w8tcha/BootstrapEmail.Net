@@ -1,9 +1,11 @@
-﻿namespace BootstrapEmail.Net;
+﻿using System.Text;
 
+using Citizen17.DartSass;
+
+namespace BootstrapEmail.Net;
+
+using System;
 using System.Security.Cryptography;
-
-using LibSass.Compiler;
-using LibSass.Compiler.Options;
 
 /// <summary>
 /// Class SassCache.
@@ -14,7 +16,7 @@ public class SassCache
 
     private readonly Config config;
 
-    private readonly SassOutputStyle style;
+    private readonly StyleType style;
 
     private readonly string sassConfig;
 
@@ -29,7 +31,7 @@ public class SassCache
     /// <param name="config">The configuration.</param>
     /// <param name="style">The style.</param>
     /// <returns>System.String.</returns>
-    public static string Compile(string type, Config config, SassOutputStyle style = SassOutputStyle.Compressed)
+    public static string Compile(string type, Config config, StyleType style = StyleType.Compressed)
     {
         return new SassCache(type, config, style).Compile();
     }
@@ -40,7 +42,7 @@ public class SassCache
     /// <param name="type">The type.</param>
     /// <param name="config">The configuration.</param>
     /// <param name="style">The style.</param>
-    public SassCache(string type, Config config, SassOutputStyle style)
+    public SassCache(string type, Config config, StyleType style)
     {
         this.type = type;
         this.config = config;
@@ -48,12 +50,12 @@ public class SassCache
         this.sassConfig = this.LoadSassConfig();
         this.checksum = this.ChecksumFiles();
         this.cacheDir = config.SassCacheLocation();
-    }
+	}
 
-    /// <summary>
-    /// Compile
-    /// </summary>
-    /// <returns>System.String.</returns>
+	/// <summary>
+	/// Compile
+	/// </summary>
+	/// <returns>System.String.</returns>
     public string Compile()
     {
         var cachePath = Path.Combine(this.cacheDir,  this.checksum, $"{this.type}.css");
@@ -122,17 +124,24 @@ public class SassCache
     /// <returns>System.String.</returns>
     private string CompileAndCacheScss(string cachePath)
     {
-        var css = new SassCompiler(new SassOptions { OutputStyle = this.style, Data = this.sassConfig }).Compile()
-            .Output;
+	    var result = new DartSassCompiler().CompileCodeAsync(this.sassConfig,
+		    new SassCompileOptions { StyleType = this.style, StopOnError = true }).Result;
 
-        File.WriteAllText(cachePath, css);
+        File.WriteAllText(cachePath, result.Code);
 
-        if (this.config.SassLogEnabled())
+        if (!this.config.SassLogEnabled())
         {
-            Console.WriteLine($"New css file cached for {this.type}");
+	        return result.Code;
         }
 
-        return css;
+        Console.WriteLine($"New css file cached for {this.type}");
+
+        foreach (var message in result.Warnings)
+        {
+	        Console.WriteLine(message.Message);
+        }
+
+        return result.Code;
     }
 
     /// <summary>
@@ -142,7 +151,7 @@ public class SassCache
     /// <returns>System.String.</returns>
     private static string GetChecksum(string input)
     {
-        var hashBytes = SHA1.HashData(System.Text.Encoding.UTF8.GetBytes(input));
+        var hashBytes = SHA1.HashData(Encoding.UTF8.GetBytes(input));
         return BitConverter.ToString(hashBytes).Replace("-", string.Empty).ToLower();
     }
 }
