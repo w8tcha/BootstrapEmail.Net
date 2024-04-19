@@ -242,7 +242,7 @@ public class Compiler
 
 	    foreach (var s in assembly.GetManifestResourceNames())
 	    {
-		    var fileName = s.Replace("BootstrapEmail.Net.", "").Replace(".", "\\");
+		    var fileName = s.Replace("BootstrapEmail.Net.", "").Replace(".", Path.DirectorySeparatorChar.ToString());
 
 		    var lastIndex = fileName.LastIndexOf(Path.DirectorySeparatorChar);
 
