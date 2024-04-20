@@ -8,7 +8,7 @@
   </PropertyGroup>
 
 	<PropertyGroup>
-		<Version>1.4.5</Version>
+		<Version>1.5.0</Version>
 		<Title>Bootstrap Email</Title>
 		<PackageIcon>bootstrap-email.png</PackageIcon>
 		<Description>Bootstrap stylesheet, compiler, and inliner for responsive and consistent emails with the Bootstrap syntax you know and love.</Description>
