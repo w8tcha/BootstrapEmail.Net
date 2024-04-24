@@ -65,4 +65,10 @@ public class ConfigStore
     /// </summary>
     /// <value><c>true</c> if [compile only body]; otherwise, <c>false</c>.</value>
     public bool CompileOnlyBody { get; set; }
+
+    /// <summary>
+    /// Gets or sets the type of the dart sass native.
+    /// </summary>
+    /// <value>The type of the dart sass native.</value>
+    public DartSassNativeType? DartSassNativeType { get; set; } = null;
 }

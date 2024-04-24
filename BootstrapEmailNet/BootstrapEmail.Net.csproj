@@ -19,6 +19,8 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Copyright>Copyright (c) .NET Version Ingo Herbote</Copyright>
 		<PackageLicenseFile>LICENSE.MD</PackageLicenseFile>
+		<PackageReleaseNotes>* Switched form libsass to dartsass as SASS compiler
+* Fixed Path issue under Linux</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -247,7 +249,7 @@
     <PackageReference Include="DartSass.Native.win-x64" Version="1.75.0" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.60" />
     <PackageReference Include="PreMailer.Net" Version="2.5.0" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.23.2.88755">
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.24.0.89429">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

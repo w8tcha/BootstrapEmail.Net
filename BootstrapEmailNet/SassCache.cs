@@ -1,7 +1,5 @@
 ﻿using System.Text;
 
-using Citizen17.DartSass;
-
 namespace BootstrapEmail.Net;
 
 using System;
@@ -124,7 +122,11 @@ public class SassCache
     /// <returns>System.String.</returns>
     private string CompileAndCacheScss(string cachePath)
     {
-	    var result = new DartSassCompiler().CompileCodeAsync(this.sassConfig,
+	    var compiler = this.config.ConfigStore.DartSassNativeType.HasValue
+		    ? new DartSassCompiler(this.config.ConfigStore.DartSassNativeType.Value)
+		    : new DartSassCompiler();
+
+		var result = compiler.CompileCodeAsync(this.sassConfig,
 		    new SassCompileOptions { StyleType = this.style, StopOnError = true }).Result;
 
         File.WriteAllText(cachePath, result.Code);
