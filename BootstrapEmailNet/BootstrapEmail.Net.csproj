@@ -8,7 +8,7 @@
   </PropertyGroup>
 
 	<PropertyGroup>
-		<Version>1.5.0</Version>
+		<Version>1.5.1</Version>
 		<Title>Bootstrap Email</Title>
 		<PackageIcon>bootstrap-email.png</PackageIcon>
 		<Description>Bootstrap stylesheet, compiler, and inliner for responsive and consistent emails with the Bootstrap syntax you know and love.</Description>
@@ -19,8 +19,7 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Copyright>Copyright (c) .NET Version Ingo Herbote</Copyright>
 		<PackageLicenseFile>LICENSE.MD</PackageLicenseFile>
-		<PackageReleaseNotes>* Switched form libsass to dartsass as SASS compiler
-* Fixed Path issue under Linux</PackageReleaseNotes>
+		<PackageReleaseNotes>* Set DartSassNativeType via Config</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
