@@ -61,7 +61,7 @@ public class SassCache
 
         Directory.CreateDirectory(Path.Combine(this.cacheDir, this.checksum));
 
-        using var lockFile = File.Open(lockPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
+        using var lockFile = File.Open(lockPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
 
         return Cached(cachePath) ? File.ReadAllText(cachePath) : this.CompileAndCacheScss(cachePath);
     }
@@ -115,12 +115,17 @@ public class SassCache
         return File.Exists(cachePath);
     }
 
-    /// <summary>
-    /// Compiles and cache SCSS.
-    /// </summary>
-    /// <param name="cachePath">The cache path.</param>
-    /// <returns>System.String.</returns>
-    private string CompileAndCacheScss(string cachePath)
+	/// <summary>
+	/// The lock
+	/// </summary>
+	private static readonly ReaderWriterLockSlim Lock = new();
+
+	/// <summary>
+	/// Compiles and cache SCSS.
+	/// </summary>
+	/// <param name="cachePath">The cache path.</param>
+	/// <returns>System.String.</returns>
+	private string CompileAndCacheScss(string cachePath)
     {
 	    var compiler = this.config.ConfigStore.DartSassNativeType.HasValue
 		    ? new DartSassCompiler(this.config.ConfigStore.DartSassNativeType.Value)
@@ -129,9 +134,20 @@ public class SassCache
 		var result = compiler.CompileCodeAsync(this.sassConfig,
 		    new SassCompileOptions { StyleType = this.style, StopOnError = true }).Result;
 
-        File.WriteAllText(cachePath, result.Code);
+		Lock.EnterWriteLock();
 
-        if (!this.config.SassLogEnabled())
+		try
+		{
+			using var fs = new FileStream(cachePath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+			var dataAsByteArray = new UTF8Encoding(true).GetBytes(result.Code);
+			fs.Write(dataAsByteArray, 0, result.Code.Length);
+		}
+		finally
+		{
+			Lock.ExitWriteLock();
+		}
+
+		if (!this.config.SassLogEnabled())
         {
 	        return result.Code;
         }
