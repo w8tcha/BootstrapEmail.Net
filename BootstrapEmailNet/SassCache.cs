@@ -10,7 +10,7 @@ using System.Security.Cryptography;
 /// </summary>
 public class SassCache
 {
-    private readonly string type;
+    private readonly SassTypes type;
 
     private readonly Config config;
 
@@ -22,14 +22,14 @@ public class SassCache
 
     private readonly string cacheDir;
 
-    /// <summary>
-    /// Compiles the specified type.
-    /// </summary>
-    /// <param name="type">The type.</param>
-    /// <param name="config">The configuration.</param>
-    /// <param name="style">The style.</param>
-    /// <returns>System.String.</returns>
-    public static string Compile(string type, Config config, StyleType style = StyleType.Compressed)
+	/// <summary>
+	/// Compiles the specified type.
+	/// </summary>
+	/// <param name="type">The sass type.</param>
+	/// <param name="config">The configuration.</param>
+	/// <param name="style">The style.</param>
+	/// <returns>System.String.</returns>
+	public static string Compile(SassTypes type, Config config, StyleType style = StyleType.Compressed)
     {
         return new SassCache(type, config, style).Compile();
     }
@@ -37,10 +37,10 @@ public class SassCache
     /// <summary>
     /// Initializes a new instance of the <see cref="SassCache"/> class.
     /// </summary>
-    /// <param name="type">The type.</param>
+    /// <param name="type">The sass type.</param>
     /// <param name="config">The configuration.</param>
     /// <param name="style">The style.</param>
-    public SassCache(string type, Config config, StyleType style)
+    public SassCache(SassTypes type, Config config, StyleType style)
     {
         this.type = type;
         this.config = config;
@@ -56,15 +56,46 @@ public class SassCache
 	/// <returns>System.String.</returns>
     public string Compile()
     {
+        // Load Css File and skip Sass Parsing?!
+        switch (this.type)
+        {
+	        case SassTypes.SassEmail when !string.IsNullOrEmpty(this.config.ConfigStore.CssEmailPath):
+	        {
+		        var filePath = Path.Combine(AppContext.BaseDirectory, this.config.ConfigStore.CssEmailPath);
+
+		        if (File.Exists(filePath))
+		        {
+			        return ReadFile(filePath);
+		        }
+
+		        break;
+	        }
+	        case SassTypes.Head when !string.IsNullOrEmpty(this.config.ConfigStore.CssHeadPath):
+	        {
+		        var filePath = Path.Combine(AppContext.BaseDirectory, this.config.ConfigStore.CssHeadPath);
+
+		        if (File.Exists(filePath))
+		        {
+			        return ReadFile(filePath);
+		        }
+
+		        break;
+	        }
+        }
+
         var cachePath = Path.Combine(this.cacheDir,  this.checksum, $"{this.type}.css");
-        var lockPath = Path.Combine(this.cacheDir, this.checksum, $"{this.type}css.lock");
 
         Directory.CreateDirectory(Path.Combine(this.cacheDir, this.checksum));
 
-        using var lockFile = File.Open(lockPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
-
-        return Cached(cachePath) ? File.ReadAllText(cachePath) : this.CompileAndCacheScss(cachePath);
+		return Cached(cachePath) ? ReadFile(cachePath) : this.CompileAndCacheScss(cachePath);
     }
+
+	private static string ReadFile(string filePath)
+	{
+		using var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+		using var textReader = new StreamReader(fileStream);
+		return textReader.ReadToEnd();
+	}
 
     /// <summary>
     /// Loads the sass configuration.
@@ -72,7 +103,7 @@ public class SassCache
     /// <returns>System.String.</returns>
     private string LoadSassConfig()
     {
-        var sassString = this.config.SassStringFor(type: this.type);
+        var sassString = this.config.SassStringFor(this.type);
         return this.ReplaceConfig(sassString);
     }
 
@@ -147,7 +178,7 @@ public class SassCache
 			Lock.ExitWriteLock();
 		}
 
-		if (!this.config.SassLogEnabled())
+		if (!this.config.ConfigStore.sass_log_enabled)
         {
 	        return result.Code;
         }

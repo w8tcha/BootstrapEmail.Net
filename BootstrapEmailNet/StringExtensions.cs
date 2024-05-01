@@ -58,7 +58,7 @@ public static class StringExtensions
             }
         }
 
-        // Finally, add the the cut off string...
+        // Finally, add the cutoff string...
         output += cutOfString;
 
         return output;

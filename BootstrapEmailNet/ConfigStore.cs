@@ -71,4 +71,16 @@ public class ConfigStore
     /// </summary>
     /// <value>The type of the dart sass native.</value>
     public DartSassNativeType? DartSassNativeType { get; set; } = null;
+
+	/// <summary>
+	/// Gets or sets the CSS email path. If set it skips the sass parsing.
+	/// </summary>
+	/// <value>The CSS email path.</value>
+	public string CssEmailPath { get; set; } = string.Empty;
+
+	/// <summary>
+	/// Gets or sets the CSS head path. If set it skips the sass parsing.
+	/// </summary>
+	/// <value>The CSS head path.</value>
+	public string CssHeadPath { get; set; } = string.Empty;
 }

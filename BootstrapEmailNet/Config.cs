@@ -22,14 +22,14 @@ public class Config
     /// <summary>
     /// Loads the sass file
     /// </summary>
-    /// <param name="type">The type.</param>
+    /// <param name="sassType">The sass type.</param>
     /// <returns>System.String.</returns>
-    public string SassStringFor(string type)
+    public string SassStringFor(SassTypes sassType)
     {
-		var subType = type.Replace("bootstrap-", string.Empty);
-        var fileName = this.ConfigForOption($"sass_{subType}_string");
-
-        var location = this.ConfigForOption($"sass_{subType}_location");
+	    var fileName = sassType is SassTypes.Head ? this.ConfigStore.sass_head_string : this.ConfigStore.sass_email_string;
+	    var location = sassType is SassTypes.Head
+		    ? this.ConfigStore.sass_head_location
+		    : this.ConfigStore.sass_email_location;
 
         if (!string.IsNullOrEmpty(fileName))
         {
@@ -43,7 +43,11 @@ public class Config
             }
         }
 
-        string[] lookupLocations = [$"{type}.scss", $"core/{type}.scss"];
+        var type = sassType is SassTypes.Head
+	        ? Constants.SassTypes.Head
+	        : Constants.SassTypes.SassEmail;
+
+		string[] lookupLocations = [$"{type}.scss", $"core/{type}.scss"];
 
         var locations = Array.FindAll(
             lookupLocations,
@@ -88,32 +92,8 @@ public class Config
         }
 
         return Path.Combine(
-            Directory.Exists(AppContext.BaseDirectory) ? Directory.GetCurrentDirectory() : Path.GetTempPath(),
-            Constants.SassCache,
-            Constants.SassTypes.SassEmail);
-    }
-
-    public bool SassLogEnabled()
-    {
-        return this.ConfigStore.sass_log_enabled;
-    }
-
-    /// <summary>
-    /// Gets the config setting by string
-    /// </summary>
-    /// <param name="option">The option.</param>
-    /// <returns>System.Nullable&lt;System.String&gt;.</returns>
-    private string? ConfigForOption(string option)
-    {
-        var property = this.ConfigStore.GetType().GetProperty(option);
-
-        if (property == null)
-        {
-            return string.Empty;
-        }
-
-        var value = property.GetValue(this.ConfigStore);
-
-        return value != null ? value.ToString() : string.Empty;
+	        Directory.Exists(AppContext.BaseDirectory) ? Directory.GetCurrentDirectory() : Path.GetTempPath(),
+	        Constants.SassCache,
+	        this.ConfigStore.sass_email_string.Replace(".scss", string.Empty));
     }
 }

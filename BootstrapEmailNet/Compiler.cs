@@ -176,12 +176,12 @@ public class Compiler
     /// </summary>
     public void InlineCss()
     {
-        var cssString = SassCache.Compile(Constants.SassTypes.SassEmail, this.Config, style: StyleType.Expanded);
+        var cssString = SassCache.Compile(SassTypes.SassEmail, this.Config, style: StyleType.Expanded);
 
         var result = this.PreMailer.MoveCssInline(css: $"{cssString}{GetExistingInlineCss()}");
 
         // Log Warnings
-        if (!this.Config.SassLogEnabled())
+        if (!this.Config.ConfigStore.sass_log_enabled)
         {
 	        return;
         }

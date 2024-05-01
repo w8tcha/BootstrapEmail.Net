@@ -116,8 +116,6 @@ public static class Program
             config = JsonSerializer.Deserialize<ConfigStore>(jsonString)!;
         }
 
-        //config.sass_log_enabled = true;
-
         var bsEmail = new BootstrapEmail(config);
 
         if (!string.IsNullOrEmpty(input))

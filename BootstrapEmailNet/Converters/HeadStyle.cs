@@ -45,7 +45,7 @@ public static partial class HeadStyle
 
     private static string PurgedCssFromHead(IParentNode doc, Config config)
     {
-        var css = SassCache.Compile(Constants.SassTypes.Head, config);
+        var css = SassCache.Compile(SassTypes.Head, config);
 
         var cssParts = css.Split("/*! allow_purge_after */");
         var defaultCss = cssParts[0];
