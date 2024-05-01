@@ -23,4 +23,4 @@ jobs:
       - name: Build
         run: dotnet build BootstrapEmail.Net.sln
       - name: Test
-        run: dotnet build BootstrapEmail.Net.sln
+        run: dotnet test BootstrapEmail.Net.sln
