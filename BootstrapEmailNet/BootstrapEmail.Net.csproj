@@ -244,7 +244,7 @@
 
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="1.1.2" />
-    <PackageReference Include="Citizen17.DartSass" Version="2.3.0" />
+    <PackageReference Include="Citizen17.DartSass" Version="2.4.0" />
     <PackageReference Include="DartSass.Native.win-x64" Version="1.76.0" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.61" />
     <PackageReference Include="PreMailer.Net" Version="2.5.0" />
