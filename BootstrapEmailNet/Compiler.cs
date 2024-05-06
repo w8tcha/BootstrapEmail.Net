@@ -44,12 +44,17 @@ public class Compiler
     public string InputHtml { get; set; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Compiler"/> class.
+    /// The lock
     /// </summary>
-    /// <param name="input">The input.</param>
-    /// <param name="config">The configuration.</param>
-    /// <param name="type">The type.</param>
-    public Compiler(string input, ConfigStore config, InputType type = InputType.String)
+    private static readonly ReaderWriterLockSlim Lock = new();
+
+	/// <summary>
+	/// Initializes a new instance of the <see cref="Compiler"/> class.
+	/// </summary>
+	/// <param name="input">The input.</param>
+	/// <param name="config">The configuration.</param>
+	/// <param name="type">The type.</param>
+	public Compiler(string input, ConfigStore config, InputType type = InputType.String)
     {
 	    this.Config = new Config(config);
 	    this.Type = type;
@@ -266,8 +271,16 @@ public class Compiler
 	        Directory.CreateDirectory(dirName);
 		}
 
-	    using var file = new FileStream(fileName, FileMode.Create, FileAccess.Write);
+	    Lock.EnterWriteLock();
 
-	    resource?.CopyTo(file);
+	    try
+	    {
+		    using var fs = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+			resource?.CopyTo(fs);
+		}
+	    finally
+	    {
+		    Lock.ExitWriteLock();
+	    }
     }
 }

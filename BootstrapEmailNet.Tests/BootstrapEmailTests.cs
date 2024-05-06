@@ -24,12 +24,12 @@ public class BootstrapEmailTests
     [Fact]
     public void ParallelTests()
     {
-	    var compiler = new BootstrapEmail();
+		var compiler = new BootstrapEmail();
 
-	    var tasks = Enumerable.Range(0, 50)
-		    .Select(_ => (Action)(() =>
+		var tasks = Enumerable.Range(0, 50)
+			.Select(_ => (Action)(() =>
 			{
-				var html =  compiler.Compile(
+				var html = compiler.Compile(
 					"""<a href="#" class="btn btn-primary">A button</a> <a href="#" class="btn btn-secondary">B button</a>""",
 					string.Empty,
 					InputType.String);
@@ -84,8 +84,8 @@ public class BootstrapEmailTests
 
 				Assert.Equal(expected, html, ignoreLineEndingDifferences: true, ignoreAllWhiteSpace: true);
 			}))
-		    .ToArray();
-	    Parallel.Invoke(tasks);
+			.ToArray();
+		Parallel.Invoke(tasks);
 	}
 
 	/// <summary>

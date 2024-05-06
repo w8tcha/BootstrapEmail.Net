@@ -3,6 +3,7 @@
 namespace BootstrapEmail.Net;
 
 using System;
+using System.IO;
 using System.Security.Cryptography;
 
 /// <summary>
@@ -68,7 +69,9 @@ public class SassCache
 			        return ReadFile(filePath);
 		        }
 
-		        break;
+		        throw new FileNotFoundException(
+			        $"The Email Path does not exist: {this.config.ConfigStore.CssEmailPath}",
+			        this.config.ConfigStore.CssEmailPath);
 	        }
 	        case SassTypes.Head when !string.IsNullOrEmpty(this.config.ConfigStore.CssHeadPath):
 	        {
@@ -79,7 +82,9 @@ public class SassCache
 			        return ReadFile(filePath);
 		        }
 
-		        break;
+		        throw new FileNotFoundException(
+			        $"The Email Path does not exist: {this.config.ConfigStore.CssHeadPath}",
+			        this.config.ConfigStore.CssEmailPath);
 	        }
         }
 
