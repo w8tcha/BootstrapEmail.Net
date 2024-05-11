@@ -134,17 +134,19 @@ public class LibraryComparisonBenchmarks
 
     private static readonly BootstrapEmail BsEmail = new();
 
-    [Benchmark(Baseline = true, Description = "BootstrapEmail.Net")]
-    //[BenchmarkCategory("Basic")]
+	/// <summary>
+	/// Run Benchmark with BootstrapEmail.Net
+	/// </summary>
+	[Benchmark(Baseline = true, Description = "BootstrapEmail.Net")]
     public string BootstrapEmailNet()
     {
-        //var bsEmail = new BootstrapEmail(new ConfigStore());
-
         return BsEmail.Compile(this.Data.Html, string.Empty, InputType.String);
     }
 
-    [Benchmark(Description = "UnDotNet.BootstrapEmail")]
-    //[BenchmarkCategory("Basic")]
+	/// <summary>
+	/// Run Benchmark with UnDotNet BootstrapEmail
+	/// </summary>
+	[Benchmark(Description = "UnDotNet.BootstrapEmail")]
     public string UnDotNetBootstrapEmail()
     {
         var compiler = new UnDotNet.BootstrapEmail.BootstrapCompiler(this.Data.Html);
