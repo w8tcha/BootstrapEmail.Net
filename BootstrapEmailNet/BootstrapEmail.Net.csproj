@@ -8,6 +8,10 @@
   </PropertyGroup>
 
 	<PropertyGroup>
+		<EnablePackageValidation>true</EnablePackageValidation>
+	</PropertyGroup>
+
+	<PropertyGroup>
 		<Version>1.5.3</Version>
 		<Title>Bootstrap Email</Title>
 		<PackageIcon>bootstrap-email.png</PackageIcon>
