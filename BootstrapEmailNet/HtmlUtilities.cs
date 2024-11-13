@@ -65,10 +65,8 @@ public static class HtmlUtilities
                 switch (node.Name)
                 {
                     case "p":
-                        // treat paragraphs as crlf
-                        outText.Write("\r\n");
-                        break;
                     case "br":
+                        // treat paragraphs as crlf
                         outText.Write("\r\n");
                         break;
                 }
