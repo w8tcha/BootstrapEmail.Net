@@ -2,6 +2,9 @@
 
 namespace BootstrapEmail.Net;
 
+/// <summary>
+/// Class HtmlUtilities.
+/// </summary>
 public static class HtmlUtilities
 {
     /// <summary>

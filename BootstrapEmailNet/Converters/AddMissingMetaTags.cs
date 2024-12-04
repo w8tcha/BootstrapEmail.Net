@@ -6,23 +6,23 @@ public class AddMissingMetaTags : Base
 
     private static readonly List<Tag> MetaTags =
     [
-        new Tag(
+        new(
             "meta[http-equiv=\"Content-Type\"]",
             "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">"),
 
-        new Tag(
+        new(
             "meta[http-equiv=\"x-ua-compatible\"]",
             "<meta http-equiv=\"x-ua-compatible\" content=\"ie=edge\">"),
 
-        new Tag(
+        new(
             "meta[name=\"x-apple-disable-message-reformatting\"]",
             "<meta name=\"x-apple-disable-message-reformatting\">"),
 
-        new Tag(
+        new(
             "meta[name=\"viewport\"]",
             "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"),
 
-        new Tag(
+        new(
             "meta[name=\"format-detection\"]",
             "<meta name=\"format-detection\" content=\"telephone=no, date=no, address=no, email=no\">")
     ];

@@ -276,7 +276,8 @@ public class Compiler
 	    try
 	    {
 		    using var fs = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-			resource?.CopyTo(fs);
+
+            resource?.CopyTo(fs);
 		}
 	    finally
 	    {
