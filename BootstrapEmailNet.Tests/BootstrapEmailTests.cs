@@ -1,6 +1,6 @@
-﻿namespace BootstrapEmail.Net.Tests;
+﻿
 
-using Xunit.Abstractions;
+namespace BootstrapEmail.Net.Tests;
 
 /// <summary>
 /// Class BootstrapEmailTests.
@@ -82,8 +82,8 @@ public class BootstrapEmailTests
                         </html>
                         """;
 
-				Assert.Equal(expected, html, ignoreLineEndingDifferences: true, ignoreAllWhiteSpace: true);
-			}))
+                html.Should().BeEquivalentTo(expected, o => o.IgnoringNewlineStyle());
+            }))
 			.ToArray();
 		Parallel.Invoke(tasks);
 	}
@@ -103,7 +103,7 @@ public class BootstrapEmailTests
 
         const string expected = "A buttonB button";
 
-        Assert.Equal(expected, html);
+        html.Should().Be(expected);
 	}
 
 	/// <summary>
@@ -165,7 +165,7 @@ public class BootstrapEmailTests
                                 </html>
                                 """;
 
-		Assert.Equal(expected, html, ignoreLineEndingDifferences: true, ignoreAllWhiteSpace: true);
+        html.Should().BeEquivalentTo(expected, o => o.IgnoringNewlineStyle());
 	}
 
 	/// <summary>
@@ -227,7 +227,7 @@ public class BootstrapEmailTests
                                 </html>
                                 """;
 
-        Assert.Equal(expected, html, ignoreLineEndingDifferences: true, ignoreAllWhiteSpace: true);
+        html.Should().BeEquivalentTo(expected, o => o.IgnoringNewlineStyle());
     }
 
     /// <summary>
@@ -262,7 +262,7 @@ public class BootstrapEmailTests
 
             //File.WriteAllText(destination, convertedHtml);
 
-            Assert.Equal(expectedHtml, convertedHtml, ignoreLineEndingDifferences: true, ignoreAllWhiteSpace: true);
+            convertedHtml.Should().BeEquivalentTo(expectedHtml, o => o.IgnoringNewlineStyle());
         }
 
         this.testOutputHelper.WriteLine($"Finished compiling tests in {(DateTime.Now - startTime).TotalSeconds:0.00}s 🎉");
