@@ -252,7 +252,7 @@
     <PackageReference Include="DartSass.Native.win-x64" Version="1.85.1" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.74" />
     <PackageReference Include="PreMailer.Net" Version="2.6.0" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.6.0.109712">
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.7.0.110445">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
