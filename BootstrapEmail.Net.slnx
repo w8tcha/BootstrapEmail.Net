@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/Benchmarks/">
+    <Project Path="BootstrapEmail.Net.Benchmarks/BootstrapEmail.Net.Benchmarks.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
+  <Folder Name="/Source/">
+    <Project Path="BootstrapEmailNet.Cli/BootstrapEmail.Net.Cli.csproj" />
+    <Project Path="BootstrapEmailNet/BootstrapEmail.Net.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="BootstrapEmailNet.Tests/BootstrapEmail.Net.Tests.csproj" />
+  </Folder>
+</Solution>

@@ -19,6 +19,6 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
       - name: Install dependencies
-        run: dotnet restore BootstrapEmail.Net.sln
+        run: dotnet restore BootstrapEmail.Net.slnx
       - name: Build
-        run: dotnet build BootstrapEmail.Net.sln
+        run: dotnet build BootstrapEmail.Net.slnx

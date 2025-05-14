@@ -41,5 +41,5 @@ jobs:
         shell: powershell
         run: |
           dotnet sonarscanner begin /k:"w8tcha_BootstrapEmail.Net" /o:"w8tcha" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build .\BootstrapEmail.Net.sln
+          dotnet build .\BootstrapEmail.Net.slnx
           dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
