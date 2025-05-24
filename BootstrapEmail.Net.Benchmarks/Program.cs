@@ -1,7 +1,7 @@
-using System.Reflection;
-
 using BenchmarkDotNet.Running;
 
-BenchmarkSwitcher.FromAssembly(Assembly.GetExecutingAssembly()).Run(args);
+using BootstrapEmail.Net.Benchmarks;
 
-// Run dotnet run -c Release -- --job short --filter *LibraryComparisonBenchmarks*
+BenchmarkRunner.Run<LibraryComparisonBenchmarks>();
+
+// Run dotnet run -c Release

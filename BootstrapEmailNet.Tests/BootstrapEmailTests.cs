@@ -38,7 +38,7 @@ public class BootstrapEmailTests
                         <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
                         <html>
                         	<head>
-                        		<!-- Compiled with Bootstrap Email version: 1.5.4 -->
+                        		<!-- Compiled with Bootstrap Email version: 1.5.5 -->
                         		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
                         		<meta http-equiv="x-ua-compatible" content="ie=edge">
                         		<meta name="x-apple-disable-message-reformatting">
@@ -121,7 +121,7 @@ public class BootstrapEmailTests
                                 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
                                 <html>
                                 	<head>
-                                		<!-- Compiled with Bootstrap Email version: 1.5.4 -->
+                                		<!-- Compiled with Bootstrap Email version: 1.5.5 -->
                                 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
                                 		<meta http-equiv="x-ua-compatible" content="ie=edge">
                                 		<meta name="x-apple-disable-message-reformatting">
@@ -183,7 +183,7 @@ public class BootstrapEmailTests
                                 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
                                 <html>
                                 	<head>
-                                		<!-- Compiled with Bootstrap Email version: 1.5.4 -->
+                                		<!-- Compiled with Bootstrap Email version: 1.5.5 -->
                                 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
                                 		<meta http-equiv="x-ua-compatible" content="ie=edge">
                                 		<meta name="x-apple-disable-message-reformatting">

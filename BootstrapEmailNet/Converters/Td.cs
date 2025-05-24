@@ -1,5 +1,10 @@
 ﻿namespace BootstrapEmail.Net.Converters;
 
+/// <summary>
+/// Class Td.
+/// Implements the <see cref="BootstrapEmail.Net.Converters.Base" />
+/// </summary>
+/// <seealso cref="BootstrapEmail.Net.Converters.Base" />
 public class Td : Base
 {
     /// <summary>
@@ -12,6 +17,9 @@ public class Td : Base
     {
     }
 
+    /// <summary>
+    /// Builds this instance.
+    /// </summary>
     public virtual void Build()
     {
         var regexTextAlign = new Regex("text-align:(.*?);", RegexOptions.None, TimeSpan.FromMilliseconds(100));
@@ -46,16 +54,18 @@ public class Td : Base
 
             var matchBackgroundColor = regexBackgroundColor.Match(style);
 
-            if (matchBackgroundColor.Success)
+            if (!matchBackgroundColor.Success)
             {
-                var replace = matchBackgroundColor.Groups[0].Value;
-                var color = !string.IsNullOrEmpty(matchBackgroundColor.Groups[1].Value)
-                                ? matchBackgroundColor.Groups[1].Value
-                                : matchBackgroundColor.Groups[2].Value;
-
-                node.SetAttribute("bgcolor", color.Trim());
-                node.SetAttribute("style", style.Replace(replace, string.Empty));
+                continue;
             }
+
+            var replaceValue = matchBackgroundColor.Groups[0].Value;
+            var color = !string.IsNullOrEmpty(matchBackgroundColor.Groups[1].Value)
+                ? matchBackgroundColor.Groups[1].Value
+                : matchBackgroundColor.Groups[2].Value;
+
+            node.SetAttribute("bgcolor", color.Trim());
+            node.SetAttribute("style", style.Replace(replaceValue, string.Empty));
         }
     }
 }
