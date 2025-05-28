@@ -24,7 +24,6 @@
 		<PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../CHANGELOG.md"))</PackageReleaseNotes>
 		<Copyright>Copyright (c) .NET Version Ingo Herbote</Copyright>
 		<PackageLicenseFile>LICENSE.MD</PackageLicenseFile>
-		<PackageReleaseNotes>* Set DartSassNativeType via Config</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
