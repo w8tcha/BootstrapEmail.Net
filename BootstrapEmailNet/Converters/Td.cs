@@ -22,7 +22,7 @@ public class Td : Base
     /// </summary>
     public virtual void Build()
     {
-        var regexTextAlign = new Regex("text-align:(.*?);", RegexOptions.None, TimeSpan.FromMilliseconds(100));
+        var regexTextAlign = new Regex(@"text-align\s*:\s*(left|center|right)", RegexOptions.None, TimeSpan.FromMilliseconds(100));
 
         var regexBackgroundColor = new Regex("background-color:(.*?);|background-color:(.*?){7}$", RegexOptions.None, TimeSpan.FromMilliseconds(100));
 
@@ -42,7 +42,7 @@ public class Td : Base
                 var replace = match.Groups[0].Value;
                 var align = match.Groups[1].Value;
 
-                style = style.Replace(replace, string.Empty);
+                style = style.Replace($"{replace};", string.Empty).Replace(replace, string.Empty).Replace("; !important;", ";").Replace("; !important", "");
 
                 if (node.GetAttribute("align") == null)
                 {

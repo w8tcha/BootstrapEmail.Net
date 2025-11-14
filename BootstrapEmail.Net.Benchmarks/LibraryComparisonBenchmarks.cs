@@ -102,7 +102,7 @@ public class LibraryComparisonBenchmarks
                                                              <div class="card">
                                                                  <img class="img-fluid" width="280" height="200" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/1280px-Cat03.jpg" />
                                                                  <div class="card-body">
-                                                                     <a class="btn btn-danger ax-left" href="https://example.com">Cats</a>
+                                                                     <a class="btn btn-danger text-start" href="https://example.com">Cats</a>
                                                                  </div>
                                                              </div>
                                                          </div>
@@ -110,7 +110,7 @@ public class LibraryComparisonBenchmarks
                                                              <div class="card">
                                                                  <img class="img-fluid" width="280" height="220" src="https://static.wixstatic.com/media/38caab_553760a4c5474bb7a517357fbafd3e48.jpg" />
                                                                  <div class="card-body">
-                                                                     <a class="btn btn-warning ax-right" href="https://example.com">Dogs</a>
+                                                                     <a class="btn btn-warning text-end" href="https://example.com">Dogs</a>
                                                                  </div>
                                                              </div>
                                                          </div>
@@ -118,7 +118,7 @@ public class LibraryComparisonBenchmarks
                                                  </div>
 
                                                  <div class="container">
-                                                     <div class="ax-center m-3">
+                                                     <div class="text-center m-3">
                                                          <a class="btn btn-primary btn-lg p-3 mr-2" href="https://example.com">Buy Now</a>
                                                          <a class="btn btn-secondary btn-lg p-3 ml-2" href="https://example.com">Share with a Friend</a>
                                                      </div>

@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <Nullable>disable</Nullable>
     </PropertyGroup>
 
@@ -15,8 +15,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="BenchmarkDotNet" Version="0.15.5" />
-        <PackageReference Include="BenchmarkDotNet.Diagnostics.Windows" Version="0.15.5" Condition="'$(OS)' == 'Windows_NT'" />
+        <PackageReference Include="BenchmarkDotNet" Version="0.15.7" />
+        <PackageReference Include="BenchmarkDotNet.Diagnostics.Windows" Version="0.15.7" Condition="'$(OS)' == 'Windows_NT'" />
         <PackageReference Include="UnDotNet.BootstrapEmail" Version="1.1.2" />
     </ItemGroup>
 

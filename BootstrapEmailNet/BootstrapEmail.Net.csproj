@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	  <LangVersion>latest</LangVersion>
@@ -12,7 +12,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<Version>1.5.5</Version>
+		<Version>1.6.0</Version>
 		<Title>Bootstrap Email</Title>
 		<PackageIcon>bootstrap-email.png</PackageIcon>
 		<Description>Bootstrap stylesheet, compiler, and inliner for responsive and consistent emails with the Bootstrap syntax you know and love.</Description>
@@ -42,7 +42,6 @@
 	  <None Remove="core\scss\components\_stack.scss" />
 	  <None Remove="core\scss\components\_table.scss" />
 	  <None Remove="core\scss\helpers\_functions.scss" />
-	  <None Remove="core\scss\helpers\_mixins.scss" />
 	  <None Remove="core\scss\helpers\_selectors_for_utils.scss" />
 	  <None Remove="core\scss\utilities\_background.scss" />
 	  <None Remove="core\scss\utilities\_border-radius.scss" />
@@ -61,10 +60,6 @@
 	  <None Remove="core\scss\variables\_tables.scss" />
 	  <None Remove="core\scss\variables\_typography.scss" />
 	  <None Remove="core\scss\variables\_utilities.scss" />
-	  <None Remove="core\scss\_helpers.scss" />
-	  <None Remove="core\scss\_reboot_email.scss" />
-	  <None Remove="core\scss\_reboot_head.scss" />
-	  <None Remove="core\scss\_variables.scss" />
 	  <None Remove="core\templates\body.html" />
 	  <None Remove="core\templates\button.html" />
 	  <None Remove="core\templates\container.html" />
@@ -123,9 +118,6 @@
 	  <EmbeddedResource Include="core\scss\helpers\_functions.scss">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </EmbeddedResource>
-	  <EmbeddedResource Include="core\scss\helpers\_mixins.scss">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </EmbeddedResource>
 	  <EmbeddedResource Include="core\scss\helpers\_selectors_for_utils.scss">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </EmbeddedResource>
@@ -180,16 +172,16 @@
 	  <EmbeddedResource Include="core\scss\variables\_utilities.scss">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </EmbeddedResource>
-	  <EmbeddedResource Include="core\scss\_helpers.scss">
+	  <EmbeddedResource Include="core\scss\_helper.scss">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </EmbeddedResource>
-	  <EmbeddedResource Include="core\scss\_reboot_email.scss">
+	  <EmbeddedResource Include="core\scss\_reboot-email.scss">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </EmbeddedResource>
-	  <EmbeddedResource Include="core\scss\_reboot_head.scss">
+	  <EmbeddedResource Include="core\scss\_reboot-head.scss">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </EmbeddedResource>
-	  <EmbeddedResource Include="core\scss\_variables.scss">
+	  <EmbeddedResource Include="core\scss\_variable.scss">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </EmbeddedResource>
 	  <EmbeddedResource Include="core\templates\body.html">
@@ -247,9 +239,9 @@
    </ItemGroup>		
 
   <ItemGroup>
-    <PackageReference Include="AngleSharp" Version="1.3.0" />
+    <PackageReference Include="AngleSharp" Version="1.4.0" />
     <PackageReference Include="Citizen17.DartSass" Version="2.8.0" />
-    <PackageReference Include="DartSass.Native.win-x64" Version="1.93.2" />
+    <PackageReference Include="DartSass.Native.win-x64" Version="1.94.0" />
     <PackageReference Include="HtmlAgilityPack" Version="1.12.4" />
     <PackageReference Include="PreMailer.Net" Version="2.7.2" />
     <PackageReference Include="SonarAnalyzer.CSharp" Version="10.15.0.120848">

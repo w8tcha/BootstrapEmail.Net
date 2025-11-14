@@ -158,9 +158,8 @@ public class Compiler
         new Color(this.Document, this.Config).Build();
         new Spacing(this.Document, this.Config).Build();
         new Margin(this.Document, this.Config).Build();
-
+        new AlignDiv(this.Document, this.Config).Build();
         new Spacer(this.Document, this.Config).Build();
-        new Align(this.Document, this.Config).Build();
 
         new Padding(this.Document, this.Config).Build();
         new PreviewText(this.Document, this.Config).Build();
@@ -215,6 +214,8 @@ public class Compiler
 
         new Table(this.Document, this.Config).Build();
         new Td(this.Document, this.Config).Build();
+
+        new Align(this.Document, this.Config).Build();
     }
 
     /// <summary>

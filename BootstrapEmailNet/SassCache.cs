@@ -119,7 +119,7 @@ public class SassCache
     /// <returns>System.String.</returns>
     private string ReplaceConfig(string sassString)
     {
-        return sassString.Replace("@import 'scss", $"@import '{this.config.SassLocation()}scss");
+        return sassString.Replace("@use 'scss", $"@use '{this.config.SassLocation()}scss").Replace("@use \"scss", $"@use \"{this.config.SassLocation()}scss");
     }
 
     /// <summary>

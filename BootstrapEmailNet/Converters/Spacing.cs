@@ -19,7 +19,7 @@ public class Spacing : Base
             var className = node.ClassName ?? string.Empty;
             var spacer = Array.Find(className.Split(' '), c => c.StartsWith("space-y-"));
             spacer = spacer?[7..];
-            var children = node.Children.Where(e => e != node.Children.Last());
+            var children = node.Children.Where(e => e != node.Children[^1]);
 
             foreach (var child in children.Where(child => !IsMarginBottom(child)))
             {

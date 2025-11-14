@@ -1,13 +1,13 @@
 ﻿namespace BootstrapEmail.Net.Converters;
 
-public class Align : Base
+public class AlignDiv : Base
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="Align"/> class.
     /// </summary>
     /// <param name="document">The document.</param>
     /// <param name="config">The configuration.</param>
-    public Align(IHtmlDocument document, Config config)
+    public AlignDiv(IHtmlDocument document, Config config)
         : base(document, config)
     {
     }
@@ -28,25 +28,22 @@ public class Align : Base
 
     public void AlignHelper(IElement node, string fullType, string type)
     {
-        if (node.LocalName == "div")
+        var parser = new HtmlParser();
+
+        if (node.LocalName != "div")
         {
             return;
         }
 
         node.ClassList.Remove(fullType);
 
-        if (node.ClassList.Count == 0)
+        var templateContent = new TemplateContent(fullType, node.ToHtml());
+
+        var table = parser.ParseDocument(this.Template("table", templateContent)).QuerySelector("table");
+
+        if (table == null)
         {
-            node.RemoveAttribute("class");
-        }
-
-        var style = node.GetAttribute("style");
-
-        if (style is not null)
-        {
-            style = Regex.Replace(style, ";text-align:(.*?) !important", string.Empty);
-
-            node.SetAttribute("style", style);
+            return;
         }
 
         type = type switch
@@ -56,6 +53,8 @@ public class Align : Base
             _ => type
         };
 
-        node.SetAttribute("align", type);
+        table.SetAttribute("align", type);
+
+        node.ReplaceWith(table);
     }
 }

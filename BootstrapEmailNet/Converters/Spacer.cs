@@ -16,6 +16,7 @@ public class Spacer : Base
     {
         foreach (var node in this.EachNode("*[class*=s-]"))
         {
+            //next unless node['class'].split.any? { |cls| cls.match?(/^s(-lg)?-\d+$/) }
             var templateContent = new TemplateContent($"{node.ClassName} w-full", "&nbsp;");
 
             node.OuterHtml = this.Template("table", templateContent);

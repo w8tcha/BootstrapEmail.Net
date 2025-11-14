@@ -9658,11 +9658,11 @@ h6, .h6 {
   font-weight: 900 !important;
 }
 
-.text-left, .text-left > tbody > tr > td {
+.text-start, .text-start > tbody > tr > td {
   text-align: left !important;
 }
 
-.text-right, .text-right > tbody > tr > td {
+.text-end, .text-end > tbody > tr > td {
   text-align: right !important;
 }
 

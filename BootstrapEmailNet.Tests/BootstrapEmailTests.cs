@@ -37,7 +37,7 @@ public class BootstrapEmailTests
                         <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
                         <html>
                         	<head>
-                        		<!-- Compiled with Bootstrap Email version: 1.5.5 -->
+                        		<!-- Compiled with Bootstrap Email version: 1.6.0 -->
                         		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
                         		<meta http-equiv="x-ua-compatible" content="ie=edge">
                         		<meta name="x-apple-disable-message-reformatting">
@@ -55,7 +55,7 @@ public class BootstrapEmailTests
                         			<tbody>
                         				<tr>
                         					<td valign="top" style="line-height: 24px;font-size: 16px;margin: 0" align="left">
-                        						<table class="btn btn-primary" role="presentation" style="border-radius: 6px;border-collapse: separate" border="0" cellpadding="0" cellspacing="0">
+                        						<table class="btn btn-primary" role="presentation" style="border-radius: 6px;border-collapse: separate !important" border="0" cellpadding="0" cellspacing="0">
                         							<tbody>
                         								<tr>
                         									<td style="line-height: 24px;font-size: 16px;margin: 0;border-radius: 6px;" align="center" bgcolor="#0d6efd">
@@ -64,7 +64,7 @@ public class BootstrapEmailTests
                         								</tr>
                         							</tbody>
                         						</table>
-                        						<table class="btn btn-secondary" role="presentation" style="border-radius: 6px;border-collapse: separate" border="0" cellpadding="0" cellspacing="0">
+                        						<table class="btn btn-secondary" role="presentation" style="border-radius: 6px;border-collapse: separate !important" border="0" cellpadding="0" cellspacing="0">
                         							<tbody>
                         								<tr>
                         									<td style="line-height: 24px;font-size: 16px;margin: 0;border-radius: 6px;" align="center" bgcolor="#718096">
@@ -120,7 +120,7 @@ public class BootstrapEmailTests
                                 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
                                 <html>
                                 	<head>
-                                		<!-- Compiled with Bootstrap Email version: 1.5.5 -->
+                                		<!-- Compiled with Bootstrap Email version: 1.6.0 -->
                                 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
                                 		<meta http-equiv="x-ua-compatible" content="ie=edge">
                                 		<meta name="x-apple-disable-message-reformatting">
@@ -138,7 +138,7 @@ public class BootstrapEmailTests
                                 			<tbody>
                                 				<tr>
                                 					<td valign="top" style="line-height: 24px;font-size: 16px;margin: 0" align="left">
-                                						<table class="btn btn-primary" role="presentation" style="border-radius: 6px;border-collapse: separate" border="0" cellpadding="0" cellspacing="0">
+                                						<table class="btn btn-primary" role="presentation" style="border-radius: 6px;border-collapse: separate !important" border="0" cellpadding="0" cellspacing="0">
                                 							<tbody>
                                 								<tr>
                                 									<td style="line-height: 24px;font-size: 16px;margin: 0;border-radius: 6px;" align="center" bgcolor="#0d6efd">
@@ -147,7 +147,7 @@ public class BootstrapEmailTests
                                 								</tr>
                                 							</tbody>
                                 						</table>
-                                						<table class="btn btn-secondary" role="presentation" style="border-radius: 6px;border-collapse: separate" border="0" cellpadding="0" cellspacing="0">
+                                						<table class="btn btn-secondary" role="presentation" style="border-radius: 6px;border-collapse: separate !important" border="0" cellpadding="0" cellspacing="0">
                                 							<tbody>
                                 								<tr>
                                 									<td style="line-height: 24px;font-size: 16px;margin: 0;border-radius: 6px;" align="center" bgcolor="#718096">
@@ -182,7 +182,7 @@ public class BootstrapEmailTests
                                 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
                                 <html>
                                 	<head>
-                                		<!-- Compiled with Bootstrap Email version: 1.5.5 -->
+                                		<!-- Compiled with Bootstrap Email version: 1.6.0 -->
                                 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
                                 		<meta http-equiv="x-ua-compatible" content="ie=edge">
                                 		<meta name="x-apple-disable-message-reformatting">
@@ -200,7 +200,7 @@ public class BootstrapEmailTests
                                 			<tbody>
                                 				<tr>
                                 					<td valign="top" style="line-height: 24px;font-size: 16px;margin: 0" align="left">
-                                						<table class="btn btn-primary" role="presentation" style="border-radius: 6px;border-collapse: separate" border="0" cellpadding="0" cellspacing="0">
+                                						<table class="btn btn-primary" role="presentation" style="border-radius: 6px;border-collapse: separate !important" border="0" cellpadding="0" cellspacing="0">
                                 							<tbody>
                                 								<tr>
                                 									<td style="line-height: 24px;font-size: 16px;margin: 0;border-radius: 6px;" align="center" bgcolor="#0d6efd">
@@ -209,7 +209,7 @@ public class BootstrapEmailTests
                                 								</tr>
                                 							</tbody>
                                 						</table>
-                                						<table class="btn btn-secondary" role="presentation" style="border-radius: 6px;border-collapse: separate" border="0" cellpadding="0" cellspacing="0">
+                                						<table class="btn btn-secondary" role="presentation" style="border-radius: 6px;border-collapse: separate !important" border="0" cellpadding="0" cellspacing="0">
                                 							<tbody>
                                 								<tr>
                                 									<td style="line-height: 24px;font-size: 16px;margin: 0;border-radius: 6px;" align="center" bgcolor="#718096">
@@ -259,7 +259,7 @@ public class BootstrapEmailTests
 
             this.testOutputHelper.WriteLine($"🚀 Built {destination} (in {(DateTime.Now - startFileTime).TotalSeconds:0.00}s)");
 
-            //File.WriteAllText(destination, convertedHtml);
+            File.WriteAllText(destination, convertedHtml);
 
             convertedHtml.Should().BeEquivalentTo(expectedHtml, o => o.IgnoringNewlineStyle());
         }
