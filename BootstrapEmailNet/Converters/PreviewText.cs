@@ -7,8 +7,8 @@ public class PreviewText : Base
     /// </summary>
     /// <param name="document">The document.</param>
     /// <param name="config">The configuration.</param>
-    public PreviewText(IHtmlDocument document, Config config)
-        : base(document, config)
+    public PreviewText(IHtmlDocument document, Config config, IBrowsingContext context)
+        : base(document, config, context)
     {
     }
 

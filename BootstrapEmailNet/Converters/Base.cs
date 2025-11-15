@@ -17,6 +17,8 @@ public abstract class Base
     /// <value>The configuration.</value>
     public Config Config { get; set; }
 
+    public IBrowsingContext Context { get; set; }
+
     /// <summary>
     /// The cached templates
     /// </summary>
@@ -27,10 +29,11 @@ public abstract class Base
     /// </summary>
     /// <param name="document">The document.</param>
     /// <param name="config">The configuration.</param>
-    protected Base(IHtmlDocument document, Config config)
+    protected Base(IHtmlDocument document, Config config, IBrowsingContext context)
     {
         this.Document = document;
         this.Config = config;
+        this.Context = context;
     }
 
     /// <summary>

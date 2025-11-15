@@ -1,4 +1,6 @@
-﻿namespace BootstrapEmail.Net.Converters;
+﻿using AngleSharp.Css.Parser;
+
+namespace BootstrapEmail.Net.Converters;
 
 public class Align : Base
 {
@@ -7,8 +9,8 @@ public class Align : Base
     /// </summary>
     /// <param name="document">The document.</param>
     /// <param name="config">The configuration.</param>
-    public Align(IHtmlDocument document, Config config)
-        : base(document, config)
+    public Align(IHtmlDocument document, Config config, IBrowsingContext context)
+        : base(document, config, context)
     {
     }
 
@@ -40,13 +42,31 @@ public class Align : Base
             node.RemoveAttribute("class");
         }
 
-        var style = node.GetAttribute("style");
+        var styleAttribute = node.GetAttribute("style");
 
-        if (style is not null)
+        if (styleAttribute is null)
         {
-            style = Regex.Replace(style, ";text-align:(.*?) !important", string.Empty);
+            return;
+        }
 
-            node.SetAttribute("style", style);
+        var parser = this.Context.GetService<ICssParser>();
+
+        if (parser == null)
+        {
+            return;
+        }
+
+        var style = parser.ParseDeclaration(styleAttribute);
+
+        style.Update(styleAttribute);
+
+        var align = style.GetProperty("text-align");
+
+        if (align is not null && align.Value is not "")
+        {
+            style.RemoveProperty("text-align");
+
+            node.SetAttribute("style", style.ToCss(new BootstrapEmailStyleFormatter()));
         }
 
         type = type switch

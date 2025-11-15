@@ -1,10 +1,14 @@
-﻿namespace BootstrapEmail.Net.Converters;
+﻿using AngleSharp.Css.Dom;
+using AngleSharp.Css.Parser;
+using AngleSharp.Css.Values;
+
+namespace BootstrapEmail.Net.Converters;
 
 /// <summary>
 /// Class Td.
-/// Implements the <see cref="BootstrapEmail.Net.Converters.Base" />
+/// Implements the <see cref="Base" />
 /// </summary>
-/// <seealso cref="BootstrapEmail.Net.Converters.Base" />
+/// <seealso cref="Base" />
 public class Td : Base
 {
     /// <summary>
@@ -12,8 +16,9 @@ public class Td : Base
     /// </summary>
     /// <param name="document">The document.</param>
     /// <param name="config">The configuration.</param>
-    public Td(IHtmlDocument document, Config config)
-        : base(document, config)
+    /// <param name="context"></param>
+    public Td(IHtmlDocument document, Config config, IBrowsingContext context)
+        : base(document, config, context)
     {
     }
 
@@ -22,50 +27,60 @@ public class Td : Base
     /// </summary>
     public virtual void Build()
     {
-        var regexTextAlign = new Regex(@"text-align\s*:\s*(left|center|right)", RegexOptions.None, TimeSpan.FromMilliseconds(100));
-
-        var regexBackgroundColor = new Regex("background-color:(.*?);|background-color:(.*?){7}$", RegexOptions.None, TimeSpan.FromMilliseconds(100));
-
         foreach (var node in this.EachNode("td"))
         {
-            var style = node.GetAttribute("style");
+            var styleAttribute = node.GetAttribute(AttributeNames.Style);
 
-            if (style is null)
+            if (styleAttribute is null)
+            {
+                return;
+            }
+
+            var parser = this.Context.GetService<ICssParser>();
+
+            if (parser == null)
+            {
+                return;
+            }
+
+            ICssStyleDeclaration style;
+
+            try
+            {
+                style = parser.ParseDeclaration(styleAttribute);
+            }
+            catch (Exception)
+            {
+                return;
+            }
+
+            var align = style.GetProperty("text-align");
+
+            if (align is not null && align.Value is not "")
+            {
+                align.IsImportant = false;
+
+                node.SetAttribute("align", align.Value);
+
+                style.RemoveProperty("text-align");
+
+                node.SetAttribute("style", style.ToCss(new BootstrapEmailStyleFormatter()));
+            }
+
+            var backgroundColor = style.GetProperty("background-color");
+
+            if (backgroundColor?.Value is "")
             {
                 continue;
             }
 
-            var match = regexTextAlign.Match(style);
+            CssColorValue.UseHex = true;
 
-            if (match.Success)
-            {
-                var replace = match.Groups[0].Value;
-                var align = match.Groups[1].Value;
+            node.SetAttribute("bgcolor", backgroundColor.Value.ToLowerInvariant());
 
-                style = style.Replace($"{replace};", string.Empty).Replace(replace, string.Empty).Replace("; !important;", ";").Replace("; !important", "");
+            style.RemoveProperty("background-color");
 
-                if (node.GetAttribute("align") == null)
-                {
-                    node.SetAttribute("align", align.Trim());
-                }
-
-                node.SetAttribute("style", style);
-            }
-
-            var matchBackgroundColor = regexBackgroundColor.Match(style);
-
-            if (!matchBackgroundColor.Success)
-            {
-                continue;
-            }
-
-            var replaceValue = matchBackgroundColor.Groups[0].Value;
-            var color = !string.IsNullOrEmpty(matchBackgroundColor.Groups[1].Value)
-                ? matchBackgroundColor.Groups[1].Value
-                : matchBackgroundColor.Groups[2].Value;
-
-            node.SetAttribute("bgcolor", color.Trim());
-            node.SetAttribute("style", style.Replace(replaceValue, string.Empty));
+            node.SetAttribute("style", style.ToCss(new BootstrapEmailStyleFormatter()));
         }
     }
 }

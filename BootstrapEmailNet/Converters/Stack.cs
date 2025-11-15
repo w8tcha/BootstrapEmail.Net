@@ -9,8 +9,8 @@ public class Stack : Base
     /// </summary>
     /// <param name="document">The document.</param>
     /// <param name="config">The configuration.</param>
-    public Stack(IHtmlDocument document, Config config)
-        : base(document, config)
+    public Stack(IHtmlDocument document, Config config, IBrowsingContext context)
+        : base(document, config, context)
     {
     }
 

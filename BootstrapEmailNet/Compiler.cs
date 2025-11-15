@@ -25,6 +25,8 @@ public class Compiler
     /// <value>The configuration.</value>
     public Config Config { get; set; }
 
+    public IBrowsingContext Context { get; set; }
+
     /// <summary>
     /// Gets or sets the document.
     /// </summary>
@@ -56,8 +58,13 @@ public class Compiler
 	/// <param name="type">The type.</param>
 	public Compiler(string input, ConfigStore config, InputType type = InputType.String)
     {
-	    this.Config = new Config(config);
-	    this.Type = type;
+        this.Config = new Config(config);
+
+        var configuration = Configuration.Default.WithCss();
+
+        this.Context = BrowsingContext.New(configuration);
+
+        this.Type = type;
 
 	    this.InputHtml = this.Type switch
 	    {
@@ -143,27 +150,27 @@ public class Compiler
     /// </summary>
     public void CompileHtml()
     {
-        new Body(this.Document, this.Config).Build();
+        new Body(this.Document, this.Config, this.Context).Build();
 
-        new Block(this.Document, this.Config).Build();
-        new Button(this.Document, this.Config).Build();
+        new Block(this.Document, this.Config, this.Context).Build();
+        new Button(this.Document, this.Config, this.Context).Build();
 
-        new Badge(this.Document, this.Config).Build();
-        new Alert(this.Document, this.Config).Build();
-        new Card(this.Document, this.Config).Build();
-        new Hr(this.Document, this.Config).Build();
-        new Container(this.Document, this.Config).Build();
-        new Grid(this.Document, this.Config).Build();
-        new Stack(this.Document, this.Config).Build();
-        new Color(this.Document, this.Config).Build();
-        new Spacing(this.Document, this.Config).Build();
-        new Margin(this.Document, this.Config).Build();
-        new AlignDiv(this.Document, this.Config).Build();
-        new Spacer(this.Document, this.Config).Build();
+        new Badge(this.Document, this.Config, this.Context).Build();
+        new Alert(this.Document, this.Config, this.Context).Build();
+        new Card(this.Document, this.Config, this.Context).Build();
+        new Hr(this.Document, this.Config, this.Context).Build();
+        new Container(this.Document, this.Config, this.Context).Build();
+        new Grid(this.Document, this.Config, this.Context).Build();
+        new Stack(this.Document, this.Config, this.Context).Build();
+        new Color(this.Document, this.Config, this.Context).Build();
+        new Spacing(this.Document, this.Config, this.Context).Build();
+        new Margin(this.Document, this.Config, this.Context).Build();
+        new AlignDiv(this.Document, this.Config, this.Context).Build();
+        new Spacer(this.Document, this.Config, this.Context).Build();
 
-        new Padding(this.Document, this.Config).Build();
-        new PreviewText(this.Document, this.Config).Build();
-        new Paragraph(this.Document, this.Config).Build();
+        new Padding(this.Document, this.Config, this.Context).Build();
+        new PreviewText(this.Document, this.Config, this.Context).Build();
+        new Paragraph(this.Document, this.Config, this.Context).Build();
     }
 
     /// <summary>
@@ -209,13 +216,13 @@ public class Compiler
     public void ConfigureHtml()
     {
 		HeadStyle.Build(this.Document, this.Config);
-        new AddMissingMetaTags(this.Document, this.Config).Build();
-        new VersionComment(this.Document, this.Config).Build();
+        new AddMissingMetaTags(this.Document, this.Config, this.Context).Build();
+        new VersionComment(this.Document, this.Config, this.Context).Build();
 
-        new Table(this.Document, this.Config).Build();
-        new Td(this.Document, this.Config).Build();
+        new Table(this.Document, this.Config, this.Context).Build();
+        new Td(this.Document, this.Config, this.Context).Build();
 
-        new Align(this.Document, this.Config).Build();
+        new Align(this.Document, this.Config, this.Context).Build();
     }
 
     /// <summary>

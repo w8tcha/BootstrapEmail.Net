@@ -58,7 +58,7 @@ public class BootstrapEmailTests
                         						<table class="btn btn-primary" role="presentation" style="border-radius: 6px;border-collapse: separate !important" border="0" cellpadding="0" cellspacing="0">
                         							<tbody>
                         								<tr>
-                        									<td style="line-height: 24px;font-size: 16px;margin: 0;border-radius: 6px;" align="center" bgcolor="#0d6efd">
+                        									<td style="line-height: 24px;font-size: 16px;margin: 0;border-radius: 6px" align="center" bgcolor="#0d6efd">
                         										<a href="#" style="font-size: 16px;font-family: Helvetica, Arial, sans-serif;text-decoration: none;border-radius: 6px;padding: 8px 12px;line-height: 20px;border: 1px solid transparent;display: block;font-weight: normal;white-space: nowrap;background-color: #0d6efd;color: #ffffff;border-color: #0d6efd">A button</a>
                         									</td>
                         								</tr>
@@ -67,7 +67,7 @@ public class BootstrapEmailTests
                         						<table class="btn btn-secondary" role="presentation" style="border-radius: 6px;border-collapse: separate !important" border="0" cellpadding="0" cellspacing="0">
                         							<tbody>
                         								<tr>
-                        									<td style="line-height: 24px;font-size: 16px;margin: 0;border-radius: 6px;" align="center" bgcolor="#718096">
+                        									<td style="line-height: 24px;font-size: 16px;margin: 0;border-radius: 6px" align="center" bgcolor="#718096">
                         										<a href="#" style="font-size: 16px;font-family: Helvetica, Arial, sans-serif;text-decoration: none;border-radius: 6px;padding: 8px 12px;line-height: 20px;border: 1px solid transparent;display: block;font-weight: normal;white-space: nowrap;background-color: #718096;color: #ffffff;border-color: #718096">B button</a>
                         									</td>
                         								</tr>
@@ -141,7 +141,7 @@ public class BootstrapEmailTests
                                 						<table class="btn btn-primary" role="presentation" style="border-radius: 6px;border-collapse: separate !important" border="0" cellpadding="0" cellspacing="0">
                                 							<tbody>
                                 								<tr>
-                                									<td style="line-height: 24px;font-size: 16px;margin: 0;border-radius: 6px;" align="center" bgcolor="#0d6efd">
+                                									<td style="line-height: 24px;font-size: 16px;margin: 0;border-radius: 6px" align="center" bgcolor="#0d6efd">
                                 										<a href="#" style="font-size: 16px;font-family: Helvetica, Arial, sans-serif;text-decoration: none;border-radius: 6px;padding: 8px 12px;line-height: 20px;border: 1px solid transparent;display: block;font-weight: normal;white-space: nowrap;background-color: #0d6efd;color: #ffffff;border-color: #0d6efd">A button</a>
                                 									</td>
                                 								</tr>
@@ -150,7 +150,7 @@ public class BootstrapEmailTests
                                 						<table class="btn btn-secondary" role="presentation" style="border-radius: 6px;border-collapse: separate !important" border="0" cellpadding="0" cellspacing="0">
                                 							<tbody>
                                 								<tr>
-                                									<td style="line-height: 24px;font-size: 16px;margin: 0;border-radius: 6px;" align="center" bgcolor="#718096">
+                                									<td style="line-height: 24px;font-size: 16px;margin: 0;border-radius: 6px" align="center" bgcolor="#718096">
                                 										<a href="#" style="font-size: 16px;font-family: Helvetica, Arial, sans-serif;text-decoration: none;border-radius: 6px;padding: 8px 12px;line-height: 20px;border: 1px solid transparent;display: block;font-weight: normal;white-space: nowrap;background-color: #718096;color: #ffffff;border-color: #718096">B button</a>
                                 									</td>
                                 								</tr>
@@ -203,7 +203,7 @@ public class BootstrapEmailTests
                                 						<table class="btn btn-primary" role="presentation" style="border-radius: 6px;border-collapse: separate !important" border="0" cellpadding="0" cellspacing="0">
                                 							<tbody>
                                 								<tr>
-                                									<td style="line-height: 24px;font-size: 16px;margin: 0;border-radius: 6px;" align="center" bgcolor="#0d6efd">
+                                									<td style="line-height: 24px;font-size: 16px;margin: 0;border-radius: 6px" align="center" bgcolor="#0d6efd">
                                 										<a href="#" style="font-size: 16px;font-family: Helvetica, Arial, sans-serif;text-decoration: none;border-radius: 6px;padding: 8px 12px;line-height: 20px;border: 1px solid transparent;display: block;font-weight: normal;white-space: nowrap;background-color: #0d6efd;color: #ffffff;border-color: #0d6efd">A button</a>
                                 									</td>
                                 								</tr>
@@ -212,7 +212,7 @@ public class BootstrapEmailTests
                                 						<table class="btn btn-secondary" role="presentation" style="border-radius: 6px;border-collapse: separate !important" border="0" cellpadding="0" cellspacing="0">
                                 							<tbody>
                                 								<tr>
-                                									<td style="line-height: 24px;font-size: 16px;margin: 0;border-radius: 6px;" align="center" bgcolor="#718096">
+                                									<td style="line-height: 24px;font-size: 16px;margin: 0;border-radius: 6px" align="center" bgcolor="#718096">
                                 										<a href="#" style="font-size: 16px;font-family: Helvetica, Arial, sans-serif;text-decoration: none;border-radius: 6px;padding: 8px 12px;line-height: 20px;border: 1px solid transparent;display: block;font-weight: normal;white-space: nowrap;background-color: #718096;color: #ffffff;border-color: #718096">B button</a>
                                 									</td>
                                 								</tr>
@@ -259,7 +259,7 @@ public class BootstrapEmailTests
 
             this.testOutputHelper.WriteLine($"🚀 Built {destination} (in {(DateTime.Now - startFileTime).TotalSeconds:0.00}s)");
 
-            File.WriteAllText(destination, convertedHtml);
+            //File.WriteAllText(destination, convertedHtml);
 
             convertedHtml.Should().BeEquivalentTo(expectedHtml, o => o.IgnoringNewlineStyle());
         }

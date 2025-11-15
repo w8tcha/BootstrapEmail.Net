@@ -7,8 +7,8 @@ public class Block : Base
     /// </summary>
     /// <param name="document">The document.</param>
     /// <param name="config">The configuration.</param>
-    public Block(IHtmlDocument document, Config config)
-        : base(document, config)
+    public Block(IHtmlDocument document, Config config, IBrowsingContext context)
+        : base(document, config, context)
     {
     }
 
