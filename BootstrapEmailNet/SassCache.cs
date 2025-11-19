@@ -11,17 +11,35 @@ using System.Security.Cryptography;
 /// </summary>
 public class SassCache
 {
-    private readonly SassTypes type;
+    /// <summary>
+    /// The type
+    /// </summary>
+    private readonly SassTypes _type;
 
-    private readonly Config config;
+    /// <summary>
+    /// The configuration
+    /// </summary>
+    private readonly Config _config;
 
-    private readonly StyleType style;
+    /// <summary>
+    /// The style
+    /// </summary>
+    private readonly StyleType _style;
 
-    private readonly string sassConfig;
+    /// <summary>
+    /// The sass configuration
+    /// </summary>
+    private readonly string _sassConfig;
 
-    private readonly string checksum;
+    /// <summary>
+    /// The checksum
+    /// </summary>
+    private readonly string _checksum;
 
-    private readonly string cacheDir;
+    /// <summary>
+    /// The cache dir
+    /// </summary>
+    private readonly string _cacheDir;
 
 	/// <summary>
 	/// Compiles the specified type.
@@ -43,12 +61,12 @@ public class SassCache
     /// <param name="style">The style.</param>
     public SassCache(SassTypes type, Config config, StyleType style)
     {
-        this.type = type;
-        this.config = config;
-        this.style = style;
-        this.sassConfig = this.LoadSassConfig();
-        this.checksum = this.ChecksumFiles();
-        this.cacheDir = config.SassCacheLocation();
+        this._type = type;
+        this._config = config;
+        this._style = style;
+        this._sassConfig = this.LoadSassConfig();
+        this._checksum = this.ChecksumFiles();
+        this._cacheDir = config.SassCacheLocation();
 	}
 
 	/// <summary>
@@ -58,11 +76,11 @@ public class SassCache
     public string Compile()
     {
         // Load Css File and skip Sass Parsing?!
-        switch (this.type)
+        switch (this._type)
         {
-	        case SassTypes.SassEmail when !string.IsNullOrEmpty(this.config.ConfigStore.CssEmailPath):
+	        case SassTypes.SassEmail when !string.IsNullOrEmpty(this._config.ConfigStore.CssEmailPath):
 	        {
-		        var filePath = Path.Combine(AppContext.BaseDirectory, this.config.ConfigStore.CssEmailPath);
+		        var filePath = Path.Combine(AppContext.BaseDirectory, this._config.ConfigStore.CssEmailPath);
 
 		        if (File.Exists(filePath))
 		        {
@@ -70,12 +88,12 @@ public class SassCache
 		        }
 
 		        throw new FileNotFoundException(
-			        $"The Email Path does not exist: {this.config.ConfigStore.CssEmailPath}",
-			        this.config.ConfigStore.CssEmailPath);
+			        $"The Email Path does not exist: {this._config.ConfigStore.CssEmailPath}",
+			        this._config.ConfigStore.CssEmailPath);
 	        }
-	        case SassTypes.Head when !string.IsNullOrEmpty(this.config.ConfigStore.CssHeadPath):
+	        case SassTypes.Head when !string.IsNullOrEmpty(this._config.ConfigStore.CssHeadPath):
 	        {
-		        var filePath = Path.Combine(AppContext.BaseDirectory, this.config.ConfigStore.CssHeadPath);
+		        var filePath = Path.Combine(AppContext.BaseDirectory, this._config.ConfigStore.CssHeadPath);
 
 		        if (File.Exists(filePath))
 		        {
@@ -83,14 +101,14 @@ public class SassCache
 		        }
 
 		        throw new FileNotFoundException(
-			        $"The Email Path does not exist: {this.config.ConfigStore.CssHeadPath}",
-			        this.config.ConfigStore.CssEmailPath);
+			        $"The Email Path does not exist: {this._config.ConfigStore.CssHeadPath}",
+			        this._config.ConfigStore.CssEmailPath);
 	        }
         }
 
-        var cachePath = Path.Combine(this.cacheDir,  this.checksum, $"{this.type}.css");
+        var cachePath = Path.Combine(this._cacheDir,  this._checksum, $"{this._type}.css");
 
-        Directory.CreateDirectory(Path.Combine(this.cacheDir, this.checksum));
+        Directory.CreateDirectory(Path.Combine(this._cacheDir, this._checksum));
 
 		return Cached(cachePath) ? ReadFile(cachePath) : this.CompileAndCacheScss(cachePath);
     }
@@ -108,7 +126,7 @@ public class SassCache
     /// <returns>System.String.</returns>
     private string LoadSassConfig()
     {
-        var sassString = this.config.SassStringFor(this.type);
+        var sassString = this._config.SassStringFor(this._type);
         return this.ReplaceConfig(sassString);
     }
 
@@ -119,7 +137,7 @@ public class SassCache
     /// <returns>System.String.</returns>
     private string ReplaceConfig(string sassString)
     {
-        return sassString.Replace("@use 'scss", $"@use '{this.config.SassLocation()}scss").Replace("@use \"scss", $"@use \"{this.config.SassLocation()}scss");
+        return sassString.Replace("@use 'scss", $"@use '{this._config.SassLocation()}scss").Replace("@use \"scss", $"@use \"{this._config.SassLocation()}scss");
     }
 
     /// <summary>
@@ -128,9 +146,9 @@ public class SassCache
     /// <returns>System.String.</returns>
     private string ChecksumFiles()
     {
-        var checkSums = new[] { GetChecksum(this.sassConfig) };
+        var checkSums = new[] { GetChecksum(this._sassConfig) };
 
-        foreach (var path in this.config.SassLoadPaths()
+        foreach (var path in this._config.SassLoadPaths()
                      .Select(
                          loadPath => Directory.EnumerateFiles(loadPath, "*.scss", SearchOption.AllDirectories).ToList())
                      .SelectMany(files => files))
@@ -163,12 +181,12 @@ public class SassCache
 	/// <returns>System.String.</returns>
 	private string CompileAndCacheScss(string cachePath)
     {
-	    var compiler = this.config.ConfigStore.DartSassNativeType.HasValue
-		    ? new DartSassCompiler(this.config.ConfigStore.DartSassNativeType.Value)
+	    var compiler = this._config.ConfigStore.DartSassNativeType.HasValue
+		    ? new DartSassCompiler(this._config.ConfigStore.DartSassNativeType.Value)
 		    : new DartSassCompiler();
 
-		var result = compiler.CompileCodeAsync(this.sassConfig,
-		    new SassCompileOptions { StyleType = this.style, StopOnError = true }).Result;
+		var result = compiler.CompileCodeAsync(this._sassConfig,
+		    new SassCompileOptions { StyleType = this._style, StopOnError = true }).Result;
 
 		Lock.EnterWriteLock();
 
@@ -183,12 +201,12 @@ public class SassCache
 			Lock.ExitWriteLock();
 		}
 
-		if (!this.config.ConfigStore.sass_log_enabled)
+		if (!this._config.ConfigStore.sass_log_enabled)
         {
 	        return result.Code;
         }
 
-        Console.WriteLine($"New css file cached for {this.type}");
+        Console.WriteLine($"New css file cached for {this._type}");
 
         foreach (var message in result.Warnings)
         {

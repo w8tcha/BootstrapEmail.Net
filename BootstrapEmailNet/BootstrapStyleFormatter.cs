@@ -27,7 +27,9 @@ public class BootstrapEmailStyleFormatter : IStyleFormatter
 
     string IStyleFormatter.Sheet(IEnumerable<IStyleFormattable> rules)
     {
-        if (!ShouldKeepEmptyRules && !IsNotEmpty(rules))
+        var styleRules = rules.ToList();
+
+        if (!ShouldKeepEmptyRules && !IsNotEmpty(styleRules))
         {
             return string.Empty;
         }
@@ -36,7 +38,7 @@ public class BootstrapEmailStyleFormatter : IStyleFormatter
 
         using (var writer = new StringWriter(sb))
         {
-            foreach (var rule in rules)
+            foreach (var rule in styleRules)
             {
                 rule.ToCss(writer, this);
             }
@@ -47,7 +49,9 @@ public class BootstrapEmailStyleFormatter : IStyleFormatter
 
     string IStyleFormatter.BlockRules(IEnumerable<IStyleFormattable> rules)
     {
-        if (!ShouldKeepEmptyRules && !IsNotEmpty(rules))
+        var styleRules = rules.ToList();
+
+        if (!ShouldKeepEmptyRules && !IsNotEmpty(styleRules))
         {
             return string.Empty;
         }
@@ -56,7 +60,7 @@ public class BootstrapEmailStyleFormatter : IStyleFormatter
 
         using (var writer = new StringWriter(sb))
         {
-            foreach (var rule in rules)
+            foreach (var rule in styleRules)
             {
                 rule.ToCss(writer, this);
             }
@@ -70,7 +74,9 @@ public class BootstrapEmailStyleFormatter : IStyleFormatter
 
     string IStyleFormatter.BlockDeclarations(IEnumerable<IStyleFormattable> declarations)
     {
-        if (!ShouldKeepEmptyRules && !declarations.OfType<ICssProperty>().Any())
+        var blockDeclarations = declarations.ToList();
+
+        if (!ShouldKeepEmptyRules && !blockDeclarations.OfType<ICssProperty>().Any())
         {
             return string.Empty;
         }
@@ -79,7 +85,7 @@ public class BootstrapEmailStyleFormatter : IStyleFormatter
 
         using (var writer = new StringWriter(sb))
         {
-            foreach (var declaration in declarations)
+            foreach (var declaration in blockDeclarations)
             {
                 declaration.ToCss(writer, this);
                 writer.Write(Symbols.Semicolon);
@@ -97,8 +103,13 @@ public class BootstrapEmailStyleFormatter : IStyleFormatter
     string IStyleFormatter.Rule(string name, string value) =>
         CssStyleFormatter.Instance.Rule(name, value);
 
-    string IStyleFormatter.Rule(string name, string prelude, string rules) =>
-        string.IsNullOrEmpty(rules) ? string.Empty : string.Concat(name, string.IsNullOrEmpty(prelude) ? string.Empty : $" {prelude}", rules);
+    string IStyleFormatter.Rule(string name, string prelude, string rules)
+    {
+        var preludeString = string.IsNullOrEmpty(prelude) ? string.Empty : $" {prelude}";
+        return string.IsNullOrEmpty(rules)
+            ? string.Empty
+            : string.Concat(name, preludeString, rules);
+    }
 
     string IStyleFormatter.Comment(string data) =>
         ShouldKeepComments ? CssStyleFormatter.Instance.Comment(data) : string.Empty;

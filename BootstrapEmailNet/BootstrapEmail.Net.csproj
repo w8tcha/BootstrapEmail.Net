@@ -12,7 +12,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<Version>1.6.0</Version>
+		<Version>1.7.0</Version>
 		<Title>Bootstrap Email</Title>
 		<PackageIcon>bootstrap-email.png</PackageIcon>
 		<Description>Bootstrap stylesheet, compiler, and inliner for responsive and consistent emails with the Bootstrap syntax you know and love.</Description>
@@ -241,8 +241,8 @@
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="1.4.0" />
     <PackageReference Include="AngleSharp.Css" Version="1.0.0-beta.159" />
-    <PackageReference Include="Citizen17.DartSass" Version="2.8.0" />
-    <PackageReference Include="DartSass.Native.win-x64" Version="1.94.0" />
+    <PackageReference Include="Citizen17.DartSass" Version="3.0.0" />
+    <PackageReference Include="DartSass.Native.win-x64" Version="1.94.1" />
     <PackageReference Include="HtmlAgilityPack" Version="1.12.4" />
     <PackageReference Include="PreMailer.Net" Version="2.7.2" />
     <PackageReference Include="SonarAnalyzer.CSharp" Version="10.15.0.120848">

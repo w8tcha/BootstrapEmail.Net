@@ -10,19 +10,28 @@ using AngleSharp.Text;
 /// <seealso cref="HtmlMarkupFormatter" />
 internal class BootstrapEmailFormatter : HtmlMarkupFormatter
 {
-    private readonly string indentString;
+    /// <summary>
+    /// The indent string
+    /// </summary>
+    private readonly string _indentString;
 
-    private int indentCount;
+    /// <summary>
+    /// The indent count
+    /// </summary>
+    private int _indentCount;
 
-    private readonly IEnumerable<INode>? preserveTextFormatting;
+    /// <summary>
+    /// The preserve text formatting
+    /// </summary>
+    private readonly IEnumerable<INode>? _preserveTextFormatting;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BootstrapEmailFormatter"/> class.
     /// </summary>
     public BootstrapEmailFormatter()
     {
-        this.indentCount = 0;
-        this.indentString = "\t";
+        this._indentCount = 0;
+        this._indentString = "\t";
         this.NewLine = "\n";
     }
 
@@ -32,10 +41,10 @@ internal class BootstrapEmailFormatter : HtmlMarkupFormatter
     /// <param name="preserveTextFormatting">The preserve text formatting.</param>
     public BootstrapEmailFormatter(IEnumerable<INode> preserveTextFormatting)
     {
-        this.indentCount = 0;
-        this.indentString = "\t";
+        this._indentCount = 0;
+        this._indentString = "\t";
         this.NewLine = "\n";
-        this.preserveTextFormatting = preserveTextFormatting.SelectMany(x => x.ChildNodes).Where(y => y is ICharacterData);
+        this._preserveTextFormatting = preserveTextFormatting.SelectMany(x => x.ChildNodes).Where(y => y is ICharacterData);
     }
 
     public override string Doctype(IDocumentType doctype)
@@ -46,7 +55,7 @@ internal class BootstrapEmailFormatter : HtmlMarkupFormatter
 
     public override string Text(ICharacterData text)
     {
-        if (this.preserveTextFormatting?.Contains(text) == true)
+        if (this._preserveTextFormatting?.Contains(text) == true)
         {
             return text.Data.TrimEnd('\n').Replace("\n", this.IndentBefore(1));
         }
@@ -81,13 +90,13 @@ internal class BootstrapEmailFormatter : HtmlMarkupFormatter
             before = this.IndentBefore();
         }
 
-        this.indentCount++;
+        this._indentCount++;
         return before + base.OpenTag(element, selfClosing);
     }
 
     public override string CloseTag(IElement element, bool selfClosing)
     {
-        this.indentCount--;
+        this._indentCount--;
         var before = string.Empty;
         var lastChild = element.LastChild as IText;
 
@@ -111,5 +120,5 @@ internal class BootstrapEmailFormatter : HtmlMarkupFormatter
     }
 
     private string IndentBefore(int i = 0) =>
-        $"{this.NewLine}{string.Join(string.Empty, Enumerable.Repeat(this.indentString, this.indentCount - i))}";
+        $"{this.NewLine}{string.Join(string.Empty, Enumerable.Repeat(this._indentString, this._indentCount - i))}";
 }

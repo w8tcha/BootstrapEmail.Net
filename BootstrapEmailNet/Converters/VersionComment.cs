@@ -2,9 +2,9 @@
 
 /// <summary>
 /// Class VersionComment.
-/// Implements the <see cref="BootstrapEmail.Net.Converters.Base" />
+/// Implements the <see cref="Converters.Base" />
 /// </summary>
-/// <seealso cref="BootstrapEmail.Net.Converters.Base" />
+/// <seealso cref="Converters.Base" />
 public class VersionComment : Base
 {
     /// <summary>
@@ -12,6 +12,7 @@ public class VersionComment : Base
     /// </summary>
     /// <param name="document">The document.</param>
     /// <param name="config">The configuration.</param>
+    /// <param name="context">the browsing context.</param>
     public VersionComment(IHtmlDocument document, Config config, IBrowsingContext context)
         : base(document, config, context)
     {

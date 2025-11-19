@@ -1,24 +1,24 @@
 @use "variable";
 // Based on https://templates.mailchimp.com/development/css/reset-styles/ by Mailchimp
 body, .body {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    outline: 0;
-    width: 100%;
-    min-width: 100%;
-    height: 100%;
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
-    font-family: variable.$font-family-base;
-    line-height: variable.$line-height-base * variable.$font-size-base;
-    font-weight: variable.$font-weight-base;
-    font-size: variable.$font-size-base;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    background-color: variable.$body-bg;
-    color: variable.$body-color;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  width: 100%;
+  min-width: 100%;
+  height: 100%;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  font-family: variable.$font-family-base;
+  line-height: variable.$line-height-base * variable.$font-size-base;
+  font-weight: variable.$font-weight-base;
+  font-size: variable.$font-size-base;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  background-color: variable.$body-bg;
+  color: variable.$body-color;
 }
 
 img {
@@ -31,9 +31,9 @@ img {
 }
 
 table {
-    -premailer-border: 0;
-    -premailer-cellpadding: 0;
-    -premailer-cellspacing: 0;
+	-premailer-border: 0;
+	-premailer-cellpadding: 0;
+	-premailer-cellspacing: 0;
 }
 
 // to fix centering in yahoo
@@ -44,12 +44,12 @@ table[align=center] {
 th,
 td,
 p {
-    text-align: left;
-    line-height: variable.$line-height-base * variable.$font-size-base;
-    font-size: variable.$font-size-base;
-    margin: 0;
+  text-align: left;
+  line-height: variable.$line-height-base * variable.$font-size-base;
+  font-size: variable.$font-size-base;
+  margin: 0;
 }
 
 a {
-    color: variable.$link-color;
+  color: variable.$link-color;
 }

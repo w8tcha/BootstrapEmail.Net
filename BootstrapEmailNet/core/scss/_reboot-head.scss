@@ -1,8 +1,7 @@
 @use "variable";
-
 // Force base font in Outlook
 body, table, td {
-    font-family: variable.$font-family-base !important;
+  font-family: variable.$font-family-base !important;
 }
 
 // Forces Outlook.com to display emails at full width
@@ -49,14 +48,13 @@ img {
 
 // Prevent Outlook from adding extra spacing to tables.
 table:not([class^=s-]) {
-    font-family: variable.$font-family-base;
-    mso-table-lspace: 0pt;
-    mso-table-rspace: 0pt;
+  font-family: variable.$font-family-base;
+  mso-table-lspace: 0pt;
+  mso-table-rspace: 0pt;
+  border-spacing: 0px;
+  border-collapse: collapse;
+  td {
     border-spacing: 0px;
     border-collapse: collapse;
-
-    td {
-        border-spacing: 0px;
-        border-collapse: collapse;
-    }
+  }
 }

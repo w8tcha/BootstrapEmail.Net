@@ -22,13 +22,14 @@ public abstract class Base
     /// <summary>
     /// The cached templates
     /// </summary>
-    private Dictionary<string, string> cachedTemplates = [];
+    private Dictionary<string, string> _cachedTemplates = [];
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Base"/> class.
     /// </summary>
     /// <param name="document">The document.</param>
     /// <param name="config">The configuration.</param>
+    /// <param name="context">the browsing context.</param>
     protected Base(IHtmlDocument document, Config config, IBrowsingContext context)
     {
         this.Document = document;
@@ -46,13 +47,13 @@ public abstract class Base
     {
         string stringContent;
 
-        if (this.cachedTemplates.TryGetValue(file, out var template))
+        if (this._cachedTemplates.TryGetValue(file, out var template))
         {
             stringContent = template;
         }
         else
         {
-            this.cachedTemplates = [];
+            this._cachedTemplates = [];
 
             var path = Path.GetFullPath(
                 Path.Combine(
@@ -62,7 +63,7 @@ public abstract class Base
                     $"{file}.html"));
             stringContent = File.ReadAllText(path).TrimEnd('\n');
 
-            this.cachedTemplates[file] = stringContent;
+            this._cachedTemplates[file] = stringContent;
         }
 
         return stringContent.Replace(Constants.Template.Classes, templateContent.Classes).Replace(

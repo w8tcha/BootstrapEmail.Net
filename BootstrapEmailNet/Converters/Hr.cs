@@ -7,6 +7,7 @@ public class Hr : Base
     /// </summary>
     /// <param name="document">The document.</param>
     /// <param name="config">The configuration.</param>
+    /// <param name="context">the browsing context.</param>
     public Hr(IHtmlDocument document, Config config, IBrowsingContext context)
         : base(document, config, context)
     {
