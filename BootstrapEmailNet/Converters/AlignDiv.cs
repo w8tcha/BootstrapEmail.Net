@@ -7,9 +7,8 @@ public class AlignDiv : Base
     /// </summary>
     /// <param name="document">The document.</param>
     /// <param name="config">The configuration.</param>
-    /// <param name="context">the browsing context.</param>
-    public AlignDiv(IHtmlDocument document, Config config, IBrowsingContext context)
-        : base(document, config, context)
+    public AlignDiv(IHtmlDocument document, Config config)
+        : base(document, config)
     {
     }
 

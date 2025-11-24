@@ -10,9 +10,8 @@ public class Table : Base
     /// </summary>
     /// <param name="document">The document.</param>
     /// <param name="config">The configuration.</param>
-    /// <param name="context">the browsing context.</param>
-    public Table(IHtmlDocument document, Config config, IBrowsingContext context)
-        : base(document, config, context)
+    public Table(IHtmlDocument document, Config config)
+        : base(document, config)
     {
     }
 

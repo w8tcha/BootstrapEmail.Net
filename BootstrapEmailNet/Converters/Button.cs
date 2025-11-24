@@ -2,8 +2,8 @@
 
 public class Button : Base
 {
-    public Button(IHtmlDocument document, Config config, IBrowsingContext context)
-        : base(document, config, context)
+    public Button(IHtmlDocument document, Config config)
+        : base(document, config)
     {
     }
 

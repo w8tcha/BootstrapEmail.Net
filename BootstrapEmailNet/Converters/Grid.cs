@@ -9,9 +9,8 @@ public class Grid : Base
     /// </summary>
     /// <param name="document">The document.</param>
     /// <param name="config">The configuration.</param>
-    /// <param name="context">the browsing context.</param>
-    public Grid(IHtmlDocument document, Config config, IBrowsingContext context)
-        : base(document, config, context)
+    public Grid(IHtmlDocument document, Config config)
+        : base(document, config)
     {
     }
 

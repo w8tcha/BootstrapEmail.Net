@@ -233,22 +233,47 @@
 
 	<ItemGroup>
 		<Content Include="BootstrapEmail.Net.targets" PackagePath="build/BootstrapEmail.Net.targets" />
-		<Content Include="dart-sass.win-x64/**/*.*" Pack="true" PackagePath="lib/net8.0/dart-sass.win-x64">
+		<Content Include="dart-sass.win-x64/**/*.*" Pack="true" PackagePath="lib/net9.0/dart-sass.win-x64">
+			<PackageCopyToOutput>true</PackageCopyToOutput>
+		</Content>
+		<Content Include="dart-sass.win-x64/**/*.*" Pack="true" PackagePath="lib/net10.0/dart-sass.win-x64">
 			<PackageCopyToOutput>true</PackageCopyToOutput>
 		</Content>
    </ItemGroup>		
 
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="1.4.0" />
-    <PackageReference Include="AngleSharp.Css" Version="1.0.0-beta.159" />
     <PackageReference Include="Citizen17.DartSass" Version="3.0.0" />
-    <PackageReference Include="DartSass.Native.win-x64" Version="1.94.1" />
+    <PackageReference Include="DartSass.Native.win-x64" Version="1.94.2" />
     <PackageReference Include="HtmlAgilityPack" Version="1.12.4" />
     <PackageReference Include="PreMailer.Net" Version="2.7.2" />
     <PackageReference Include="SonarAnalyzer.CSharp" Version="10.15.0.120848">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>		
+
+  <ItemGroup>
+    <ProjectReference Include="..\ExCSS\ExCSS.csproj" PrivateAssets="All" />
   </ItemGroup>
+
+	<PropertyGroup>
+		<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
+	</PropertyGroup>
+
+	<Target Name="CopyProjectReferencesToPackage" DependsOnTargets="BuildOnlySettings;ResolveReferences">
+		<ItemGroup>
+			<!-- Filter out unnecessary files -->
+			<_ReferenceCopyLocalPaths Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference')-&gt;WithMetadataValue('PrivateAssets', 'All'))" />
+		</ItemGroup>
+
+		<!-- Print batches for debug purposes -->
+		<Message Text="Batch for .nupkg: ReferenceCopyLocalPaths = @(_ReferenceCopyLocalPaths), ReferenceCopyLocalPaths.DestinationSubDirectory = %(_ReferenceCopyLocalPaths.DestinationSubDirectory) Filename = %(_ReferenceCopyLocalPaths.Filename) Extension = %(_ReferenceCopyLocalPaths.Extension)" Importance="High" Condition="'@(_ReferenceCopyLocalPaths)' != ''" />
+
+		<ItemGroup>
+			<!-- Add file to package with consideration of sub folder. If empty, the root folder is chosen. -->
+			<BuildOutputInPackage Include="@(_ReferenceCopyLocalPaths)" TargetPath="%(_ReferenceCopyLocalPaths.DestinationSubDirectory)" />
+		</ItemGroup>
+	</Target>
 
 </Project>

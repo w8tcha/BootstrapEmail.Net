@@ -1,18 +1,29 @@
-﻿using AngleSharp.Css.Parser;
+﻿using BootstrapEmail.Net.Extensions;
+
+using ExCSS;
 
 namespace BootstrapEmail.Net.Converters;
 
 public class Align : Base
 {
     /// <summary>
+    /// Gets or sets the style sheet parser.
+    /// </summary>
+    /// <value>
+    /// The style sheet parser.
+    /// </value>
+    public StylesheetParser StyleSheetParser { get; set; }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="Align"/> class.
     /// </summary>
     /// <param name="document">The document.</param>
     /// <param name="config">The configuration.</param>
-    /// <param name="context">the browsing context.</param>
-    public Align(IHtmlDocument document, Config config, IBrowsingContext context)
-        : base(document, config, context)
+    /// <param name="styleSheetParser"></param>
+    public Align(IHtmlDocument document, Config config, StylesheetParser styleSheetParser)
+        : base(document, config)
     {
+        this.StyleSheetParser = styleSheetParser;
     }
 
     public virtual void Build()
@@ -50,24 +61,15 @@ public class Align : Base
             return;
         }
 
-        var parser = this.Context.GetService<ICssParser>();
+        var stylesheet = this.StyleSheetParser.ParseInlineStyle(styleAttribute);
 
-        if (parser == null)
+        var align = stylesheet.TextAlign;
+
+        if (!string.IsNullOrEmpty(align))
         {
-            return;
-        }
+            stylesheet.TextAlign = string.Empty;
 
-        var style = parser.ParseDeclaration(styleAttribute);
-
-        style.Update(styleAttribute);
-
-        var align = style.GetProperty("text-align");
-
-        if (align is not null && align.Value is not "")
-        {
-            style.RemoveProperty("text-align");
-
-            node.SetAttribute("style", style.ToCss(new BootstrapEmailStyleFormatter()));
+            node.SetAttribute("style", stylesheet.CssText);
         }
 
         type = type switch

@@ -4,8 +4,8 @@ using System.Text;
 
 public class Margin : Base
 {
-    public Margin(IHtmlDocument document, Config config, IBrowsingContext context)
-        : base(document, config, context)
+    public Margin(IHtmlDocument document, Config config)
+        : base(document, config)
     {
     }
 

@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net9.0;net10.0</TargetFrameworks>
+		<AssemblyName>ExCSS</AssemblyName>
+		<PackageId>ExCSS</PackageId>
+		<Title>ExCSS .NET Stylesheet Parser</Title>
+		<Authors>Tyler Brinks</Authors>
+		<Description>
+			ExCSS is a CSS 2.1 and CSS 3 parser for .NET. 
+			ExCSS makes it easy to read and parse stylesheets into a friendly object model with full LINQ support.
+		</Description>
+		<PackageProjectUrl>https://github.com/TylerBrinks/ExCSS</PackageProjectUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageReadmeFile>readme.md</PackageReadmeFile>
+		<RespositoryType>git</RespositoryType>
+		<RepositoryUrl>https://github.com/TylerBrinks/ExCSS</RepositoryUrl>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<SignAssembly>true</SignAssembly>
+		<AssemblyOriginatorKeyFile>ExCSS.snk</AssemblyOriginatorKeyFile>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<!-- If snupkg can't be used, the PDBs can be included in the main nupkg
+		see: https://github.com/dotnet/sourcelink/blob/main/README.md
+		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+		-->
+	</PropertyGroup>
+
+	<!-- Trimming parameters -->
+	<PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net6.0'))">
+		<IsTrimmable>true</IsTrimmable>
+		<SuppressTrimAnalysisWarnings>false</SuppressTrimAnalysisWarnings>
+		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+	</PropertyGroup>
+	<!-- AOT parameters -->
+	<PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">
+		<IsAotCompatible>true</IsAotCompatible>
+		<EnableAotAnalyzer>true</EnableAotAnalyzer>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<None Remove="ExCSS.snk" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Properties\" />
+	</ItemGroup>
+
+</Project>

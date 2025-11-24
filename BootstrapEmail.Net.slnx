@@ -8,6 +8,7 @@
   <Folder Name="/Source/">
     <Project Path="BootstrapEmailNet.Cli/BootstrapEmail.Net.Cli.csproj" />
     <Project Path="BootstrapEmailNet/BootstrapEmail.Net.csproj" />
+    <Project Path="ExCSS/ExCSS.csproj" />
   </Folder>
   <Folder Name="/Tests/">
     <Project Path="BootstrapEmailNet.Tests/BootstrapEmail.Net.Tests.csproj" />
