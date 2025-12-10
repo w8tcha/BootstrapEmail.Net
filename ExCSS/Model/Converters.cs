@@ -319,9 +319,6 @@ internal static class Converters
 
     public static readonly IValueConverter OptionalNumberConverter = NumberConverter.OrNone();
 
-    //public static readonly IValueConverter LengthOrNormalConverter =
-    //    LengthConverter.Or(Keywords.Normal, new Length(1f, Length.Unit.Em));
-
     public static readonly IValueConverter OptionalLengthConverter = LengthConverter.Or(Keywords.Normal);
     public static readonly IValueConverter AutoLengthConverter = LengthConverter.OrAuto();
     public static readonly IValueConverter OptionalLengthOrPercentConverter = LengthOrPercentConverter.OrNone();

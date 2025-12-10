@@ -13,48 +13,51 @@ internal static class ValueExtensions
                value == 900;
     }
 
-    public static Token OnlyOrDefault(this IEnumerable<Token> value)
+    extension(IEnumerable<Token> value)
     {
-        var result = default(Token);
-
-        foreach (var item in value)
+        public Token OnlyOrDefault()
         {
-            if (result == null)
+            var result = default(Token);
+
+            foreach (var item in value)
             {
-                result = item;
-                continue;
+                if (result == null)
+                {
+                    result = item;
+                    continue;
+                }
+
+                result = default;
+                break;
             }
 
-            result = default;
-            break;
+            return result;
         }
 
-        return result;
-    }
+        public bool Is(string expected)
+        {
+            var identifier = value.ToIdentifier();
+            return identifier != null && identifier.Isi(expected);
+        }
 
-    public static bool Is(this IEnumerable<Token> value, string expected)
-    {
-        var identifier = value.ToIdentifier();
-        return identifier != null && identifier.Isi(expected);
-    }
+        public string ToUri()
+        {
+            var element = value.OnlyOrDefault();
 
-    public static string ToUri(this IEnumerable<Token> value)
-    {
-        var element = value.OnlyOrDefault();
+            if (element is { Type: TokenType.Url }) return element.Data;
 
-        if (element is { Type: TokenType.Url }) return element.Data;
+            return null;
+        }
 
-        return null;
-    }
+        public Length? ToDistance()
+        {
+            var enumerable = value as Token[] ?? [.. value];
+            var percent = enumerable.ToPercent();
 
-    public static Length? ToDistance(this IEnumerable<Token> value)
-    {
-        var enumerable = value as Token[] ?? [.. value];
-        var percent = enumerable.ToPercent();
-
-        return percent.HasValue
-            ? new Length(percent.Value.Value, Length.Unit.Percent)
-            : enumerable.ToLength();
+            return percent.HasValue
+                ? new Length(percent.Value.Value, Length.Unit.Percent)
+                : enumerable.ToLength();
+        }
     }
 
     public static Length ToLength(this FontSize fontSize)
@@ -81,348 +84,351 @@ internal static class ValueExtensions
         };
     }
 
-    public static Percent? ToPercent(this IEnumerable<Token> value)
+    extension(IEnumerable<Token> value)
     {
-        var element = value.OnlyOrDefault();
-
-        if (element is { Type: TokenType.Percentage })
-            return new Percent(((UnitToken)element).Value);
-
-        return null;
-    }
-
-    public static Percent? ToPercentOrFraction(this IEnumerable<Token> value)
-    {
-        var enumerable = value as Token[] ?? [.. value];
-        var percent = ToPercent(enumerable);
-
-        if (percent is not null)
+        public Percent? ToPercent()
         {
-            return percent;
-        }
+            var element = value.OnlyOrDefault();
 
-        var element = value.OnlyOrDefault();
-        if (element is not NumberToken token)
-        {
+            if (element is { Type: TokenType.Percentage })
+                return new Percent(((UnitToken)element).Value);
+
             return null;
         }
 
-        try
+        public Percent? ToPercentOrFraction()
         {
-            var number = token.Value;
-            var percentage = number * 100;
-            return new Percent(percentage);
-        }
-        catch
-        {
-            return null;
-        }
-    }
+            var enumerable = value as Token[] ?? [.. value];
+            var percent = ToPercent(enumerable);
 
-    public static Number? ToPercentOrNumber(this IEnumerable<Token> value)
-    {
-        var enumerable = value as Token[] ?? [.. value];
-        var percent = ToPercent(enumerable);
-
-        if (percent is not null)
-        {
-            return new Number(percent.Value.Value, Number.Unit.Percent);
-        }
-
-        var element = value.OnlyOrDefault();
-        if (element is not NumberToken token)
-        {
-            return null;
-        }
-
-        try
-        {
-            return new Number(token.Value, Number.Unit.Float);
-        }
-        catch
-        {
-            return null;
-        }
-    }
-
-    public static string ToCssString(this IEnumerable<Token> value)
-    {
-        var element = value.OnlyOrDefault();
-
-        if (element is { Type: TokenType.String }) return element.Data;
-
-        return null;
-    }
-
-    public static string ToLiterals(this IEnumerable<Token> value)
-    {
-        var elements = new List<string>();
-        var it = value.GetEnumerator();
-
-        if (it.MoveNext())
-        {
-            do
+            if (percent is not null)
             {
-                if (it.Current?.Type != TokenType.Ident) return null;
+                return percent;
+            }
 
-                elements.Add(it.Current.Data);
+            var element = value.OnlyOrDefault();
+            if (element is not NumberToken token)
+            {
+                return null;
+            }
 
-                if (it.MoveNext() && it.Current?.Type != TokenType.Whitespace) return null;
-            } while (it.MoveNext());
+            try
+            {
+                var number = token.Value;
+                var percentage = number * 100;
+                return new Percent(percentage);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public Number? ToPercentOrNumber()
+        {
+            var enumerable = value as Token[] ?? [.. value];
+            var percent = ToPercent(enumerable);
+
+            if (percent is not null)
+            {
+                return new Number(percent.Value.Value, Number.Unit.Percent);
+            }
+
+            var element = value.OnlyOrDefault();
+            if (element is not NumberToken token)
+            {
+                return null;
+            }
+
+            try
+            {
+                return new Number(token.Value, Number.Unit.Float);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public string ToCssString()
+        {
+            var element = value.OnlyOrDefault();
+
+            if (element is { Type: TokenType.String }) return element.Data;
+
+            return null;
+        }
+
+        public string ToLiterals()
+        {
+            var elements = new List<string>();
+            var it = value.GetEnumerator();
+
+            if (it.MoveNext())
+            {
+                do
+                {
+                    if (it.Current?.Type != TokenType.Ident) return null;
+
+                    elements.Add(it.Current.Data);
+
+                    if (it.MoveNext() && it.Current?.Type != TokenType.Whitespace) return null;
+                } while (it.MoveNext());
+
+                it.Dispose();
+                return string.Join(" ", elements);
+            }
 
             it.Dispose();
-            return string.Join(" ", elements);
+            return null;
         }
 
-        it.Dispose();
-        return null;
-    }
-
-    public static string ToIdentifier(this IEnumerable<Token> value)
-    {
-        var element = value.OnlyOrDefault();
-
-        if (element != null && element.Type == TokenType.Ident) return element.Data.ToLowerInvariant();
-
-        return null;
-    }
-
-    public static string ToIdentifierCaseInsensitive(this IEnumerable<Token> value)
-    {
-        var element = value.OnlyOrDefault();
-
-        if (element != null && element.Type == TokenType.Ident) return element.Data;
-
-        return null;
-    }
-
-    public static string ToAnimatableIdentifier(this IEnumerable<Token> value)
-    {
-        var identifier = value.ToIdentifier();
-
-        if (identifier != null &&
-            (identifier.Isi(Keywords.All) || PropertyFactory.Instance.IsAnimatable(identifier)))
+        public string ToIdentifier()
         {
-            return identifier;
+            var element = value.OnlyOrDefault();
+
+            if (element != null && element.Type == TokenType.Ident) return element.Data.ToLowerInvariant();
+
+            return null;
         }
 
-        return null;
-    }
-
-    public static float? ToSingle(this IEnumerable<Token> value)
-    {
-        var element = value.OnlyOrDefault();
-
-        if (element != null && element.Type == TokenType.Number) return ((NumberToken) element).Value;
-
-        return null;
-    }
-
-    public static float? ToNaturalSingle(this IEnumerable<Token> value)
-    {
-        var element = value.ToSingle();
-        return element >= 0f ? element : null;
-    }
-
-    public static float? ToGreaterOrEqualOneSingle(this IEnumerable<Token> value)
-    {
-        var element = value.ToSingle();
-        return element >= 1f ? element : null;
-    }
-
-    public static int? ToInteger(this IEnumerable<Token> value)
-    {
-        var element = value.OnlyOrDefault();
-
-        if (element != null && element.Type == TokenType.Number && ((NumberToken) element).IsInteger)
+        public string ToIdentifierCaseInsensitive()
         {
-            return ((NumberToken) element).IntegerValue;
+            var element = value.OnlyOrDefault();
+
+            if (element != null && element.Type == TokenType.Ident) return element.Data;
+
+            return null;
         }
 
-        return null;
-    }
-
-    public static int? ToNaturalInteger(this IEnumerable<Token> value)
-    {
-        var element = value.ToInteger();
-        return element >= 0 ? element : null;
-    }
-
-    public static int? ToPositiveInteger(this IEnumerable<Token> value)
-    {
-        var element = value.ToInteger();
-        return element > 0 ? element : null;
-    }
-
-    public static int? ToWeightInteger(this IEnumerable<Token> value)
-    {
-        var element = value.ToPositiveInteger();
-        return element.HasValue && IsWeight(element.Value) ? element : null;
-    }
-
-    public static int? ToBinary(this IEnumerable<Token> value)
-    {
-        var element = value.ToInteger();
-        return element.HasValue && (element.Value == 0 || element.Value == 1) ? element : null;
-    }
-
-    public static float? ToAlphaValue(this IEnumerable<Token> value)
-    {
-        var enumerable = value as Token[] ?? [.. value];
-        var element = enumerable.ToNaturalSingle();
-
-        if (element.HasValue) return Math.Min(element.Value, 1f);
-
-        var percent = enumerable.ToPercent();
-
-        return percent?.NormalizedValue;
-    }
-
-    public static byte? ToRgbComponent(this IEnumerable<Token> value)
-    {
-        var enumerable = value as Token[] ?? [.. value];
-        var element = enumerable.ToNaturalInteger();
-
-        if (element.HasValue) return (byte) Math.Min(element.Value, 255);
-
-        var percent = enumerable.ToPercent();
-
-        if (!percent.HasValue) return null;
-
-        return (byte) (255f * percent.Value.NormalizedValue);
-    }
-
-    public static Angle? ToAngle(this IEnumerable<Token> value)
-    {
-        var element = value.OnlyOrDefault();
-
-        if (element == null || element.Type != TokenType.Dimension) return null;
-
-        var token = (UnitToken) element;
-        var unit = Angle.GetUnit(token.Unit);
-
-        if (unit != Angle.Unit.None) return new Angle(token.Value, unit);
-
-        return null;
-    }
-
-    public static Angle? ToAngleNumber(this IEnumerable<Token> value)
-    {
-        var enumerable = value as Token[] ?? [.. value];
-        var angle = enumerable.ToAngle();
-
-        if (angle.HasValue) return angle.Value;
-
-        var number = enumerable.ToSingle();
-
-        if (!number.HasValue) return null;
-
-        return new Angle(number.Value, Angle.Unit.Deg);
-    }
-
-    public static Length? ToLength(this IEnumerable<Token> value)
-    {
-        var element = value.OnlyOrDefault();
-
-        if (element != null)
+        public string ToAnimatableIdentifier()
         {
-            switch (element.Type)
+            var identifier = value.ToIdentifier();
+
+            if (identifier != null &&
+                (identifier.Isi(Keywords.All) || PropertyFactory.Instance.IsAnimatable(identifier)))
             {
-                case TokenType.Dimension:
+                return identifier;
+            }
+
+            return null;
+        }
+
+        public float? ToSingle()
+        {
+            var element = value.OnlyOrDefault();
+
+            if (element != null && element.Type == TokenType.Number) return ((NumberToken) element).Value;
+
+            return null;
+        }
+
+        public float? ToNaturalSingle()
+        {
+            var element = value.ToSingle();
+            return element >= 0f ? element : null;
+        }
+
+        public float? ToGreaterOrEqualOneSingle()
+        {
+            var element = value.ToSingle();
+            return element >= 1f ? element : null;
+        }
+
+        public int? ToInteger()
+        {
+            var element = value.OnlyOrDefault();
+
+            if (element != null && element.Type == TokenType.Number && ((NumberToken) element).IsInteger)
+            {
+                return ((NumberToken) element).IntegerValue;
+            }
+
+            return null;
+        }
+
+        public int? ToNaturalInteger()
+        {
+            var element = value.ToInteger();
+            return element >= 0 ? element : null;
+        }
+
+        public int? ToPositiveInteger()
+        {
+            var element = value.ToInteger();
+            return element > 0 ? element : null;
+        }
+
+        public int? ToWeightInteger()
+        {
+            var element = value.ToPositiveInteger();
+            return element.HasValue && IsWeight(element.Value) ? element : null;
+        }
+
+        public int? ToBinary()
+        {
+            var element = value.ToInteger();
+            return element.HasValue && (element.Value == 0 || element.Value == 1) ? element : null;
+        }
+
+        public float? ToAlphaValue()
+        {
+            var enumerable = value as Token[] ?? [.. value];
+            var element = enumerable.ToNaturalSingle();
+
+            if (element.HasValue) return Math.Min(element.Value, 1f);
+
+            var percent = enumerable.ToPercent();
+
+            return percent?.NormalizedValue;
+        }
+
+        public byte? ToRgbComponent()
+        {
+            var enumerable = value as Token[] ?? [.. value];
+            var element = enumerable.ToNaturalInteger();
+
+            if (element.HasValue) return (byte) Math.Min(element.Value, 255);
+
+            var percent = enumerable.ToPercent();
+
+            if (!percent.HasValue) return null;
+
+            return (byte) (255f * percent.Value.NormalizedValue);
+        }
+
+        public Angle? ToAngle()
+        {
+            var element = value.OnlyOrDefault();
+
+            if (element == null || element.Type != TokenType.Dimension) return null;
+
+            var token = (UnitToken) element;
+            var unit = Angle.GetUnit(token.Unit);
+
+            if (unit != Angle.Unit.None) return new Angle(token.Value, unit);
+
+            return null;
+        }
+
+        public Angle? ToAngleNumber()
+        {
+            var enumerable = value as Token[] ?? [.. value];
+            var angle = enumerable.ToAngle();
+
+            if (angle.HasValue) return angle.Value;
+
+            var number = enumerable.ToSingle();
+
+            if (!number.HasValue) return null;
+
+            return new Angle(number.Value, Angle.Unit.Deg);
+        }
+
+        public Length? ToLength()
+        {
+            var element = value.OnlyOrDefault();
+
+            if (element != null)
+            {
+                switch (element.Type)
                 {
-                    var token = (UnitToken) element;
-                    var unit = Length.GetUnit(token.Unit);
+                    case TokenType.Dimension:
+                    {
+                        var token = (UnitToken) element;
+                        var unit = Length.GetUnit(token.Unit);
 
-                    if (unit != Length.Unit.None) return new Length(token.Value, unit);
-                    break;
+                        if (unit != Length.Unit.None) return new Length(token.Value, unit);
+                        break;
+                    }
+                    case TokenType.Number when ((NumberToken) element).Value == 0f:
+                        return Length.Zero;
                 }
-                case TokenType.Number when ((NumberToken) element).Value == 0f:
-                    return Length.Zero;
             }
+
+            return null;
         }
 
-        return null;
-    }
-
-    public static Resolution? ToResolution(this IEnumerable<Token> value)
-    {
-        var element = value.OnlyOrDefault();
-
-        if (element == null || element.Type != TokenType.Dimension) return null;
-
-        var token = (UnitToken) element;
-        var unit = Resolution.GetUnit(token.Unit);
-
-        if (unit != Resolution.Unit.None) return new Resolution(token.Value, unit);
-
-        return null;
-    }
-
-    public static Time? ToTime(this IEnumerable<Token> value)
-    {
-        var element = value.OnlyOrDefault();
-
-        if (element == null || element.Type != TokenType.Dimension) return null;
-
-        var token = (UnitToken) element;
-        var unit = Time.GetUnit(token.Unit);
-
-        if (unit != Time.Unit.None) return new Time(token.Value, unit);
-
-        return null;
-    }
-
-    public static Length? ToBorderWidth(this IEnumerable<Token> value)
-    {
-        var enumerable = value as Token[] ?? [.. value];
-        var length = enumerable.ToLength();
-
-        if (length != null) return length;
-
-        if (enumerable.Is(Keywords.Thin)) return Length.Thin;
-
-        if (enumerable.Is(Keywords.Medium)) return Length.Medium;
-
-        return enumerable.Is(Keywords.Thick) ? Length.Thick : length;
-    }
-
-    public static List<List<Token>> ToItems(this IEnumerable<Token> value)
-    {
-        var list = new List<List<Token>>();
-        var current = new List<Token>();
-        var nested = 0;
-        list.Add(current);
-
-        foreach (var token in value)
+        public Resolution? ToResolution()
         {
-            var whitespace = token.Type == TokenType.Whitespace;
-            var newItem = token.Type == TokenType.String || token.Type == TokenType.Url ||
-                          token.Type == TokenType.Function;
+            var element = value.OnlyOrDefault();
 
-            if (nested == 0 && (whitespace || newItem))
-            {
-                if (current.Count != 0)
-                {
-                    current = [];
-                    list.Add(current);
-                }
+            if (element == null || element.Type != TokenType.Dimension) return null;
 
-                if (whitespace) continue;
-            }
-            else switch (token.Type)
-            {
-                case TokenType.RoundBracketOpen:
-                    nested++;
-                    break;
-                case TokenType.RoundBracketClose:
-                    nested--;
-                    break;
-            }
+            var token = (UnitToken) element;
+            var unit = Resolution.GetUnit(token.Unit);
 
-            current.Add(token);
+            if (unit != Resolution.Unit.None) return new Resolution(token.Value, unit);
+
+            return null;
         }
 
-        return list;
+        public Time? ToTime()
+        {
+            var element = value.OnlyOrDefault();
+
+            if (element == null || element.Type != TokenType.Dimension) return null;
+
+            var token = (UnitToken) element;
+            var unit = Time.GetUnit(token.Unit);
+
+            if (unit != Time.Unit.None) return new Time(token.Value, unit);
+
+            return null;
+        }
+
+        public Length? ToBorderWidth()
+        {
+            var enumerable = value as Token[] ?? [.. value];
+            var length = enumerable.ToLength();
+
+            if (length != null) return length;
+
+            if (enumerable.Is(Keywords.Thin)) return Length.Thin;
+
+            if (enumerable.Is(Keywords.Medium)) return Length.Medium;
+
+            return enumerable.Is(Keywords.Thick) ? Length.Thick : length;
+        }
+
+        public List<List<Token>> ToItems()
+        {
+            var list = new List<List<Token>>();
+            var current = new List<Token>();
+            var nested = 0;
+            list.Add(current);
+
+            foreach (var token in value)
+            {
+                var whitespace = token.Type == TokenType.Whitespace;
+                var newItem = token.Type == TokenType.String || token.Type == TokenType.Url ||
+                              token.Type == TokenType.Function;
+
+                if (nested == 0 && (whitespace || newItem))
+                {
+                    if (current.Count != 0)
+                    {
+                        current = [];
+                        list.Add(current);
+                    }
+
+                    if (whitespace) continue;
+                }
+                else switch (token.Type)
+                {
+                    case TokenType.RoundBracketOpen:
+                        nested++;
+                        break;
+                    case TokenType.RoundBracketClose:
+                        nested--;
+                        break;
+                }
+
+                current.Add(token);
+            }
+
+            return list;
+        }
     }
 
     public static void Trim(this List<Token> value)
@@ -442,58 +448,61 @@ internal static class ValueExtensions
         value.RemoveRange(0, begin);
     }
 
-    public static List<List<Token>> ToList(this IEnumerable<Token> value)
+    extension(IEnumerable<Token> value)
     {
-        var list = new List<List<Token>>();
-        var current = new List<Token>();
-        var nested = 0;
-        list.Add(current);
-
-        foreach (var token in value)
+        public List<List<Token>> ToList()
         {
-            if (nested == 0 && token.Type == TokenType.Comma)
-            {
-                current = [];
-                list.Add(current);
-                continue;
-            }
+            var list = new List<List<Token>>();
+            var current = new List<Token>();
+            var nested = 0;
+            list.Add(current);
 
-            switch (token.Type)
+            foreach (var token in value)
             {
-                case TokenType.RoundBracketOpen:
-                    nested++;
-                    break;
-                case TokenType.RoundBracketClose:
-                    nested--;
-                    break;
-                case TokenType.Whitespace when current.Count == 0:
+                if (nested == 0 && token.Type == TokenType.Comma)
+                {
+                    current = [];
+                    list.Add(current);
                     continue;
+                }
+
+                switch (token.Type)
+                {
+                    case TokenType.RoundBracketOpen:
+                        nested++;
+                        break;
+                    case TokenType.RoundBracketClose:
+                        nested--;
+                        break;
+                    case TokenType.Whitespace when current.Count == 0:
+                        continue;
+                }
+
+                current.Add(token);
             }
 
-            current.Add(token);
+            foreach (var token in list) token.Trim();
+
+            return list;
         }
 
-        foreach (var token in list) token.Trim();
-
-        return list;
-    }
-
-    public static string ToText(this IEnumerable<Token> value)
-    {
-        return string.Join(string.Empty, value.Select(m => m.ToValue()));
-    }
-
-    public static Color? ToColor(this IEnumerable<Token> value)
-    {
-        var element = value.OnlyOrDefault();
-
-        if (element != null && element.Type == TokenType.Ident) return Color.FromName(element.Data);
-
-        if (element != null && element.Type == TokenType.Color && !((ColorToken) element).IsValid)
+        public string ToText()
         {
-            return Color.FromHex(element.Data);
+            return string.Join(string.Empty, value.Select(m => m.ToValue()));
         }
 
-        return null;
+        public Color? ToColor()
+        {
+            var element = value.OnlyOrDefault();
+
+            if (element != null && element.Type == TokenType.Ident) return Color.FromName(element.Data);
+
+            if (element != null && element.Type == TokenType.Color && !((ColorToken) element).IsValid)
+            {
+                return Color.FromHex(element.Data);
+            }
+
+            return null;
+        }
     }
 }

@@ -17,89 +17,92 @@ internal static class StringExtensions
         return list.Any(t => t.Equals(element, comparison));
     }
 
-    public static bool Is(this string current, string other)
+    extension(string current)
     {
-        return string.Equals(current, other, StringComparison.Ordinal);
-    }
-
-    public static bool Isi(this string current, string other)
-    {
-        return string.Equals(current, other, StringComparison.OrdinalIgnoreCase);
-    }
-
-    public static bool IsOneOf(this string element, string item1, string item2)
-    {
-        return element.Is(item1) || element.Is(item2);
-    }
-
-    public static string StylesheetString(this string value)
-    {
-        var builder = Pool.NewStringBuilder();
-        builder.Append(Symbols.DoubleQuote);
-
-        if (!string.IsNullOrEmpty(value))
-            for (var i = 0; i < value.Length; i++)
-            {
-                var character = value[i];
-
-                switch (character)
-                {
-                    case Symbols.Null:
-                        throw new ParseException("Unable to parse null symbol");
-                    case Symbols.DoubleQuote:
-                    case Symbols.ReverseSolidus:
-                        builder.Append(Symbols.ReverseSolidus).Append(character);
-                        break;
-                    default:
-                        if (character.IsInRange(Symbols.StartOfHeading, Symbols.UnitSeparator)
-                            || character == Symbols.CurlyBracketOpen)
-                        {
-                            builder.Append(Symbols.ReverseSolidus)
-                                .Append(character.ToHex())
-                                .Append(i + 1 != value.Length ? " " : "");
-                        }
-                        else
-                        {
-                            builder.Append(character);
-                        }
-
-                        break;
-                }
-            }
-
-        builder.Append(Symbols.DoubleQuote);
-        return builder.ToPool();
-    }
-
-    public static string StylesheetFunction(this string value, string argument)
-    {
-        return string.Concat(value, "(", argument, ")");
-    }
-
-    public static string StylesheetUrl(this string value)
-    {
-        var argument = value.StylesheetString();
-        return FunctionNames.Url.StylesheetFunction(argument);
-    }
-
-    public static string StylesheetUnit(this string value, out float result)
-    {
-        if (!string.IsNullOrEmpty(value))
+        public bool Is(string other)
         {
-            var firstLetter = value.Length;
-
-            while (!value[firstLetter - 1].IsDigit() && --firstLetter > 0)
-            {
-                // Intentional empty.
-            }
-
-            var parsed = float.TryParse(value.Substring(0, firstLetter), NumberStyles.Any,
-                CultureInfo.InvariantCulture, out result);
-
-            if (firstLetter > 0 && parsed) return value.Substring(firstLetter);
+            return string.Equals(current, other, StringComparison.Ordinal);
         }
 
-        result = default;
-        return null;
+        public bool Isi(string other)
+        {
+            return string.Equals(current, other, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public bool IsOneOf(string item1, string item2)
+        {
+            return current.Is(item1) || current.Is(item2);
+        }
+
+        public string StylesheetString()
+        {
+            var builder = Pool.NewStringBuilder();
+            builder.Append(Symbols.DoubleQuote);
+
+            if (!string.IsNullOrEmpty(current))
+                for (var i = 0; i < current.Length; i++)
+                {
+                    var character = current[i];
+
+                    switch (character)
+                    {
+                        case Symbols.Null:
+                            throw new ParseException("Unable to parse null symbol");
+                        case Symbols.DoubleQuote:
+                        case Symbols.ReverseSolidus:
+                            builder.Append(Symbols.ReverseSolidus).Append(character);
+                            break;
+                        default:
+                            if (character.IsInRange(Symbols.StartOfHeading, Symbols.UnitSeparator)
+                                || character == Symbols.CurlyBracketOpen)
+                            {
+                                builder.Append(Symbols.ReverseSolidus)
+                                    .Append(character.ToHex())
+                                    .Append(i + 1 != current.Length ? " " : "");
+                            }
+                            else
+                            {
+                                builder.Append(character);
+                            }
+
+                            break;
+                    }
+                }
+
+            builder.Append(Symbols.DoubleQuote);
+            return builder.ToPool();
+        }
+
+        public string StylesheetFunction(string argument)
+        {
+            return string.Concat(current, "(", argument, ")");
+        }
+
+        public string StylesheetUrl()
+        {
+            var argument = current.StylesheetString();
+            return FunctionNames.Url.StylesheetFunction(argument);
+        }
+
+        public string StylesheetUnit(out float result)
+        {
+            if (!string.IsNullOrEmpty(current))
+            {
+                var firstLetter = current.Length;
+
+                while (!current[firstLetter - 1].IsDigit() && --firstLetter > 0)
+                {
+                    // Intentional empty.
+                }
+
+                var parsed = float.TryParse(current.Substring(0, firstLetter), NumberStyles.Any,
+                    CultureInfo.InvariantCulture, out result);
+
+                if (firstLetter > 0 && parsed) return current.Substring(firstLetter);
+            }
+
+            result = default;
+            return null;
+        }
     }
 }

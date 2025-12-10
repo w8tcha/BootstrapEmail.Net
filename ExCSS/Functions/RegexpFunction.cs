@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 
 namespace ExCSS;
 
@@ -8,7 +9,7 @@ internal sealed class RegexpFunction : DocumentFunction
 
     public RegexpFunction(string url) : base(FunctionNames.Regexp, url)
     {
-        _regex = new Regex(url, RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
+        _regex = new Regex(url, RegexOptions.ECMAScript | RegexOptions.CultureInvariant, TimeSpan.FromMilliseconds(1000));
     }
 
     public override bool Matches(Url url)

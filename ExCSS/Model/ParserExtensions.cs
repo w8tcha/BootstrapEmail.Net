@@ -43,17 +43,20 @@ internal static class ParserExtensions
         return orCondition;
     }
 
-    public static TokenType GetTypeFromName(this string functionName)
+    extension(string functionName)
     {
-        return FunctionTypes.TryGetValue(functionName, out _) 
-            ? TokenType.Url 
-            : TokenType.Function;
-    }
+        public TokenType GetTypeFromName()
+        {
+            return FunctionTypes.TryGetValue(functionName, out _) 
+                ? TokenType.Url 
+                : TokenType.Function;
+        }
 
-    public static Func<IEnumerable<IConditionFunction>, IConditionFunction> GetCreator(this string conjunction)
-    {
-        GroupCreators.TryGetValue(conjunction, out var creator);
-        return creator;
+        public Func<IEnumerable<IConditionFunction>, IConditionFunction> GetCreator()
+        {
+            GroupCreators.TryGetValue(functionName, out var creator);
+            return creator;
+        }
     }
 
     public static int GetCode(this ParseError code)
@@ -61,63 +64,66 @@ internal static class ParserExtensions
         return (int) code;
     }
 
-    public static bool Is(this Token token, TokenType a)
+    extension(Token token)
     {
-        var type = token.Type;
-        return type == a;
-    }
-
-    public static bool Is(this Token token, TokenType a, TokenType b)
-    {
-        var type = token.Type;
-        return type == a || type == b;
-    }
-
-    public static bool IsNot(this Token token, TokenType a, TokenType b)
-    {
-        var type = token.Type;
-        return type != a && type != b;
-    }
-
-    public static bool IsNot(this Token token, TokenType a, TokenType b, TokenType c)
-    {
-        var type = token.Type;
-        return type != a && type != b && type != c;
-    }
-
-    public static bool IsDeclarationName(this Token token)
-    {
-        return token.Type != TokenType.EndOfFile &&
-               token.Type != TokenType.Colon &&
-               token.Type != TokenType.Whitespace &&
-               token.Type != TokenType.Comment &&
-               token.Type != TokenType.CurlyBracketOpen &&
-               token.Type != TokenType.Semicolon;
-    }
-
-    public static DocumentFunction ToDocumentFunction(this Token token)
-    {
-        switch (token.Type)
+        public bool Is(TokenType a)
         {
-            case TokenType.Url:
-            {
-                var functionName = ((UrlToken)token).FunctionName;
-                FunctionTypes.TryGetValue(functionName, out var creator);
-                return creator(token.Data);
-            }
-            case TokenType.Function when token.Data.Isi(FunctionNames.Regexp):
-            {
-                var css = ((FunctionToken) token).ArgumentTokens.ToCssString();
-                if (css != null)
-                {
-                    return new RegexpFunction(css);
-                }
-
-                break;
-            }
+            var type = token.Type;
+            return type == a;
         }
 
-        return null;
+        public bool Is(TokenType a, TokenType b)
+        {
+            var type = token.Type;
+            return type == a || type == b;
+        }
+
+        public bool IsNot(TokenType a, TokenType b)
+        {
+            var type = token.Type;
+            return type != a && type != b;
+        }
+
+        public bool IsNot(TokenType a, TokenType b, TokenType c)
+        {
+            var type = token.Type;
+            return type != a && type != b && type != c;
+        }
+
+        public bool IsDeclarationName()
+        {
+            return token.Type != TokenType.EndOfFile &&
+                   token.Type != TokenType.Colon &&
+                   token.Type != TokenType.Whitespace &&
+                   token.Type != TokenType.Comment &&
+                   token.Type != TokenType.CurlyBracketOpen &&
+                   token.Type != TokenType.Semicolon;
+        }
+
+        public DocumentFunction ToDocumentFunction()
+        {
+            switch (token.Type)
+            {
+                case TokenType.Url:
+                {
+                    var functionName = ((UrlToken)token).FunctionName;
+                    FunctionTypes.TryGetValue(functionName, out var creator);
+                    return creator(token.Data);
+                }
+                case TokenType.Function when token.Data.Isi(FunctionNames.Regexp):
+                {
+                    var css = ((FunctionToken) token).ArgumentTokens.ToCssString();
+                    if (css != null)
+                    {
+                        return new RegexpFunction(css);
+                    }
+
+                    break;
+                }
+            }
+
+            return null;
+        }
     }
 
     public static Rule CreateRule(this StylesheetParser parser, RuleType type)

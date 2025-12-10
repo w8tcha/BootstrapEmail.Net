@@ -51,7 +51,7 @@ public class StyleDeclaration : StylesheetNode, IProperties
                 if (serialized.Contains(property)) continue;
 
                 var shorthands = PropertyFactory.Instance.GetShorthands(property).ToList();
-                if (shorthands.Any())
+                if (shorthands.Count != 0)
                 {
                     var longhands = Declarations.Where(m => !serialized.Contains(m.Name)).ToList();
                     foreach (var shorthand in shorthands.OrderByDescending(m =>

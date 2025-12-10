@@ -6,29 +6,32 @@ namespace ExCSS;
 
 internal static class CollectionExtensions
 {
-    public static IEnumerable<T> Concat<T>(this IEnumerable<T> items, T element)
+    extension<T>(IEnumerable<T> items)
     {
-        foreach (var item in items) yield return item;
+        public IEnumerable<T> Concat(T element)
+        {
+            foreach (var item in items) yield return item;
 
-        yield return element;
-    }
-
-    public static T GetItemByIndex<T>(this IEnumerable<T> items, int index)
-    {
-        if (index < 0) throw new ArgumentOutOfRangeException(nameof(index));
-
-        var i = 0;
-
-        foreach (var item in items)
-        {   if (i++ == index)
-            {
-                return item;
-            }
+            yield return element;
         }
 
-        throw new ArgumentOutOfRangeException(nameof(index));
-    }
+        public T GetItemByIndex(int index)
+        {
+            if (index < 0) throw new ArgumentOutOfRangeException(nameof(index));
 
-    public static IEnumerable<object[]> ToObjectArray<T>(this IEnumerable<T> items)
-        => items.Select(i => new object[] { i });
+            var i = 0;
+
+            foreach (var item in items)
+            {   if (i++ == index)
+                {
+                    return item;
+                }
+            }
+
+            throw new ArgumentOutOfRangeException(nameof(index));
+        }
+
+        public IEnumerable<object[]> ToObjectArray()
+            => items.Select(i => new object[] { i });
+    }
 }

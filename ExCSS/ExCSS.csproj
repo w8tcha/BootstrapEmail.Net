@@ -23,11 +23,6 @@
 		<AssemblyOriginatorKeyFile>ExCSS.snk</AssemblyOriginatorKeyFile>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<IncludeSymbols>true</IncludeSymbols>
-		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<!-- If snupkg can't be used, the PDBs can be included in the main nupkg
-		see: https://github.com/dotnet/sourcelink/blob/main/README.md
-		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-		-->
 	</PropertyGroup>
 
 	<!-- Trimming parameters -->
@@ -47,7 +42,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Properties\" />
+	  <PackageReference Include="SonarAnalyzer.CSharp" Version="10.16.0.128591">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
 	</ItemGroup>
 
 </Project>
