@@ -5,76 +5,73 @@ namespace ExCSS;
 
 internal static class ValueConverterExtensions
 {
-    extension(IValueConverter converter)
+    public static IPropertyValue ConvertDefault(this IValueConverter converter)
     {
-        public IPropertyValue ConvertDefault()
+        return converter.Convert([]);
+    }
+
+    public static IPropertyValue VaryStart(this IValueConverter converter, List<Token> list)
+    {
+        for (var count = list.Count; count > 0; count--)
         {
-            return converter.Convert([]);
+            if (list[count - 1].Type == TokenType.Whitespace)
+            {
+                continue;
+            }
+
+            var value = converter.Convert(list.Take(count));
+
+            if (value == null)
+            {
+                continue;
+            }
+
+            list.RemoveRange(0, count);
+            list.Trim();
+            return value;
         }
 
-        public IPropertyValue VaryStart(List<Token> list)
+        return converter.ConvertDefault();
+    }
+
+    public static IPropertyValue VaryAll(this IValueConverter converter, List<Token> list)
+    {
+        for (var i = 0; i < list.Count; i++)
         {
-            for (var count = list.Count; count > 0; count--)
+            if (list[i].Type == TokenType.Whitespace)
             {
-                if (list[count - 1].Type == TokenType.Whitespace)
+                continue;
+            }
+
+            for (var j = list.Count; j > i; j--)
+            {
+                var count = j - i;
+
+                if (list[j - 1].Type == TokenType.Whitespace)
                 {
                     continue;
                 }
 
-                var value = converter.Convert(list.Take(count));
+                var value = converter.Convert(list.Skip(i).Take(count));
 
-                if (value == null)
-                {
-                    continue;
-                }
-
-                list.RemoveRange(0, count);
+                if (value == null) continue;
+                list.RemoveRange(i, count);
                 list.Trim();
                 return value;
             }
-
-            return converter.ConvertDefault();
         }
 
-        public IPropertyValue VaryAll(List<Token> list)
-        {
-            for (var i = 0; i < list.Count; i++)
-            {
-                if (list[i].Type == TokenType.Whitespace)
-                {
-                    continue;
-                }
+        return converter.ConvertDefault();
+    }
 
-                for (var j = list.Count; j > i; j--)
-                {
-                    var count = j - i;
+    public static IValueConverter Many(this IValueConverter converter, int min = 1, int max = ushort.MaxValue)
+    {
+        return new OneOrMoreValueConverter(converter, min, max);
+    }
 
-                    if (list[j - 1].Type == TokenType.Whitespace)
-                    {
-                        continue;
-                    }
-
-                    var value = converter.Convert(list.Skip(i).Take(count));
-
-                    if (value == null) continue;
-                    list.RemoveRange(i, count);
-                    list.Trim();
-                    return value;
-                }
-            }
-
-            return converter.ConvertDefault();
-        }
-
-        public IValueConverter Many(int min = 1, int max = ushort.MaxValue)
-        {
-            return new OneOrMoreValueConverter(converter, min, max);
-        }
-
-        public IValueConverter FromList()
-        {
-            return new ListValueConverter(converter);
-        }
+    public static IValueConverter FromList(this IValueConverter converter)
+    {
+        return new ListValueConverter(converter);
     }
 
     public static IValueConverter ToConverter<T>(this Dictionary<string, T> values)
@@ -82,111 +79,108 @@ internal static class ValueConverterExtensions
         return new DictionaryValueConverter<T>(values);
     }
 
-    extension(IValueConverter converter)
+    public static IValueConverter Periodic(this IValueConverter converter, params string[] labels)
     {
-        public IValueConverter Periodic(params string[] labels)
-        {
-            return new PeriodicValueConverter(converter, labels);
-        }
+        return new PeriodicValueConverter(converter, labels);
+    }
 
-        public IValueConverter RequiresEnd(IValueConverter endConverter)
-        {
-            return new EndListValueConverter(converter, endConverter);
-        }
+    public static IValueConverter RequiresEnd(this IValueConverter converter, IValueConverter endConverter)
+    {
+        return new EndListValueConverter(converter, endConverter);
+    }
 
-        public IValueConverter Required()
-        {
-            return new RequiredValueConverter(converter);
-        }
+    public static IValueConverter Required(this IValueConverter converter)
+    {
+        return new RequiredValueConverter(converter);
+    }
 
-        public IValueConverter Option()
-        {
-            return new OptionValueConverter(converter);
-        }
+    public static IValueConverter Option(this IValueConverter converter)
+    {
+        return new OptionValueConverter(converter);
+    }
 
-        public IValueConverter For(params string[] labels)
-        {
-            return new ConstraintValueConverter(converter, labels);
-        }
+    public static IValueConverter For(this IValueConverter converter, params string[] labels)
+    {
+        return new ConstraintValueConverter(converter, labels);
+    }
 
-        public IValueConverter Option<T>(T defaultValue)
-        {
-            return new OptionValueConverter<T>(converter);
-        }
+    public static IValueConverter Option<T>(this IValueConverter converter, T defaultValue)
+    {
+        return new OptionValueConverter<T>(converter);
+    }
 
-        public IValueConverter Or(IValueConverter secondary)
-        {
-            return new OrValueConverter(converter, secondary);
-        }
+    public static IValueConverter Or(this IValueConverter converter, IValueConverter secondary)
+    {
+        return new OrValueConverter(converter, secondary);
+    }
 
-        public IValueConverter Or(string keyword)
-        {
-            return converter.Or<object>(keyword, null);
-        }
+    public static IValueConverter Or(this IValueConverter converter, string keyword)
+    {
+        return converter.Or<object>(keyword, null);
+    }
 
-        public IValueConverter Or<T>(string keyword, T value)
-        {
-            var identifier = new IdentifierValueConverter<T>(keyword, value);
-            return new OrValueConverter(converter, identifier);
-        }
+    public static IValueConverter Or<T>(this IValueConverter converter, string keyword, T value)
+    {
+        var identifier = new IdentifierValueConverter<T>(keyword, value);
+        return new OrValueConverter(converter, identifier);
+    }
 
-        public IValueConverter OrNone()
-        {
-            return converter.Or(Keywords.None);
-        }
+    public static IValueConverter OrNone(this IValueConverter converter)
+    {
+        return converter.Or(Keywords.None);
+    }
 
-        public IValueConverter OrDefault()
-        {
-            return converter.OrInherit().Or(Keywords.Initial);
-        }
+    public static IValueConverter OrDefault(this IValueConverter converter)
+    {
+        return converter.OrInherit().Or(Keywords.Initial);
+    }
 
-        public IValueConverter OrDefault<T>(T value)
-        {
-            return converter.OrInherit().Or(Keywords.Initial, value);
-        }
+    public static IValueConverter OrDefault<T>(this IValueConverter converter, T value)
+    {
+        return converter.OrInherit().Or(Keywords.Initial, value);
+    }
 
-        public IValueConverter OrInherit()
-        {
-            return converter.Or(Keywords.Inherit);
-        }
+    public static IValueConverter OrInherit(this IValueConverter converter)
+    {
+        return converter.Or(Keywords.Inherit);
+    }
 
-        public IValueConverter OrAuto()
-        {
-            return converter.Or(Keywords.Auto);
-        }
+    public static IValueConverter OrAuto(this IValueConverter converter)
+    {
+        return converter.Or(Keywords.Auto);
+    }
 
-        public IValueConverter OrGlobalValue()
-        {
-            return converter.OrInherit()
-                .Or(Keywords.Initial)
-                .Or(Keywords.Revert)
-                .Or(Keywords.RevertLayer)
-                .Or(Keywords.Unset);
-        }
+    public static IValueConverter OrGlobalValue(this IValueConverter converter)
+    {
+        return converter.OrInherit()
+            .Or(Keywords.Initial)
+            .Or(Keywords.Revert)
+            .Or(Keywords.RevertLayer)
+            .Or(Keywords.Unset);
+    }
 
-        public IValueConverter ConditionalStartsWithKeyword(string when, params string[] keywords)
-        {
-            return new ConditionalStartsWithValueConverter(when, converter, keywords);
-        }
+    public static IValueConverter ConditionalStartsWithKeyword(this IValueConverter converter, string when, params string[] keywords)
+    {
+        return new ConditionalStartsWithValueConverter(when, converter, keywords);
+    }
 
-        public IValueConverter StartsWithKeyword(string keyword)
-        {
-            return new StartsWithValueConverter(TokenType.Ident, keyword, converter);
-        }
+    public static IValueConverter StartsWithKeyword(this IValueConverter converter, string keyword)
+    {
+        return new StartsWithValueConverter(TokenType.Ident, keyword, converter);
+    }
 
-        public IValueConverter StartsWithDelimiter()
-        {
-            return new StartsWithValueConverter(TokenType.Delim, "/", converter);
-        }
+    public static IValueConverter StartsWithDelimiter(this IValueConverter converter)
+    {
+        return new StartsWithValueConverter(TokenType.Delim, "/", converter);
+    }
 
-        public IValueConverter WithCurrentColor()
-        {
-            return converter.Or(Keywords.CurrentColor, Color.Transparent);
-        }
+    public static IValueConverter WithCurrentColor(this IValueConverter converter)
+    {
+        return converter.Or(Keywords.CurrentColor, Color.Transparent);
+    }
 
-        public IValueConverter WithFallback(int defaultValue)
-        {
-            return new FallbackValueConverter(converter, TokenValue.FromNumber(defaultValue));
-        }
+    public static IValueConverter WithFallback(this IValueConverter converter, int defaultValue)
+    {
+        return new FallbackValueConverter(converter, TokenValue.FromNumber(defaultValue));
     }
 }

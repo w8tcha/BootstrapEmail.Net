@@ -4,27 +4,24 @@ namespace ExCSS;
 
 public static class FormatExtensions
 {
-    extension(IStyleFormattable style)
+    public static string ToCss(this IStyleFormattable style)
     {
-        public string ToCss()
+        return style.ToCss(CompressedStyleFormatter.Instance);
+    }
+
+    public static string ToCss(this IStyleFormattable style, IStyleFormatter formatter)
+    {
+        var sb = Pool.NewStringBuilder();
+        using (var writer = new StringWriter(sb))
         {
-            return style.ToCss(CompressedStyleFormatter.Instance);
+            style.ToCss(writer, formatter);
         }
 
-        public string ToCss(IStyleFormatter formatter)
-        {
-            var sb = Pool.NewStringBuilder();
-            using (var writer = new StringWriter(sb))
-            {
-                style.ToCss(writer, formatter);
-            }
+        return sb.ToPool();
+    }
 
-            return sb.ToPool();
-        }
-
-        public void ToCss(TextWriter writer)
-        {
-            style.ToCss(writer, CompressedStyleFormatter.Instance);
-        }
+    public static void ToCss(this IStyleFormattable style, TextWriter writer)
+    {
+        style.ToCss(writer, CompressedStyleFormatter.Instance);
     }
 }
