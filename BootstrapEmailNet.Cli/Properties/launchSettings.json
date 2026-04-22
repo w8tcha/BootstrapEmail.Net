@@ -1,10 +1,11 @@
 {
   "profiles": {
     "BootstrapEmail.Cli": {
-      "commandName": "Project",
-      "commandLineArgs": "-f source.html -d result.html"
-      //"commandLineArgs": "-p 'emails/*' -d 'emails/compiled/*"
-      //"commandLineArgs": "-s 'A button'"
+        "commandName": "Project",
+        "commandLineArgs": "-f ../../YetAnotherForum.NET/wwwroot/Resources/EmailTemplate.html -d ../../YetAnotherForum.NET/wwwroot/css/themes/cerulean/EmailTemplate.html -c ../../YetAnotherForum.NET/wwwroot/lib/themes/cerulean/bootstrap_email.json"
+        //"commandLineArgs": "-f source.html -d result.html"
+        //"commandLineArgs": "-p 'emails/*' -d 'emails/compiled/*"
+        //"commandLineArgs": "-s 'A button'"
     }
   }
 }

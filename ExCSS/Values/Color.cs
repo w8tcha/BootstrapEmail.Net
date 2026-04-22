@@ -1,20 +1,39 @@
-﻿using System;
+﻿// The MIT License (MIT)
+//
+// Copyright (c) 2024 Tyler Brinks
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+using System;
 using System.Runtime.InteropServices;
+
+using ExCSS.Enumerations;
+using ExCSS.Extensions;
 
 // ReSharper disable UnusedMember.Global
 
 
-namespace ExCSS;
+namespace ExCSS.Values;
 
 [StructLayout(LayoutKind.Explicit, Pack = 1, CharSet = CharSet.Unicode)]
-public struct Color : IEquatable<Color>, IComparable<Color>, IFormattable
+public readonly struct Color : IEquatable<Color>, IComparable<Color>, IFormattable
 {
-    [FieldOffset(0)] private readonly byte _alpha;
-    [FieldOffset(1)] private readonly byte _red;
-    [FieldOffset(2)] private readonly byte _green;
-    [FieldOffset(3)] private readonly byte _blue;
-    [FieldOffset(0)] private readonly int _hashcode;
-
     /// <summary>
     /// Gets or sets if hex codes should be used for serialization.
     /// </summary>
@@ -67,20 +86,20 @@ public struct Color : IEquatable<Color>, IComparable<Color>, IFormattable
 
     public Color(byte r, byte g, byte b)
     {
-        _hashcode = 0;
-        _alpha = 255;
-        _red = r;
-        _blue = b;
-        _green = g;
+        Value = 0;
+        A = 255;
+        R = r;
+        B = b;
+        G = g;
     }
 
     public Color(byte red, byte green, byte blue, byte alpha)
     {
-        _hashcode = 0;
-        _alpha = alpha;
-        _red = red;
-        _blue = blue;
-        _green = green;
+        Value = 0;
+        A = alpha;
+        R = red;
+        B = blue;
+        G = green;
     }
 
     public static Color FromRgba(byte red, byte green, byte blue, float alpha)
@@ -110,7 +129,7 @@ public struct Color : IEquatable<Color>, IComparable<Color>, IFormattable
 
     public static Color FromRgb(byte red, byte green, byte blue)
     {
-        return new(red, green, blue);
+        return new Color(red, green, blue);
     }
 
     public static Color FromHex(string color)
@@ -273,26 +292,36 @@ public struct Color : IEquatable<Color>, IComparable<Color>, IFormattable
         return FromRgba(red, green, blue, alpha);
     }
 
-    public int Value => _hashcode;
-    public byte A => _alpha;
-    public double Alpha => Math.Round(_alpha / 255.0, 2);
-    public byte R => _red;
-    public byte G => _green;
-    public byte B => _blue;
+    [field: FieldOffset(0)]
+    public int Value { get; }
+
+    [field: FieldOffset(0)]
+    public byte A { get; }
+
+    public readonly double Alpha => Math.Round(A / 255.0, 2);
+
+    [field: FieldOffset(1)]
+    public byte R { get; }
+
+    [field: FieldOffset(2)]
+    public byte G { get; }
+
+    [field: FieldOffset(3)]
+    public byte B { get; }
 
     public static bool operator ==(Color a, Color b)
     {
-        return a._hashcode == b._hashcode;
+        return a.Value == b.Value;
     }
 
     public static bool operator !=(Color a, Color b)
     {
-        return a._hashcode != b._hashcode;
+        return a.Value != b.Value;
     }
 
     public bool Equals(Color other)
     {
-        return _hashcode == other._hashcode;
+        return Value == other.Value;
     }
 
     public override bool Equals(object obj)
@@ -302,14 +331,14 @@ public struct Color : IEquatable<Color>, IComparable<Color>, IFormattable
         return false;
     }
 
-    int IComparable<Color>.CompareTo(Color other)
+    readonly int IComparable<Color>.CompareTo(Color other)
     {
-        return _hashcode - other._hashcode;
+        return Value - other.Value;
     }
 
     public readonly override int GetHashCode()
     {
-        return _hashcode;
+        return Value;
     }
 
     public static Color Mix(Color above, Color below)
@@ -359,7 +388,7 @@ public struct Color : IEquatable<Color>, IComparable<Color>, IFormattable
             return $"#{R:x2}{G:x2}{B:x2}";
         }
 
-        if (_alpha == 255)
+        if (A == 255)
         {
             var arguments = string.Join(", ", R.ToString(), G.ToString(), B.ToString());
             return FunctionNames.Rgb.StylesheetFunction(arguments);
@@ -378,7 +407,7 @@ public struct Color : IEquatable<Color>, IComparable<Color>, IFormattable
             return $"#{R:x2}{G:x2}{B:x2}";
         }
 
-        if (_alpha == 255)
+        if (A == 255)
         {
             var arguments = string.Join(", ", R.ToString(format, formatProvider),
                 G.ToString(format, formatProvider),

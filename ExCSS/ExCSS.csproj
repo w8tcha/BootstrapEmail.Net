@@ -20,10 +20,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="SonarAnalyzer.CSharp" Version="10.16.1.129956">
+	  <PackageReference Include="SonarAnalyzer.CSharp" Version="10.24.0.138807">
 	    <PrivateAssets>all</PrivateAssets>
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EditorConfigFiles Remove="C:\Users\iherb\source\repos\BootstrapEmailNet\ExCSS\.editorconfig" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="C:\Users\iherb\source\repos\BootstrapEmailNet\ExCSS\.editorconfig" />
 	</ItemGroup>
 
 </Project>

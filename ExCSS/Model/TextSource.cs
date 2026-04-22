@@ -1,10 +1,34 @@
-﻿using System;
+﻿// The MIT License (MIT)
+//
+// Copyright (c) 2024 Tyler Brinks
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+using System;
 using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ExCSS;
+using ExCSS.Extensions;
+
+namespace ExCSS.Model;
 
 public sealed class TextSource : IDisposable
 {
@@ -97,13 +121,13 @@ public sealed class TextSource : IDisposable
             var content = new string(rawChars, 0, charLength);
             var index = Math.Min(Index, content.Length);
 
-            if (content.Substring(0, index).Is(_content.ToString(0, index)))
+            if (content[..index].Is(_content.ToString(0, index)))
             {
                 // If everything seems to fit up to this point, do an
                 // instant switch
                 _confidence = EncodingConfidence.Certain;
                 _content.Remove(index, _content.Length - index);
-                _content.Append(content.Substring(index));
+                _content.Append(content[index..]);
             }
             else
             {
@@ -148,43 +172,38 @@ public sealed class TextSource : IDisposable
         while (!_finished) await ReadIntoBufferAsync(cancellationToken).ConfigureAwait(false);
     }
 
-#pragma warning disable IDE0060 // Remove unused parameter
     private async Task DetectByteOrderMarkAsync(CancellationToken cancellationToken)
-#pragma warning restore IDE0060 // Remove unused parameter
     {
-        var count = await _baseStream.ReadAsync(_buffer, 0, BufferSize, cancellationToken).ConfigureAwait(false);
+        var count = await _baseStream.ReadAsync(_buffer.AsMemory(0, BufferSize), cancellationToken).ConfigureAwait(false);
         var offset = 0;
 
-        //TODO readable hex values
-        if (count > 2 && _buffer[0] == 0xef && _buffer[1] == 0xbb && _buffer[2] == 0xbf)
+        switch (count)
         {
-            _encoding = TextEncoding.Utf8;
-            offset = 3;
-        }
-        else if (count > 3 && _buffer[0] == 0xff && _buffer[1] == 0xfe && _buffer[2] == 0x0 && _buffer[3] == 0x0)
-        {
-            _encoding = TextEncoding.Utf32Le;
-            offset = 4;
-        }
-        else if (count > 3 && _buffer[0] == 0x0 && _buffer[1] == 0x0 && _buffer[2] == 0xfe && _buffer[3] == 0xff)
-        {
-            _encoding = TextEncoding.Utf32Be;
-            offset = 4;
-        }
-        else if (count > 1 && _buffer[0] == 0xfe && _buffer[1] == 0xff)
-        {
-            _encoding = TextEncoding.Utf16Be;
-            offset = 2;
-        }
-        else if (count > 1 && _buffer[0] == 0xff && _buffer[1] == 0xfe)
-        {
-            _encoding = TextEncoding.Utf16Le;
-            offset = 2;
-        }
-        else if (count > 3 && _buffer[0] == 0x84 && _buffer[1] == 0x31 && _buffer[2] == 0x95 && _buffer[3] == 0x33)
-        {
-            _encoding = TextEncoding.Gb18030;
-            offset = 4;
+            //TODO readable hex values
+            case > 2 when _buffer[0] == 0xef && _buffer[1] == 0xbb && _buffer[2] == 0xbf:
+                _encoding = TextEncoding.Utf8;
+                offset = 3;
+                break;
+            case > 3 when _buffer[0] == 0xff && _buffer[1] == 0xfe && _buffer[2] == 0x0 && _buffer[3] == 0x0:
+                _encoding = TextEncoding.Utf32Le;
+                offset = 4;
+                break;
+            case > 3 when _buffer[0] == 0x0 && _buffer[1] == 0x0 && _buffer[2] == 0xfe && _buffer[3] == 0xff:
+                _encoding = TextEncoding.Utf32Be;
+                offset = 4;
+                break;
+            case > 1 when _buffer[0] == 0xfe && _buffer[1] == 0xff:
+                _encoding = TextEncoding.Utf16Be;
+                offset = 2;
+                break;
+            case > 1 when _buffer[0] == 0xff && _buffer[1] == 0xfe:
+                _encoding = TextEncoding.Utf16Le;
+                offset = 2;
+                break;
+            case > 3 when _buffer[0] == 0x84 && _buffer[1] == 0x31 && _buffer[2] == 0x95 && _buffer[3] == 0x33:
+                _encoding = TextEncoding.Gb18030;
+                offset = 4;
+                break;
         }
 
         if (offset > 0)
@@ -200,7 +219,7 @@ public sealed class TextSource : IDisposable
 
     private async Task ReadIntoBufferAsync(CancellationToken cancellationToken)
     {
-        var returned = await _baseStream.ReadAsync(_buffer, 0, BufferSize, cancellationToken).ConfigureAwait(false);
+        var returned = await _baseStream.ReadAsync(_buffer.AsMemory(0, BufferSize), cancellationToken).ConfigureAwait(false);
         AppendContentFromBuffer(returned);
     }
 

@@ -1,12 +1,42 @@
-﻿using System;
+﻿// The MIT License (MIT)
+//
+// Copyright (c) 2024 Tyler Brinks
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
+using ExCSS.Enumerations;
+using ExCSS.Extensions;
+using ExCSS.Factories;
+using ExCSS.Formatting;
+using ExCSS.Parser;
+using ExCSS.Rules;
+using ExCSS.StyleProperties;
+
 // ReSharper disable UnusedMember.Global
 
-namespace ExCSS;
+namespace ExCSS.Model;
 
 public class StyleDeclaration : StylesheetNode, IProperties
 {
@@ -166,10 +196,9 @@ public class StyleDeclaration : StylesheetNode, IProperties
             ? PropertyFactory.Instance.GetLonghands(propertyName)
             : Enumerable.Repeat(propertyName, 1);
 
-        foreach (var mapping in mappings)
+        foreach (var property in mappings.Select(GetProperty).Where(property => property != null))
         {
-            var property = GetProperty(mapping);
-            if (property != null) property.IsImportant = important;
+            property.IsImportant = important;
         }
     }
 
@@ -300,7 +329,7 @@ public class StyleDeclaration : StylesheetNode, IProperties
     public string this[string name] => GetPropertyValue(name);
     public int Length => Declarations.Count();
 
-    public bool IsStrictMode => /* IsReadOnly ||*/ _parser.Options.IncludeUnknownDeclarations == false;
+    public bool IsStrictMode => /* IsReadOnly ||*/ !_parser.Options.IncludeUnknownDeclarations;
 
     public IEnumerable<Property> Declarations => Children.OfType<Property>();
 

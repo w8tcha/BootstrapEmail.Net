@@ -6,21 +6,10 @@ namespace BootstrapEmail.Net.Tests;
 /// </summary>
 public class BootstrapEmailTests
 {
-    private readonly ITestOutputHelper testOutputHelper;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="BootstrapEmailTests"/> class.
-    /// </summary>
-    /// <param name="testOutputHelper">The test output helper.</param>
-    public BootstrapEmailTests(ITestOutputHelper testOutputHelper)
-    {
-        this.testOutputHelper = testOutputHelper;
-    }
-
     /// <summary>
     /// Parallel Test
     /// </summary>
-    [Fact]
+    [Test]
     public void ParallelTests()
     {
 		var compiler = new BootstrapEmail();
@@ -90,7 +79,7 @@ public class BootstrapEmailTests
 	/// <summary>
 	/// Compile html to String Test
 	/// </summary>
-	[Fact]
+	[Test]
     public void ConvertToTextStringInput()
     {
         var config = new ConfigStore { plain_text = true };
@@ -108,7 +97,7 @@ public class BootstrapEmailTests
 	/// <summary>
 	/// Compile html to String Test
 	/// </summary>
-	[Fact]
+	[Test]
 	public void TestStringInputWithCss()
 	{
 		var html = new BootstrapEmail(new ConfigStore { CssEmailPath = "SassEmail.css", CssHeadPath = "Head.css" }).Compile(
@@ -170,7 +159,7 @@ public class BootstrapEmailTests
 	/// <summary>
 	/// Compile html to String Test
 	/// </summary>
-	[Fact]
+	[Test]
     public void TestStringInput()
     {
         var html = new BootstrapEmail().Compile(
@@ -232,10 +221,11 @@ public class BootstrapEmailTests
     /// <summary>
     /// Run all tests
     /// </summary>
-    [Fact]
+    [Test]
     public void TestFileInput()
     {
-        this.testOutputHelper.WriteLine("🧪 Starting tests...");
+        TestContext.Out.WriteLine("🧪 Starting tests...");
+
         var startTime = DateTime.Now;
 
         var path = Path.GetFullPath("tests/input", Directory.GetCurrentDirectory());
@@ -248,7 +238,7 @@ public class BootstrapEmailTests
 
         foreach (var file in files)
         {
-            this.testOutputHelper.WriteLine("🧪 Start test...");
+            TestContext.Out.WriteLine("🧪 Start test...");
 
             var startFileTime = DateTime.Now;
             var fileContents = File.ReadAllText(file);
@@ -257,13 +247,13 @@ public class BootstrapEmailTests
 
             var expectedHtml = File.ReadAllText(destination);
 
-            this.testOutputHelper.WriteLine($"🚀 Built {destination} (in {(DateTime.Now - startFileTime).TotalSeconds:0.00}s)");
+            TestContext.Out.WriteLine($"🚀 Built {destination} (in {(DateTime.Now - startFileTime).TotalSeconds:0.00}s)");
 
             File.WriteAllText(destination, convertedHtml);
 
             convertedHtml.Should().BeEquivalentTo(expectedHtml, o => o.IgnoringNewlineStyle());
         }
 
-        this.testOutputHelper.WriteLine($"Finished compiling tests in {(DateTime.Now - startTime).TotalSeconds:0.00}s 🎉");
+        TestContext.Out.WriteLine($"Finished compiling tests in {(DateTime.Now - startTime).TotalSeconds:0.00}s 🎉");
     }
 }

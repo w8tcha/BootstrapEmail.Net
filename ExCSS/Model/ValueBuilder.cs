@@ -1,6 +1,32 @@
-﻿using System.Collections.Generic;
+﻿// The MIT License (MIT)
+//
+// Copyright (c) 2024 Tyler Brinks
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
-namespace ExCSS;
+using System.Collections.Generic;
+
+using ExCSS.Enumerations;
+using ExCSS.Extensions;
+using ExCSS.Tokens;
+
+namespace ExCSS.Model;
 
 internal sealed class ValueBuilder
 {
@@ -44,7 +70,7 @@ internal sealed class ValueBuilder
                 Add(token);
                 break;
             case TokenType.Whitespace:
-                if (_values.Count > 0 && IsSlash(_values[_values.Count - 1]) == false)
+                if (_values.Count > 0 && !IsSlash(_values[^1]))
                     _buffer = token;
                 break;
             case TokenType.Dimension:
@@ -84,13 +110,13 @@ internal sealed class ValueBuilder
     {
         if (_values.Count != 0 && token.Data == Keywords.Important)
         {
-            var previous = _values[_values.Count - 1];
+            var previous = _values[^1];
             if (IsExclamationMark(previous))
             {
                 do
                 {
                     _values.RemoveAt(_values.Count - 1);
-                } while (_values.Count > 0 && _values[_values.Count - 1].Type == TokenType.Whitespace);
+                } while (_values.Count > 0 && _values[^1].Type == TokenType.Whitespace);
 
                 return true;
             }
@@ -104,7 +130,7 @@ internal sealed class ValueBuilder
     {
         if (_buffer != null && !IsCommaOrSlash(token))
             _values.Add(_buffer);
-        else if (_values.Count != 0 && !IsComma(token) && IsComma(_values[_values.Count - 1]))
+        else if (_values.Count != 0 && !IsComma(token) && IsComma(_values[^1]))
             _values.Add(Token.Whitespace);
 
         _buffer = null;

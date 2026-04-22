@@ -1,7 +1,34 @@
-﻿using System;
+﻿// The MIT License (MIT)
+//
+// Copyright (c) 2024 Tyler Brinks
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+using System;
 using System.Globalization;
 
-namespace ExCSS;
+using ExCSS.Enumerations;
+using ExCSS.Extensions;
+using ExCSS.Model;
+using ExCSS.Tokens;
+
+namespace ExCSS.Parser;
 
 internal sealed class Lexer : LexerBase
 {
@@ -129,28 +156,27 @@ internal sealed class Lexer : LexerBase
                 return NewSemicolon();
             case Symbols.LessThan:
                 current = GetNext();
-                if (current == Symbols.ExclamationMark)
+                switch (current)
                 {
-                    current = GetNext();
-                    if (current == Symbols.Minus)
+                    case Symbols.ExclamationMark:
                     {
                         current = GetNext();
-                        if (current == Symbols.Minus) return NewOpenComment();
-                        // ReSharper disable once RedundantAssignment
-                        current = GetPrevious();
-                    }
+                        if (current == Symbols.Minus)
+                        {
+                            current = GetNext();
+                            if (current == Symbols.Minus) return NewOpenComment();
+                            // ReSharper disable once RedundantAssignment
+                            current = GetPrevious();
+                        }
 
-                    GetPrevious();
-                    return NewDelimiter(GetPrevious());
-                } 
-                else if (current == Symbols.Equality)
-                {
-                    Advance();
-                    return NewLessThanOrEqual();
-                }
-                else
-                {
-                    return NewLessThan();
+                        GetPrevious();
+                        return NewDelimiter(GetPrevious());
+                    }
+                    case Symbols.Equality:
+                        Advance();
+                        return NewLessThanOrEqual();
+                    default:
+                        return NewLessThan();
                 }
             case Symbols.At:
                 return AtKeywordStart();
@@ -215,6 +241,7 @@ internal sealed class Lexer : LexerBase
                     Advance();
                     return NewGreaterThanOrEqual();
                 }
+
                 GetPrevious();
                 return NewGreaterThan();
             default:
@@ -334,8 +361,6 @@ internal sealed class Lexer : LexerBase
         if (current == Symbols.ReverseSolidus)
         {
             RaiseErrorOccurred(ParseError.InvalidCharacter);
-            Back();
-            return NewDelimiter(Symbols.Num);
         }
 
         Back();
@@ -467,14 +492,14 @@ internal sealed class Lexer : LexerBase
             return IdentRest(GetNext());
         }
 
-        if (current == Symbols.ReverseSolidus && IsValidEscape(current))
+        if (current != Symbols.ReverseSolidus || !IsValidEscape(current))
         {
-            current = GetNext();
-            StringBuffer.Append(ConsumeEscape(current));
-            return IdentRest(GetNext());
+            return Data(current);
         }
 
-        return Data(current);
+        current = GetNext();
+        StringBuffer.Append(ConsumeEscape(current));
+        return IdentRest(GetNext());
     }
 
     private Token IdentRest(char current)
@@ -947,67 +972,67 @@ internal sealed class Lexer : LexerBase
 
     private Token NewMatch(string match)
     {
-        return new(TokenType.Match, match, _position);
+        return new Token(TokenType.Match, match, _position);
     }
 
     private Token NewColumn()
     {
-        return new(TokenType.Column, Combinators.Column, _position);
+        return new Token(TokenType.Column, Combinators.Column, _position);
     }
 
     private Token NewCloseCurly()
     {
-        return new(TokenType.CurlyBracketClose, "}", _position);
+        return new Token(TokenType.CurlyBracketClose, "}", _position);
     }
 
     private Token NewOpenCurly()
     {
-        return new(TokenType.CurlyBracketOpen, "{", _position);
+        return new Token(TokenType.CurlyBracketOpen, "{", _position);
     }
 
     private Token NewCloseSquare()
     {
-        return new(TokenType.SquareBracketClose, "]", _position);
+        return new Token(TokenType.SquareBracketClose, "]", _position);
     }
 
     private Token NewOpenSquare()
     {
-        return new(TokenType.SquareBracketOpen, "[", _position);
+        return new Token(TokenType.SquareBracketOpen, "[", _position);
     }
 
     private Token NewOpenComment()
     {
-        return new(TokenType.Cdo, "<!--", _position);
+        return new Token(TokenType.Cdo, "<!--", _position);
     }
 
     private Token NewSemicolon()
     {
-        return new(TokenType.Semicolon, ";", _position);
+        return new Token(TokenType.Semicolon, ";", _position);
     }
 
     private Token NewColon()
     {
-        return new(TokenType.Colon, ":", _position);
+        return new Token(TokenType.Colon, ":", _position);
     }
 
     private Token NewCloseComment()
     {
-        return new(TokenType.Cdc, "-->", _position);
+        return new Token(TokenType.Cdc, "-->", _position);
     }
 
     private Token NewComma()
     {
-        return new(TokenType.Comma, ",", _position);
+        return new Token(TokenType.Comma, ",", _position);
     }
 
     private Token NewCloseRound()
     {
-        return new(TokenType.RoundBracketClose, ")", _position);
+        return new Token(TokenType.RoundBracketClose, ")", _position);
     }
 
     private Token NewOpenRound()
     {
-        return new(TokenType.RoundBracketOpen, "(", _position);
+        return new Token(TokenType.RoundBracketOpen, "(", _position);
     }
 
     private Token NewString(string value, char quote, bool bad = false)
@@ -1076,7 +1101,7 @@ internal sealed class Lexer : LexerBase
 
     private Token NewWhitespace(char character)
     {
-        return new(TokenType.Whitespace, character.ToString(), _position);
+        return new Token(TokenType.Whitespace, character.ToString(), _position);
     }
 
     private Token NewNumber(string number)
@@ -1086,7 +1111,7 @@ internal sealed class Lexer : LexerBase
 
     private Token NewDelimiter(char c)
     {
-        return new(TokenType.Delim, c.ToString(), _position);
+        return new Token(TokenType.Delim, c.ToString(), _position);
     }
 
     private Token NewColor(string text)
@@ -1096,7 +1121,7 @@ internal sealed class Lexer : LexerBase
 
     private Token NewEof()
     {
-        return new(TokenType.EndOfFile, string.Empty, _position);
+        return new Token(TokenType.EndOfFile, string.Empty, _position);
     }
 
     private Token NewGreaterThan() => new Token(TokenType.GreaterThan, ">", _position);
