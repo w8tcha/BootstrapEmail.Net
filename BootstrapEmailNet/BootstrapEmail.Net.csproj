@@ -243,11 +243,11 @@
 
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="1.4.0" />
-    <PackageReference Include="Citizen17.DartSass" Version="3.0.0" />
-    <PackageReference Include="DartSass.Native.win-x64" Version="1.94.2" />
+    <PackageReference Include="Citizen17.DartSass" Version="3.1.0" />
+    <PackageReference Include="DartSass.Native.win-x64" Version="1.99.0" />
     <PackageReference Include="HtmlAgilityPack" Version="1.12.4" />
     <PackageReference Include="PreMailer.Net" Version="2.7.2" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.16.1.129956">
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.24.0.138807">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

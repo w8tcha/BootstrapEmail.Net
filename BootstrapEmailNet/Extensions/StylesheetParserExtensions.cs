@@ -1,4 +1,6 @@
-﻿using ExCSS;
+﻿using ExCSS.Model;
+using ExCSS.Parser;
+using ExCSS.Values;
 
 namespace BootstrapEmail.Net.Extensions;
 

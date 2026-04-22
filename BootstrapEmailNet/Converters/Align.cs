@@ -1,6 +1,6 @@
 ﻿using BootstrapEmail.Net.Extensions;
 
-using ExCSS;
+using ExCSS.Parser;
 
 namespace BootstrapEmail.Net.Converters;
 

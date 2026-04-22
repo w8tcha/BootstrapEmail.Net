@@ -1,11 +1,13 @@
 ﻿using System.Reflection;
 
-using ExCSS;
+using ExCSS.Parser;
 
 namespace BootstrapEmail.Net;
 
 using global::BootstrapEmail.Net.Converters;
+
 using PreMailer.Net;
+
 using System.IO;
 
 /// <summary>
