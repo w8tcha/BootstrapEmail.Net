@@ -1,26 +1,4 @@
-﻿// The MIT License (MIT)
-//
-// Copyright (c) 2024 Tyler Brinks
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using ExCSS.Enumerations;
 using ExCSS.Extensions;
@@ -29,176 +7,203 @@ using ExCSS.StyleProperties;
 using ExCSS.Tokens;
 using ExCSS.Values;
 
-namespace ExCSS.ValueConverters;
-
-using static Converters;
-
-internal abstract class GradientConverter : IValueConverter
+namespace ExCSS.ValueConverters
 {
-    public IPropertyValue Convert(IEnumerable<Token> value)
-    {
-        var args = value.ToList();
-        var initial = args.Count != 0 ? ConvertFirstArgument(args[0]) : null;
-        var offset = initial != null ? 1 : 0;
-        var stops = ToGradientStops(args, offset);
-        return stops != null ? new GradientValue(initial, stops, value) : null;
-    }
+    using static Converters;
 
-    public IPropertyValue Construct(Property[] properties)
+    internal abstract class GradientConverter : IValueConverter
     {
-        return properties.Guard<GradientValue>();
-    }
-
-    private static IPropertyValue[] ToGradientStops(List<List<Token>> values, int offset)
-    {
-        var stops = new IPropertyValue[values.Count - offset];
-
-        for (int i = offset, k = 0; i < values.Count; i++, k++)
+        public IPropertyValue Convert(IEnumerable<Token> value)
         {
-            stops[k] = ToGradientStop(values[i]);
-
-            if (stops[k] == null) return null;
+            var args = value.ToList();
+            var initial = args.Count != 0 ? ConvertFirstArgument(args[0]) : null;
+            var offset = initial != null ? 1 : 0;
+            var stops = ToGradientStops(args, offset);
+            return stops != null ? new GradientValue(initial, stops, value) : null;
         }
 
-        return stops;
-    }
-
-    private static IPropertyValue ToGradientStop(List<Token> value)
-    {
-        var color = default(IPropertyValue);
-        var position = default(IPropertyValue);
-        var items = value.ToItems();
-
-        if (items.Count != 0)
+        public IPropertyValue Construct(Property[] properties)
         {
-            position = LengthOrPercentConverter.Convert(items[^1]);
-
-            if (position != null) items.RemoveAt(items.Count - 1);
+            return properties.Guard<GradientValue>();
         }
 
-        if (items.Count != 0)
+        private static IPropertyValue[] ToGradientStops(List<List<Token>> values, int offset)
         {
-            color = ColorConverter.Convert(items[^1]);
+            var stops = new IPropertyValue[values.Count - offset];
 
-            if (color != null) items.RemoveAt(items.Count - 1);
-        }
-
-        return items.Count == 0 ? new StopValue(color, position, value) : null;
-    }
-
-    protected abstract IPropertyValue ConvertFirstArgument(IEnumerable<Token> value);
-
-    private sealed class StopValue : IPropertyValue
-    {
-        private readonly IPropertyValue _color;
-        private readonly IPropertyValue _position;
-
-        public StopValue(IPropertyValue color, IPropertyValue position, IEnumerable<Token> tokens)
-        {
-            _color = color;
-            _position = position;
-            Original = new TokenValue(tokens);
-        }
-
-        public string CssText
-        {
-            get
+            for (int i = offset, k = 0; i < values.Count; i++, k++)
             {
-                if (_color == null && _position != null) return _position.CssText;
+                stops[k] = ToGradientStop(values[i]);
 
-                if (_color != null && _position == null) return _color.CssText;
+                if (stops[k] == null) return null;
+            }
 
-                return string.Concat(_color?.CssText, " ", _position.CssText);
+            return stops;
+        }
+
+        private static IPropertyValue ToGradientStop(List<Token> value)
+        {
+            var color = default(IPropertyValue);
+            var firstPosition = default(IPropertyValue);
+            var secondPosition = default(IPropertyValue);
+            var items = value.ToItems();
+
+            if (items.Count != 0)
+            {
+                firstPosition = LengthOrPercentConverter.Convert(items[items.Count - 1]);
+
+                if (firstPosition != null) items.RemoveAt(items.Count - 1);
+            }
+
+            // <color-stop-length> = <length-percentage>{1,2} (CSS Images 4 3.5.1): a stop may carry two
+            // positions, equivalent to two same-colour stops, one at each position. Parsing right-to-left,
+            // the position taken above is the second (rightmost); a position immediately before it is the
+            // first, and the two are kept in source order for serialization.
+            if (firstPosition != null && items.Count != 0)
+            {
+                var earlier = LengthOrPercentConverter.Convert(items[items.Count - 1]);
+
+                if (earlier != null)
+                {
+                    secondPosition = firstPosition;
+                    firstPosition = earlier;
+                    items.RemoveAt(items.Count - 1);
+                }
+            }
+
+            if (items.Count != 0)
+            {
+                color = ColorConverter.Convert(items[items.Count - 1]);
+
+                if (color != null) items.RemoveAt(items.Count - 1);
+            }
+
+            // The two-position form is only defined for a <color-stop>; a bare <length-percentage> with no
+            // colour is a <linear-color-hint>, which takes exactly one position.
+            if (secondPosition != null && color == null) return null;
+
+            return items.Count == 0 ? new StopValue(color, firstPosition, secondPosition, value) : null;
+        }
+
+        protected abstract IPropertyValue ConvertFirstArgument(IEnumerable<Token> value);
+
+        private sealed class StopValue : IPropertyValue
+        {
+            private readonly IPropertyValue _color;
+            private readonly IPropertyValue _firstPosition;
+            private readonly IPropertyValue _secondPosition;
+
+            public StopValue(IPropertyValue color, IPropertyValue firstPosition, IPropertyValue secondPosition,
+                IEnumerable<Token> tokens)
+            {
+                _color = color;
+                _firstPosition = firstPosition;
+                _secondPosition = secondPosition;
+                Original = new TokenValue(tokens);
+            }
+
+            public string CssText
+            {
+                get
+                {
+                    var parts = new List<string>(3);
+
+                    if (_color != null) parts.Add(_color.CssText);
+                    if (_firstPosition != null) parts.Add(_firstPosition.CssText);
+                    if (_secondPosition != null) parts.Add(_secondPosition.CssText);
+
+                    return string.Join(" ", parts);
+                }
+            }
+
+            public TokenValue Original { get; }
+
+            public TokenValue ExtractFor(string name)
+            {
+                return Original;
             }
         }
 
-        public TokenValue Original { get; }
-
-        public TokenValue ExtractFor(string name)
+        private sealed class GradientValue : IPropertyValue
         {
-            return Original;
-        }
-    }
+            private readonly IPropertyValue _initial;
+            private readonly IPropertyValue[] _stops;
 
-    private sealed class GradientValue : IPropertyValue
-    {
-        private readonly IPropertyValue _initial;
-        private readonly IPropertyValue[] _stops;
-
-        public GradientValue(IPropertyValue initial, IPropertyValue[] stops, IEnumerable<Token> tokens)
-        {
-            _initial = initial;
-            _stops = stops;
-            Original = new TokenValue(tokens);
-        }
-
-        public string CssText
-        {
-            get
+            public GradientValue(IPropertyValue initial, IPropertyValue[] stops, IEnumerable<Token> tokens)
             {
-                var count = _stops.Length;
+                _initial = initial;
+                _stops = stops;
+                Original = new TokenValue(tokens);
+            }
 
-                if (_initial != null) count++;
+            public string CssText
+            {
+                get
+                {
+                    var count = _stops.Length;
 
-                var args = new string[count];
-                count = 0;
+                    if (_initial != null) count++;
 
-                if (_initial != null) args[count++] = _initial.CssText;
+                    var args = new string[count];
+                    count = 0;
 
-                foreach (var propertyValue in _stops) args[count++] = propertyValue.CssText;
+                    if (_initial != null) args[count++] = _initial.CssText;
 
-                return string.Join(", ", args);
+                    foreach (var propertyValue in _stops) args[count++] = propertyValue.CssText;
+
+                    return string.Join(", ", args);
+                }
+            }
+
+            public TokenValue Original { get; }
+
+            public TokenValue ExtractFor(string name)
+            {
+                return Original;
             }
         }
+    }
 
-        public TokenValue Original { get; }
+    internal sealed class LinearGradientConverter : GradientConverter
+    {
+        private readonly IValueConverter _converter;
 
-        public TokenValue ExtractFor(string name)
+        public LinearGradientConverter()
         {
-            return Original;
+            _converter = AngleConverter.Or(
+                SideOrCornerConverter.StartsWithKeyword(Keywords.To));
+        }
+
+        protected override IPropertyValue ConvertFirstArgument(IEnumerable<Token> value)
+        {
+            return _converter.Convert(value);
         }
     }
-}
 
-internal sealed class LinearGradientConverter : GradientConverter
-{
-    private readonly IValueConverter _converter;
-
-    public LinearGradientConverter()
+    internal sealed class RadialGradientConverter : GradientConverter
     {
-        _converter = AngleConverter.Or(
-            SideOrCornerConverter.StartsWithKeyword(Keywords.To));
-    }
+        private readonly IValueConverter _converter;
 
-    protected override IPropertyValue ConvertFirstArgument(IEnumerable<Token> value)
-    {
-        return _converter.Convert(value);
-    }
-}
+        public RadialGradientConverter()
+        {
+            var position = PointConverter.StartsWithKeyword(Keywords.At).Option(Point.Center);
+            var circle = WithOrder(WithAny(Assign(Keywords.Circle, true).Option(true),
+                    LengthConverter.Option()),
+                position);
 
-internal sealed class RadialGradientConverter : GradientConverter
-{
-    private readonly IValueConverter _converter;
+            var ellipse = WithOrder(WithAny(Assign(Keywords.Ellipse, false).Option(false),
+                    LengthOrPercentConverter.Many(2, 2).Option()),
+                position);
 
-    public RadialGradientConverter()
-    {
-        var position = PointConverter.StartsWithKeyword(Keywords.At).Option(Point.Center);
-        var circle = WithOrder(WithAny(Assign(Keywords.Circle, true).Option(true),
-                LengthConverter.Option()),
-            position);
+            var extents = WithOrder(WithAny(Toggle(Keywords.Circle, Keywords.Ellipse).Option(false),
+                Map.RadialGradientSizeModes.ToConverter()), position);
 
-        var ellipse = WithOrder(WithAny(Assign(Keywords.Ellipse, false).Option(false),
-                LengthOrPercentConverter.Many(2, 2).Option()),
-            position);
+            _converter = circle.Or(ellipse.Or(extents));
+        }
 
-        var extents = WithOrder(WithAny(Toggle(Keywords.Circle, Keywords.Ellipse).Option(false),
-            Map.RadialGradientSizeModes.ToConverter()), position);
-
-        _converter = circle.Or(ellipse.Or(extents));
-    }
-
-    protected override IPropertyValue ConvertFirstArgument(IEnumerable<Token> value)
-    {
-        return _converter.Convert(value);
+        protected override IPropertyValue ConvertFirstArgument(IEnumerable<Token> value)
+        {
+            return _converter.Convert(value);
+        }
     }
 }

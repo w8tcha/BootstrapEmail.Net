@@ -1,52 +1,31 @@
-﻿// The MIT License (MIT)
-//
-// Copyright (c) 2024 Tyler Brinks
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-
-using System.IO;
+﻿using System.IO;
 
 using ExCSS.Enumerations;
 using ExCSS.Extensions;
 using ExCSS.Model;
 using ExCSS.Parser;
 
-namespace ExCSS.Rules;
-
-public sealed class CharsetRule : Rule, ICharsetRule
+namespace ExCSS.Rules
 {
-    internal CharsetRule(StylesheetParser parser)
-        : base(RuleType.Charset, parser)
+    public sealed class CharsetRule : Rule, ICharsetRule
     {
-    }
+        internal CharsetRule(StylesheetParser parser)
+            : base(RuleType.Charset, parser)
+        {
+        }
 
-    public string CharacterSet { get; set; }
+        public string CharacterSet { get; set; }
 
-    public override void ToCss(TextWriter writer, IStyleFormatter formatter)
-    {
-        writer.Write(formatter.Rule("@charset", CharacterSet.StylesheetString()));
-    }
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
+        {
+            writer.Write(formatter.Rule("@charset", CharacterSet.StylesheetString()));
+        }
 
-    protected override void ReplaceWith(IRule rule)
-    {
-        var newRule = rule as CharsetRule;
-        CharacterSet = newRule?.CharacterSet;
-        base.ReplaceWith(rule);
+        protected override void ReplaceWith(IRule rule)
+        {
+            var newRule = rule as CharsetRule;
+            CharacterSet = newRule?.CharacterSet;
+            base.ReplaceWith(rule);
+        }
     }
 }

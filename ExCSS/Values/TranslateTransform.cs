@@ -1,47 +1,26 @@
-﻿// The MIT License (MIT)
-//
-// Copyright (c) 2024 Tyler Brinks
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
+﻿using ExCSS.Model;
 
-using ExCSS.Model;
-
-namespace ExCSS.Values;
-
-internal sealed class TranslateTransform : ITransform
+namespace ExCSS.Values
 {
-    internal TranslateTransform(Length x, Length y, Length z)
+    internal sealed class TranslateTransform : ITransform
     {
-        Dx = x;
-        Dy = y;
-        Dz = z;
-    }
+        internal TranslateTransform(Length x, Length y, Length z)
+        {
+            Dx = x;
+            Dy = y;
+            Dz = z;
+        }
 
-    public TransformMatrix ComputeMatrix()
-    {
-        var dx = Dx.ToPixel();
-        var dy = Dy.ToPixel();
-        var dz = Dz.ToPixel();
-        return new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, dx, dy, dz, 0f, 0f, 0f);
-    }
+        public TransformMatrix ComputeMatrix()
+        {
+            var dx = Dx.ToPixel();
+            var dy = Dy.ToPixel();
+            var dz = Dz.ToPixel();
+            return new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, dx, dy, dz, 0f, 0f, 0f);
+        }
 
-    public Length Dx { get; }
-    public Length Dy { get; }
-    public Length Dz { get; }
+        public Length Dx { get; }
+        public Length Dy { get; }
+        public Length Dz { get; }
+    }
 }

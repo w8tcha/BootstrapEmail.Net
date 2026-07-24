@@ -1,76 +1,55 @@
-﻿// The MIT License (MIT)
-//
-// Copyright (c) 2024 Tyler Brinks
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
+﻿using System;
 
-using System;
-
-namespace ExCSS.Model;
-
-public readonly struct TextRange : IEquatable<TextRange>, IComparable<TextRange>
+namespace ExCSS.Model
 {
-    public TextRange(TextPosition start, TextPosition end)
+    public struct TextRange : IEquatable<TextRange>, IComparable<TextRange>
     {
-        Start = start;
-        End = end;
-    }
+        public TextRange(TextPosition start, TextPosition end)
+        {
+            Start = start;
+            End = end;
+        }
 
-    public TextPosition Start { get; }
-    public TextPosition End { get; }
+        public TextPosition Start { get; }
+        public TextPosition End { get; }
 
-    public override string ToString()
-    {
-        return $"({Start}) -- ({End})";
-    }
+        public override string ToString()
+        {
+            return $"({Start}) -- ({End})";
+        }
 
-    public override int GetHashCode()
-    {
-        return End.GetHashCode() ^ Start.GetHashCode();
-    }
+        public override int GetHashCode()
+        {
+            return End.GetHashCode() ^ Start.GetHashCode();
+        }
 
-    public override bool Equals(object obj)
-    {
-        return obj is TextRange other && Equals(other);
-    }
+        public override bool Equals(object obj)
+        {
+            return obj is TextRange other && Equals(other);
+        }
 
-    public bool Equals(TextRange other)
-    {
-        return Start.Equals(other.Start) && End.Equals(other.End);
-    }
+        public bool Equals(TextRange other)
+        {
+            return Start.Equals(other.Start) && End.Equals(other.End);
+        }
 
-    public static bool operator >(TextRange a, TextRange b)
-    {
-        return a.Start > b.End;
-    }
+        public static bool operator >(TextRange a, TextRange b)
+        {
+            return a.Start > b.End;
+        }
 
-    public static bool operator <(TextRange a, TextRange b)
-    {
-        return a.End < b.Start;
-    }
+        public static bool operator <(TextRange a, TextRange b)
+        {
+            return a.End < b.Start;
+        }
 
-    public int CompareTo(TextRange other)
-    {
-        if (this > other) return 1;
+        public int CompareTo(TextRange other)
+        {
+            if (this > other) return 1;
 
-        if (other > this) return -1;
+            if (other > this) return -1;
 
-        return 0;
+            return 0;
+        }
     }
 }

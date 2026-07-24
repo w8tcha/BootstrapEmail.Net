@@ -1,26 +1,4 @@
-﻿// The MIT License (MIT)
-//
-// Copyright (c) 2024 Tyler Brinks
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,105 +8,106 @@ using ExCSS.Model;
 using ExCSS.StyleProperties;
 using ExCSS.Tokens;
 
-namespace ExCSS.ValueConverters;
-
-internal sealed class ListValueConverter : IValueConverter
+namespace ExCSS.ValueConverters
 {
-    private readonly IValueConverter _converter;
-
-    public ListValueConverter(IValueConverter converter)
+    internal sealed class ListValueConverter : IValueConverter
     {
-        _converter = converter;
-    }
+        private readonly IValueConverter _converter;
 
-    public IPropertyValue Convert(IEnumerable<Token> value)
-    {
-        var items = value.ToList();
-        var values = new IPropertyValue[items.Count];
-
-        for (var i = 0; i < items.Count; i++)
+        public ListValueConverter(IValueConverter converter)
         {
-            values[i] = _converter.Convert(items[i]);
-
-            if (values[i] == null) return null;
+            _converter = converter;
         }
 
-        return values.Length != 1 ? new ListValue(values, value) : values[0];
-    }
-
-    public IPropertyValue Construct(Property[] properties)
-    {
-        var result = properties.Guard<ListValue>();
-
-        if (result == null)
+        public IPropertyValue Convert(IEnumerable<Token> value)
         {
-            var valueList = new List<List<Token>>[properties.Length];
-            var dummies = new Property[properties.Length];
-            var max = 0;
+            var items = value.ToList();
+            var values = new IPropertyValue[items.Count];
 
-            for (var i = 0; i < properties.Length; i++)
+            for (var i = 0; i < items.Count; i++)
             {
-                var value = properties[i].DeclaredValue;
-                valueList[i] = value != null ? value.Original.ToList() : [];
+                values[i] = _converter.Convert(items[i]);
 
-                dummies[i] = PropertyFactory.Instance.CreateLonghand(properties[i].Name);
-                max = Math.Max(max, valueList[i].Count);
+                if (values[i] == null) return null;
             }
 
-            var values = new IPropertyValue[max];
+            return values.Length != 1 ? new ListValue(values, value) : values[0];
+        }
 
-            for (var i = 0; i < max; i++)
+        public IPropertyValue Construct(Property[] properties)
+        {
+            var result = properties.Guard<ListValue>();
+
+            if (result == null)
             {
-                for (var j = 0; j < dummies.Length; j++)
+                var valueList = new List<List<Token>>[properties.Length];
+                var dummies = new Property[properties.Length];
+                var max = 0;
+
+                for (var i = 0; i < properties.Length; i++)
                 {
-                    var list = valueList[j];
-                    var tokens = list.Count > i ? list[i] : Enumerable.Empty<Token>();
-                    dummies[j].TrySetValue(new TokenValue(tokens));
+                    var value = properties[i].DeclaredValue;
+                    valueList[i] = value != null ? value.Original.ToList() : new List<List<Token>>();
+
+                    dummies[i] = PropertyFactory.Instance.CreateLonghand(properties[i].Name);
+                    max = Math.Max(max, valueList[i].Count);
                 }
 
-                values[i] = _converter.Construct(dummies);
-            }
+                var values = new IPropertyValue[max];
 
-            result = new ListValue(values, []);
-        }
-
-        return result;
-    }
-
-    private sealed class ListValue : IPropertyValue
-    {
-        private readonly IPropertyValue[] _values;
-
-        public ListValue(IPropertyValue[] values, IEnumerable<Token> tokens)
-        {
-            _values = values;
-            Original = new TokenValue(tokens);
-        }
-
-        public string CssText
-        {
-            get { return string.Join(", ", _values.Select(m => m.CssText)); }
-        }
-
-        public TokenValue Original { get; }
-
-        public TokenValue ExtractFor(string name)
-        {
-            var tokens = new List<Token>();
-
-            foreach (var value in _values)
-            {
-                var extracted = value.ExtractFor(name);
-
-                if (extracted != null)
+                for (var i = 0; i < max; i++)
                 {
-                    if (tokens.Count > 0) tokens.Add(Token.Comma);
+                    for (var j = 0; j < dummies.Length; j++)
+                    {
+                        var list = valueList[j];
+                        var tokens = list.Count > i ? list[i] : Enumerable.Empty<Token>();
+                        dummies[j].TrySetValue(new TokenValue(tokens));
+                    }
 
-                    tokens.AddRange(extracted);
+                    values[i] = _converter.Construct(dummies);
                 }
+
+                result = new ListValue(values, Enumerable.Empty<Token>());
             }
 
-            return new TokenValue(tokens);
+            return result;
+        }
+
+        private sealed class ListValue : IPropertyValue
+        {
+            private readonly IPropertyValue[] _values;
+
+            public ListValue(IPropertyValue[] values, IEnumerable<Token> tokens)
+            {
+                _values = values;
+                Original = new TokenValue(tokens);
+            }
+
+            public string CssText
+            {
+                get { return string.Join(", ", _values.Select(m => m.CssText)); }
+            }
+
+            public TokenValue Original { get; }
+
+            public TokenValue ExtractFor(string name)
+            {
+                var tokens = new List<Token>();
+
+                foreach (var value in _values)
+                {
+                    var extracted = value.ExtractFor(name);
+
+                    if (extracted != null)
+                    {
+                        if (tokens.Count > 0) tokens.Add(Token.Comma);
+
+                        tokens.AddRange(extracted);
+                    }
+                }
+
+                return new TokenValue(tokens);
+            }
         }
     }
 }

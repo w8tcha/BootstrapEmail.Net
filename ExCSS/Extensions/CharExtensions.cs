@@ -1,150 +1,132 @@
-﻿// The MIT License (MIT)
-//
-// Copyright (c) 2024 Tyler Brinks
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
+﻿using ExCSS.Model;
 
-using ExCSS.Model;
-
-namespace ExCSS.Extensions;
-
-internal static class CharExtensions
+namespace ExCSS.Extensions
 {
-    public static int FromHex(this char c)
-    {
-        return c.IsDigit() ? c - Symbols.Zero : c - (c.IsLowercaseAscii() ? Symbols.CapitalW : Symbols.Seven);
-    }
+#if !NET40
+#endif
 
-    public static string ToHex(this char c)
+    internal static class CharExtensions
     {
-        return ((int) c).ToString("x");
-    }
+        public static int FromHex(this char c)
+        {
+            return c.IsDigit() ? c - Symbols.Zero : c - (c.IsLowercaseAscii() ? Symbols.CapitalW : Symbols.Seven);
+        }
 
-    public static bool IsInRange(this char c, int lower, int upper)
-    {
-        return c >= lower && c <= upper;
-    }
+        public static string ToHex(this char character)
+        {
+            return ((int) character).ToString("x");
+        }
 
-    public static bool IsNormalQueryCharacter(this char c)
-    {
-        return c.IsInRange(Symbols.ExclamationMark, Symbols.Tilde) &&
-               c != Symbols.DoubleQuote &&
-               c != Symbols.CurvedQuote && c != Symbols.Num &&
-               c != Symbols.LessThan && c != Symbols.GreaterThan;
-    }
+        public static bool IsInRange(this char c, int lower, int upper)
+        {
+            return c >= lower && c <= upper;
+        }
 
-    public static bool IsNormalPathCharacter(this char c)
-    {
-        return c.IsInRange(Symbols.Space, Symbols.Tilde) &&
-               c != Symbols.DoubleQuote &&
-               c != Symbols.CurvedQuote && c != Symbols.Num &&
-               c != Symbols.LessThan && c != Symbols.GreaterThan &&
-               c != Symbols.Space && c != Symbols.QuestionMark;
-    }
+        public static bool IsNormalQueryCharacter(this char c)
+        {
+            return c.IsInRange(Symbols.ExclamationMark, Symbols.Tilde) &&
+                   c != Symbols.DoubleQuote &&
+                   c != Symbols.CurvedQuote && c != Symbols.Num &&
+                   c != Symbols.LessThan && c != Symbols.GreaterThan;
+        }
 
-    public static bool IsUppercaseAscii(this char c)
-    {
-        return c is >= Symbols.CapitalA and <= Symbols.CapitalZ;
-    }
+        public static bool IsNormalPathCharacter(this char c)
+        {
+            return c.IsInRange(Symbols.Space, Symbols.Tilde) &&
+                   c != Symbols.DoubleQuote &&
+                   c != Symbols.CurvedQuote && c != Symbols.Num &&
+                   c != Symbols.LessThan && c != Symbols.GreaterThan &&
+                   c != Symbols.Space && c != Symbols.QuestionMark;
+        }
 
-    public static bool IsLowercaseAscii(this char c)
-    {
-        return c is >= Symbols.LowerA and <= Symbols.LowerZ;
-    }
+        public static bool IsUppercaseAscii(this char c)
+        {
+            return c is >= Symbols.CapitalA and <= Symbols.CapitalZ;
+        }
 
-    public static bool IsAlphanumericAscii(this char c)
-    {
-        return c.IsDigit() || c.IsUppercaseAscii() || c.IsLowercaseAscii();
-    }
+        public static bool IsLowercaseAscii(this char c)
+        {
+            return c is >= Symbols.LowerA and <= Symbols.LowerZ;
+        }
 
-    public static bool IsHex(this char c)
-    {
-        return c.IsDigit() || c is >= Symbols.CapitalA and <= Symbols.CapitalF ||
-               c is >= Symbols.LowerA and <= Symbols.LowerF;
-    }
+        public static bool IsAlphanumericAscii(this char c)
+        {
+            return c.IsDigit() || c.IsUppercaseAscii() || c.IsLowercaseAscii();
+        }
 
-    public static bool IsNonAscii(this char c)
-    {
-        return c != Symbols.EndOfFile && c >= Symbols.ExtendedAsciiStart;
-    }
+        public static bool IsHex(this char c)
+        {
+            return c.IsDigit() || c is >= Symbols.CapitalA and <= Symbols.CapitalF ||
+                   c is >= Symbols.LowerA and <= Symbols.LowerF;
+        }
 
-    public static bool IsNonPrintable(this char c)
-    {
-        return c is /*>= Symbols.Null and*/ <= Symbols.Backspace 
-            or >= Symbols.ShiftOut and <= Symbols.UnitSeparator
-            or >= Symbols.Delete and < Symbols.NonBreakingSpace;
-    }
+        public static bool IsNonAscii(this char c)
+        {
+            return c != Symbols.EndOfFile && c >= Symbols.ExtendedAsciiStart;
+        }
 
-    public static bool IsLetter(this char c)
-    {
-        return IsUppercaseAscii(c) || IsLowercaseAscii(c);
-    }
+        public static bool IsNonPrintable(this char c)
+        {
+            return c is /*>= Symbols.Null and*/ <= Symbols.Backspace 
+                or >= Symbols.ShiftOut and <= Symbols.UnitSeparator
+                or >= Symbols.Delete and < Symbols.NonBreakingSpace;
+        }
 
-    public static bool IsName(this char c)
-    {
-        return c.IsNonAscii() || c.IsLetter() || c == Symbols.Underscore || c == Symbols.Minus || c.IsDigit();
-    }
+        public static bool IsLetter(this char c)
+        {
+            return IsUppercaseAscii(c) || IsLowercaseAscii(c);
+        }
 
-    public static bool IsNameStart(this char c)
-    {
-        return c.IsNonAscii() || c.IsUppercaseAscii() || c.IsLowercaseAscii() || c == Symbols.Underscore;
-    }
+        public static bool IsName(this char c)
+        {
+            return c.IsNonAscii() || c.IsLetter() || c == Symbols.Underscore || c == Symbols.Minus || c.IsDigit();
+        }
 
-    public static bool IsLineBreak(this char c)
-    {
-        return c is Symbols.LineFeed or Symbols.CarriageReturn;
-    }
+        public static bool IsNameStart(this char c)
+        {
+            return c.IsNonAscii() || c.IsUppercaseAscii() || c.IsLowercaseAscii() || c == Symbols.Underscore;
+        }
 
-    public static bool IsSpaceCharacter(this char c)
-    {
-        return c is Symbols.Space or Symbols.Tab or Symbols.LineFeed or Symbols.CarriageReturn or Symbols.FormFeed;
-    }
+        public static bool IsLineBreak(this char c)
+        {
+            return c is Symbols.LineFeed or Symbols.CarriageReturn;
+        }
 
-    public static bool IsDigit(this char c)
-    {
-        return c is >= Symbols.Zero and <= Symbols.Nine;
-    }
+        public static bool IsSpaceCharacter(this char c)
+        {
+            return c is Symbols.Space or Symbols.Tab or Symbols.LineFeed or Symbols.CarriageReturn or Symbols.FormFeed;
+        }
 
-    // HTML forbids the use of Universal Character Set / Unicode code points
-    // - 0 to 31, except 9, 10, and 13 C0 control characters
-    // - 127 DEL character
-    // - 128 to 159 (0x80 to 0x9F, C1 control characters
-    // - 55296 to 57343 (0xD800 – xDFFF, UTF-16 surrogate halves)
-    // - 65534 and 65535 (xFFFE – xFFFF, non-characters, related to xFEFF, the byte order mark)
-    public static bool IsInvalid(this int c)
-    {
-        return c == 0 || c > Symbols.MaximumCodepoint ||
-               c is > Symbols.UTF16SurrogateMin and < Symbols.UTF16SurrogateMax;
-    }
+        public static bool IsDigit(this char c)
+        {
+            return c is >= Symbols.Zero and <= Symbols.Nine;
+        }
 
-    public static bool IsOneOf(this char c, char a, char b)
-    {
-        return a == c || b == c;
-    }
+        // HTML forbids the use of Universal Character Set / Unicode code points
+        // - 0 to 31, except 9, 10, and 13 C0 control characters
+        // - 127 DEL character
+        // - 128 to 159 (0x80 to 0x9F, C1 control characters
+        // - 55296 to 57343 (0xD800 – xDFFF, UTF-16 surrogate halves)
+        // - 65534 and 65535 (xFFFE – xFFFF, non-characters, related to xFEFF, the byte order mark)
+        public static bool IsInvalid(this int c)
+        {
+            return c == 0 || c > Symbols.MaximumCodepoint ||
+                   c is > Symbols.UTF16SurrogateMin and < Symbols.UTF16SurrogateMax;
+        }
 
-    public static bool IsOneOf(this char c, char o1, char o2, char o3)
-    {
-        return c == o1 || c == o2 || c == o3;
-    }
+        public static bool IsOneOf(this char c, char a, char b)
+        {
+            return a == c || b == c;
+        }
 
-    public static bool IsOneOf(this char c, char o1, char o2, char o3, char o4)
-    {
-        return c == o1 || c == o2 || c == o3 || c == o4;
+        public static bool IsOneOf(this char c, char o1, char o2, char o3)
+        {
+            return c == o1 || c == o2 || c == o3;
+        }
+
+        public static bool IsOneOf(this char c, char o1, char o2, char o3, char o4)
+        {
+            return c == o1 || c == o2 || c == o3 || c == o4;
+        }
     }
 }

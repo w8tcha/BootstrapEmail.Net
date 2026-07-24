@@ -1,26 +1,4 @@
-﻿// The MIT License (MIT)
-//
-// Copyright (c) 2024 Tyler Brinks
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -29,103 +7,104 @@ using ExCSS.Model;
 using ExCSS.StyleProperties;
 using ExCSS.Tokens;
 
-namespace ExCSS.ValueConverters;
-
-internal sealed class OrderedOptionsConverter : IValueConverter
+namespace ExCSS.ValueConverters
 {
-    private readonly IValueConverter[] _converters;
-
-    public OrderedOptionsConverter(params IValueConverter[] converters)
+    internal sealed class OrderedOptionsConverter : IValueConverter
     {
-        _converters = converters;
-    }
+        private readonly IValueConverter[] _converters;
 
-    public IPropertyValue Convert(IEnumerable<Token> value)
-    {
-        var list = new List<Token>(value);
-        var options = new IPropertyValue[_converters.Length];
-
-        for (var i = 0; i < _converters.Length; i++)
+        public OrderedOptionsConverter(params IValueConverter[] converters)
         {
-            options[i] = _converters[i].VaryStart(list);
-
-            if (options[i] == null) return null;
+            _converters = converters;
         }
 
-        return list.Count == 0 ? new OptionsValue(options, value) : null;
-    }
-
-    public IPropertyValue Construct(Property[] properties)
-    {
-        var result = properties.Guard<OptionsValue>();
-
-        if (result == null)
+        public IPropertyValue Convert(IEnumerable<Token> value)
         {
-            var values = new IPropertyValue[_converters.Length];
+            var list = new List<Token>(value);
+            var options = new IPropertyValue[_converters.Length];
 
             for (var i = 0; i < _converters.Length; i++)
             {
-                var value = _converters[i].Construct(properties);
+                options[i] = _converters[i].VaryStart(list);
 
-                if (value == null) return null;
-
-                values[i] = value;
+                if (options[i] == null) return null;
             }
 
-            result = new OptionsValue(values, []);
+            return list.Count == 0 ? new OptionsValue(options, value) : null;
         }
 
-        return result;
-    }
-
-    private sealed class OptionsValue : IPropertyValue, IEnumerable<IPropertyValue>
-    {
-        private readonly IPropertyValue[] _options;
-
-        public OptionsValue(IPropertyValue[] options, IEnumerable<Token> tokens)
+        public IPropertyValue Construct(Property[] properties)
         {
-            _options = options;
-            Original = new TokenValue(tokens);
-        }
+            var result = properties.Guard<OptionsValue>();
 
-        IEnumerator<IPropertyValue> IEnumerable<IPropertyValue>.GetEnumerator()
-        {
-            return ((IEnumerable<IPropertyValue>) _options).GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _options.GetEnumerator();
-        }
-
-        public string CssText
-        {
-            get
+            if (result == null)
             {
-                return string.Join(" ",
-                    _options.Where(m => !string.IsNullOrEmpty(m.CssText)).Select(m => m.CssText));
-            }
-        }
+                var values = new IPropertyValue[_converters.Length];
 
-        public TokenValue Original { get; }
-
-        public TokenValue ExtractFor(string name)
-        {
-            var tokens = new List<Token>();
-
-            foreach (var option in _options)
-            {
-                var extracted = option.ExtractFor(name);
-
-                if (extracted != null && extracted.Count > 0)
+                for (var i = 0; i < _converters.Length; i++)
                 {
-                    if (tokens.Count > 0) tokens.Add(Token.Whitespace);
+                    var value = _converters[i].Construct(properties);
 
-                    tokens.AddRange(extracted);
+                    if (value == null) return null;
+
+                    values[i] = value;
+                }
+
+                result = new OptionsValue(values, Enumerable.Empty<Token>());
+            }
+
+            return result;
+        }
+
+        private sealed class OptionsValue : IPropertyValue, IEnumerable<IPropertyValue>
+        {
+            private readonly IPropertyValue[] _options;
+
+            public OptionsValue(IPropertyValue[] options, IEnumerable<Token> tokens)
+            {
+                _options = options;
+                Original = new TokenValue(tokens);
+            }
+
+            IEnumerator<IPropertyValue> IEnumerable<IPropertyValue>.GetEnumerator()
+            {
+                return ((IEnumerable<IPropertyValue>) _options).GetEnumerator();
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return _options.GetEnumerator();
+            }
+
+            public string CssText
+            {
+                get
+                {
+                    return string.Join(" ",
+                        _options.Where(m => !string.IsNullOrEmpty(m.CssText)).Select(m => m.CssText));
                 }
             }
 
-            return new TokenValue(tokens);
+            public TokenValue Original { get; }
+
+            public TokenValue ExtractFor(string name)
+            {
+                var tokens = new List<Token>();
+
+                foreach (var option in _options)
+                {
+                    var extracted = option.ExtractFor(name);
+
+                    if (extracted != null && extracted.Count > 0)
+                    {
+                        if (tokens.Count > 0) tokens.Add(Token.Whitespace);
+
+                        tokens.AddRange(extracted);
+                    }
+                }
+
+                return new TokenValue(tokens);
+            }
         }
     }
 }

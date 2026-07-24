@@ -1,26 +1,4 @@
-﻿// The MIT License (MIT)
-//
-// Copyright (c) 2024 Tyler Brinks
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -28,76 +6,77 @@ using ExCSS.Enumerations;
 using ExCSS.Extensions;
 using ExCSS.Model;
 
-namespace ExCSS.Rules;
-
-internal sealed class RuleList : IRuleList
+namespace ExCSS.Rules
 {
-    private readonly StylesheetNode _parent;
-
-    internal RuleList(StylesheetNode parent)
+    internal sealed class RuleList : IRuleList
     {
-        _parent = parent;
-    }
+        private readonly StylesheetNode _parent;
 
-    public Rule this[int index] => Nodes.GetItemByIndex(index);
-    IRule IRuleList.this[int index] => this[index];
-    public bool HasDeclarativeRules => Nodes.Any(IsDeclarativeRule);
-    public IEnumerable<Rule> Nodes => _parent.Children.OfType<Rule>();
-    public int Length => Nodes.Count();
+        internal RuleList(StylesheetNode parent)
+        {
+            _parent = parent;
+        }
 
-    private static bool IsDeclarativeRule(Rule rule)
-    {
-        var type = rule.Type;
-        return type != RuleType.Import && type != RuleType.Charset && type != RuleType.Namespace;
-    }
+        public Rule this[int index] => Nodes.GetItemByIndex(index);
+        IRule IRuleList.this[int index] => this[index];
+        public bool HasDeclarativeRules => Nodes.Any(IsDeclarativeRule);
+        public IEnumerable<Rule> Nodes => _parent.Children.OfType<Rule>();
+        public int Length => Nodes.Count();
 
-    internal void RemoveAt(int index)
-    {
-        if (index < 0 || index >= Length) throw new ParseException("Invalid index");
+        private static bool IsDeclarativeRule(Rule rule)
+        {
+            var type = rule.Type;
+            return type != RuleType.Import && type != RuleType.Charset && type != RuleType.Namespace;
+        }
 
-        var rule = this[index];
+        internal void RemoveAt(int index)
+        {
+            if (index < 0 || index >= Length) throw new ParseException("Invalid index");
 
-        if (rule.Type == RuleType.Namespace && HasDeclarativeRules)
-            throw new ParseException("Cannot remove namespace or declarative rules");
+            var rule = this[index];
 
-        Remove(rule);
-    }
+            if (rule.Type == RuleType.Namespace && HasDeclarativeRules)
+                throw new ParseException("Cannot remove namespace or declarative rules");
 
-    internal void Remove(Rule rule)
-    {
-        if (rule != null)
-            _parent.RemoveChild(rule);
-    }
+            Remove(rule);
+        }
 
-    internal void Insert(int index, Rule rule)
-    {
-        if (rule == null) throw new ParseException("Rule argument cannot be null");
+        internal void Remove(Rule rule)
+        {
+            if (rule != null)
+                _parent.RemoveChild(rule);
+        }
 
-        if (rule.Type == RuleType.Charset) throw new ParseException("Cannot insert Charset rule");
+        internal void Insert(int index, Rule rule)
+        {
+            if (rule == null) throw new ParseException("Rule argument cannot be null");
 
-        if (index > Length || index < 0) throw new ParseException("Invalid index");
+            if (rule.Type == RuleType.Charset) throw new ParseException("Cannot insert Charset rule");
 
-        if (rule.Type == RuleType.Namespace && HasDeclarativeRules)
-            throw new ParseException("Cannot insert namespace or declarative rules");
+            if (index > Length || index < 0) throw new ParseException("Invalid index");
 
-        if (index == Length)
-            _parent.AppendChild(rule);
-        else
-            _parent.InsertBefore(this[index], rule);
-    }
+            if (rule.Type == RuleType.Namespace && HasDeclarativeRules)
+                throw new ParseException("Cannot insert namespace or declarative rules");
 
-    internal void Add(Rule rule)
-    {
-        if (rule != null) _parent.AppendChild(rule);
-    }
+            if (index == Length)
+                _parent.AppendChild(rule);
+            else
+                _parent.InsertBefore(this[index], rule);
+        }
 
-    public IEnumerator<IRule> GetEnumerator()
-    {
-        return Nodes.GetEnumerator();
-    }
+        internal void Add(Rule rule)
+        {
+            if (rule != null) _parent.AppendChild(rule);
+        }
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
+        public IEnumerator<IRule> GetEnumerator()
+        {
+            return Nodes.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }
