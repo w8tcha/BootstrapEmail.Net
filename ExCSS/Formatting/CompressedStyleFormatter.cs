@@ -76,7 +76,7 @@ namespace ExCSS.Formatting
 
         string IStyleFormatter.Declarations(IEnumerable<string> declarations)
         {
-            return string.Join("; ", declarations);
+            return string.Join(";", declarations);
         }
 
         string IStyleFormatter.Medium(bool exclusive,
