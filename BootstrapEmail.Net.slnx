@@ -5,6 +5,7 @@
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
     <File Path=".github/workflows/build.yml" />
+    <File Path=".github/workflows/release.yml" />
   </Folder>
   <Folder Name="/Source/">
     <Project Path="BootstrapEmailNet.Cli/BootstrapEmail.Net.Cli.csproj" />
