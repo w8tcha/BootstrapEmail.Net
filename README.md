@@ -1,13 +1,8 @@
 # BootstrapEmail.NET
-<br>
-  <p align="center">
-  <a href="https://bootstrapemail.com">
-    <img src="https://bootstrapemail.com/img/icons/logo.png" alt="" width=72 height=72>
-  </a>
-  <p align="center">
-    If you know Bootstrap, you know Bootstrap Email.
-  </p>
-<br>
+
+![logo](https://raw.githubusercontent.com/w8tcha/BootstrapEmail.Net/main/bootstrap-email.png)
+
+If you know Bootstrap, you know Bootstrap Email.
 
 [![NuGet](https://img.shields.io/nuget/v/BootstrapEmail.Net.svg)](https://nuget.org/packages/BootstrapEmail.Net)
 
@@ -16,6 +11,8 @@
 This is the .NET Version of  [Bootstrap Email](https://github.com/bootstrap-email/bootstrap-email) which was converted from Ruby to .NET (Core) 9/10
 
 Bootstrap Email takes most of its inspiration from these two wonderful frameworks, [Bootstrap](https://getbootstrap.com) and [Tailwind](https://tailwindcss.com) but for HTML emails. Working with HTML in emails is never easy because of the nuances of email vs the web. With Bootstrap Email you don't have to understand all the nuance and it allows you to write emails like you would a website.
+
+## Runtime
 
 > [!CAUTION]
 > By default package contains only the windows x64 Dart Sass runtime. 

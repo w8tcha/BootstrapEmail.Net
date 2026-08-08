@@ -72,3 +72,4 @@ BootstrapEmail.Net.Benchmarks/BenchmarkDotNet.Artifacts/results/BootstrapEmail.N
 BootstrapEmail.Net.Benchmarks/BenchmarkDotNet.Artifacts/results/BootstrapEmail.Net.Benchmarks.LibraryComparisonBenchmarks-report.csv
 BootstrapEmail.Net.Benchmarks/BenchmarkDotNet.Artifacts/results/BootstrapEmail.Net.Benchmarks.LibraryComparisonBenchmarks-report.html
 secret.json
+BootstrapEmail.Net.sln.GhostDoc.xml
