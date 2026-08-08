@@ -3,6 +3,7 @@
 namespace BootstrapEmail.Net;
 
 using System;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Security.Cryptography;
 
@@ -110,8 +111,20 @@ public class SassCache
 
         Directory.CreateDirectory(Path.Combine(this._cacheDir, this._checksum));
 
-		return Cached(cachePath) ? ReadFile(cachePath) : this.CompileAndCacheScss(cachePath);
+        // Serialize check-then-compile-then-write per cache path so concurrent callers for the
+        // same (identical) input can't observe a partially-written cache file (see CompileAndCacheScss).
+        var cacheLock = CacheLocks.GetOrAdd(cachePath, static _ => new object());
+
+        lock (cacheLock)
+        {
+            return Cached(cachePath) ? ReadFile(cachePath) : this.CompileAndCacheScss(cachePath);
+        }
     }
+
+    /// <summary>
+    /// Per cache-path locks guarding <see cref="Compile"/>'s check-then-compile-then-write sequence.
+    /// </summary>
+    private static readonly ConcurrentDictionary<string, object> CacheLocks = new();
 
 	private static string ReadFile(string filePath)
 	{
@@ -170,11 +183,6 @@ public class SassCache
     }
 
 	/// <summary>
-	/// The lock
-	/// </summary>
-	private static readonly ReaderWriterLockSlim Lock = new();
-
-	/// <summary>
 	/// Compiles and cache SCSS.
 	/// </summary>
 	/// <param name="cachePath">The cache path.</param>
@@ -188,17 +196,13 @@ public class SassCache
 		var result = compiler.CompileCodeAsync(this._sassConfig,
 		    new SassCompileOptions { StyleType = this._style, StopOnError = true }).Result;
 
-		Lock.EnterWriteLock();
-
-		try
+		// FileMode.Create truncates any existing (e.g. stale/partial) file instead of only
+		// overwriting its leading bytes, and the caller's per-cachePath lock already prevents
+		// concurrent writers/readers from observing this file mid-write.
+		using (var fs = new FileStream(cachePath, FileMode.Create, FileAccess.Write))
 		{
-			using var fs = new FileStream(cachePath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
 			var dataAsByteArray = new UTF8Encoding(true).GetBytes(result.Code);
-			fs.Write(dataAsByteArray, 0, result.Code.Length);
-		}
-		finally
-		{
-			Lock.ExitWriteLock();
+			fs.Write(dataAsByteArray, 0, dataAsByteArray.Length);
 		}
 
 		if (!this._config.ConfigStore.sass_log_enabled)
