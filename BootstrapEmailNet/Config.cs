@@ -92,7 +92,7 @@ public class Config
         }
 
         return Path.Combine(
-	        Directory.Exists(AppContext.BaseDirectory) ? Directory.GetCurrentDirectory() : Path.GetTempPath(),
+	        Directory.Exists(AppContext.BaseDirectory) ? AppContext.BaseDirectory : Path.GetTempPath(),
 	        Constants.SassCache,
 	        this.ConfigStore.sass_email_string.Replace(".scss", string.Empty));
     }

@@ -264,7 +264,7 @@ public class Compiler
 		    fileName = fileName.Replace($"layout{Path.DirectorySeparatorChar}html.erb", "layout.html.erb");
 
 		    WriteResourceToFile(assembly, s,
-			    fileName);
+			    Path.Combine(AppContext.BaseDirectory, fileName));
 	    }
     }
 

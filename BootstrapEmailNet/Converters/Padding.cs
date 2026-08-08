@@ -26,7 +26,7 @@ public class Padding : Base
         {
             if (NodesNames.Contains(node.NodeName.ToLower()))
             {
-                return;
+                continue;
             }
 
             if (string.IsNullOrEmpty(node.ClassName))

@@ -16,7 +16,7 @@ public class ConsoleOptions
     /// <summary>
     /// Relative path to JSON config file to customize Bootstrap Email.
     /// </summary>
-    [Option('c', "string", Required = false, HelpText = "Relative path to JSON config file to customize Bootstrap Email.")]
+    [Option('c', "config", Required = false, HelpText = "Relative path to JSON config file to customize Bootstrap Email.")]
     public string? Config { get; set; }
 
     /// <summary>
@@ -38,7 +38,7 @@ public class ConsoleOptions
     /// <summary>
     /// File to be compiled.
     /// </summary>
-    [Option('f', "string", Required = false, HelpText = "File to be compiled.")]
+    [Option('f', "file", Required = false, HelpText = "File to be compiled.")]
     public string? File { get; set; }
 
     /// <summary>

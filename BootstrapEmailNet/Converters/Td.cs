@@ -42,7 +42,7 @@ public class Td : Base
 
             if (styleAttribute is null)
             {
-                return;
+                continue;
             }
 
             var stylesheet = this.StyleSheetParser.ParseInlineStyle(styleAttribute);

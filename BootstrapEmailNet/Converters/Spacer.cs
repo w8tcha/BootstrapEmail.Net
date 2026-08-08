@@ -12,11 +12,20 @@ public class Spacer : Base
     {
     }
 
+    private static readonly Regex SpacerClassRegex =
+        new(@"^s(-lg)?-\d+$", RegexOptions.None, TimeSpan.FromMilliseconds(100));
+
     public virtual void Build()
     {
         foreach (var node in this.EachNode("*[class*=s-]"))
         {
-            //next unless node['class'].split.any? { |cls| cls.match?(/^s(-lg)?-\d+$/) }
+            var classes = node.ClassName?.Split(' ') ?? [];
+
+            if (!classes.Any(c => SpacerClassRegex.IsMatch(c)))
+            {
+                continue;
+            }
+
             var templateContent = new TemplateContent($"{node.ClassName} w-full", "&nbsp;");
 
             node.OuterHtml = this.Template("table", templateContent);

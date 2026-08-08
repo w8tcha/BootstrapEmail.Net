@@ -20,7 +20,7 @@ public abstract class Base
     /// <summary>
     /// The cached templates
     /// </summary>
-    private Dictionary<string, string> _cachedTemplates = [];
+    private readonly Dictionary<string, string> _cachedTemplates = [];
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Base"/> class.
@@ -49,8 +49,6 @@ public abstract class Base
         }
         else
         {
-            this._cachedTemplates = [];
-
             var path = Path.GetFullPath(
                 Path.Combine(
                     AppContext.BaseDirectory,

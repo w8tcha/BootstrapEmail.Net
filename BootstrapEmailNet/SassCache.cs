@@ -159,14 +159,14 @@ public class SassCache
     /// <returns>System.String.</returns>
     private string ChecksumFiles()
     {
-        var checkSums = new[] { GetChecksum(this._sassConfig) };
+        var checkSums = new List<string> { GetChecksum(this._sassConfig) };
 
         foreach (var path in this._config.SassLoadPaths()
                      .Select(
                          loadPath => Directory.EnumerateFiles(loadPath, "*.scss", SearchOption.AllDirectories).ToList())
                      .SelectMany(files => files))
         {
-            _ = checkSums.Append(GetChecksum(File.ReadAllText(path)));
+            checkSums.Add(GetChecksum(File.ReadAllText(path)));
         }
 
         return GetChecksum(string.Join(string.Empty, checkSums));
