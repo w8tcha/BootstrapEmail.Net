@@ -79,7 +79,7 @@ public class Compiler
 		    _ => input
 	    };
 
-	    if (!Directory.Exists(Path.Combine(AppContext.BaseDirectory, this.Config.SassLocation())))
+	    if (!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), this.Config.SassLocation())))
 	    {
 			GetEmbeddedCoreFiles();
 	    }
@@ -148,7 +148,7 @@ public class Compiler
             return html;
         }
 
-        return Erb.Template(Path.Combine(AppContext.BaseDirectory, this.Config.SassLocation(), this.Config.ConfigStore.layout_file), html);
+        return Erb.Template(Path.Combine(Directory.GetCurrentDirectory(), this.Config.SassLocation(), this.Config.ConfigStore.layout_file), html);
     }
 
     /// <summary>
@@ -264,7 +264,7 @@ public class Compiler
 		    fileName = fileName.Replace($"layout{Path.DirectorySeparatorChar}html.erb", "layout.html.erb");
 
 		    WriteResourceToFile(assembly, s,
-			    Path.Combine(AppContext.BaseDirectory, fileName));
+			    Path.Combine(Directory.GetCurrentDirectory(), fileName));
 	    }
     }
 

@@ -82,7 +82,7 @@ public class BootstrapEmail
     /// <param name="output">The output.</param>
     private void PatternCompile(string input, string output)
     {
-        foreach (var path in Directory.EnumerateFiles(AppContext.BaseDirectory, input))
+        foreach (var path in Directory.EnumerateFiles(Directory.GetCurrentDirectory(), input))
         {
             if (!File.Exists(path))
             {
@@ -97,7 +97,7 @@ public class BootstrapEmail
 
             var convertedHtml = compilerPattern.PerformFullCompile();
 
-            var destinationPath = Path.Combine(AppContext.BaseDirectory, output.TrimEnd('*'));
+            var destinationPath = Path.Combine(Directory.GetCurrentDirectory(), output.TrimEnd('*'));
 
             if (!Directory.Exists(destinationPath))
             {
@@ -130,7 +130,7 @@ public class BootstrapEmail
     /// <param name="savePath">The save path.</param>
     private void FileCompile(string relativeFilePath, string? savePath)
     {
-        var filePath = Path.GetFullPath(relativeFilePath, AppContext.BaseDirectory);
+        var filePath = Path.GetFullPath(relativeFilePath, Directory.GetCurrentDirectory());
 
         var compilerFile = new Compiler(filePath, this._config, InputType.File);
 
@@ -171,7 +171,7 @@ public class BootstrapEmail
     /// </summary>
     private void FilesCompile()
     {
-        var files = Directory.GetFiles(AppContext.BaseDirectory, "*.html");
+        var files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.html");
 
         foreach (var file in files)
         {

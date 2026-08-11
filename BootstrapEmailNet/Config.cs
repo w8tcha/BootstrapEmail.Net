@@ -34,7 +34,7 @@ public class Config
         if (!string.IsNullOrEmpty(fileName))
         {
             var path = string.IsNullOrEmpty(location)
-                           ? Path.Combine(AppContext.BaseDirectory, this.SassLocation(), fileName)
+                           ? Path.Combine(Directory.GetCurrentDirectory(), this.SassLocation(), fileName)
                            : Path.Combine(location, fileName);
 
             if (File.Exists(path))
@@ -51,10 +51,10 @@ public class Config
 
         var locations = Array.FindAll(
             lookupLocations,
-            path => File.Exists(Path.GetFullPath(path, Path.Combine(AppContext.BaseDirectory, this.SassLocation()))));
+            path => File.Exists(Path.GetFullPath(path, Path.Combine(Directory.GetCurrentDirectory(), this.SassLocation()))));
 
         return locations.Length > 0
-                   ? File.ReadAllText(Path.GetFullPath(locations[0], Path.Combine(AppContext.BaseDirectory, this.SassLocation())))
+                   ? File.ReadAllText(Path.GetFullPath(locations[0], Path.Combine(Directory.GetCurrentDirectory(), this.SassLocation())))
                    : string.Empty;
     }
 
@@ -73,7 +73,7 @@ public class Config
     /// <returns>System.String[].</returns>
     public string[] SassLoadPaths()
     {
-        string[] pathsArray = [Path.Combine(AppContext.BaseDirectory, this.SassLocation())];
+        string[] pathsArray = [Path.Combine(Directory.GetCurrentDirectory(), this.SassLocation())];
 
         return [.. pathsArray];
     }
@@ -91,8 +91,10 @@ public class Config
             return option;
         }
 
+        var currentDirectory = Directory.GetCurrentDirectory();
+
         return Path.Combine(
-	        Directory.Exists(AppContext.BaseDirectory) ? AppContext.BaseDirectory : Path.GetTempPath(),
+	        Directory.Exists(currentDirectory) ? currentDirectory : Path.GetTempPath(),
 	        Constants.SassCache,
 	        this.ConfigStore.sass_email_string.Replace(".scss", string.Empty));
     }

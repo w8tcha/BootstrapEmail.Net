@@ -81,7 +81,7 @@ public class SassCache
         {
 	        case SassTypes.SassEmail when !string.IsNullOrEmpty(this._config.ConfigStore.CssEmailPath):
 	        {
-		        var filePath = Path.Combine(AppContext.BaseDirectory, this._config.ConfigStore.CssEmailPath);
+		        var filePath = Path.Combine(Directory.GetCurrentDirectory(), this._config.ConfigStore.CssEmailPath);
 
 		        if (File.Exists(filePath))
 		        {
@@ -94,7 +94,7 @@ public class SassCache
 	        }
 	        case SassTypes.Head when !string.IsNullOrEmpty(this._config.ConfigStore.CssHeadPath):
 	        {
-		        var filePath = Path.Combine(AppContext.BaseDirectory, this._config.ConfigStore.CssHeadPath);
+		        var filePath = Path.Combine(Directory.GetCurrentDirectory(), this._config.ConfigStore.CssHeadPath);
 
 		        if (File.Exists(filePath))
 		        {

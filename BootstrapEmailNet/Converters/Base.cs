@@ -51,7 +51,7 @@ public abstract class Base
         {
             var path = Path.GetFullPath(
                 Path.Combine(
-                    AppContext.BaseDirectory,
+                    Directory.GetCurrentDirectory(),
                     this.Config.SassLocation(),
                     Constants.CoreTemplatesDir,
                     $"{file}.html"));
