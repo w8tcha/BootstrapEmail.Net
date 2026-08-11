@@ -194,7 +194,10 @@ public class SassCache
 		    : new DartSassCompiler();
 
 		var result = compiler.CompileCodeAsync(this._sassConfig,
-		    new SassCompileOptions { StyleType = this._style, StopOnError = true }).Result;
+		    new SassCompileOptions
+		    {
+			    StyleType = this._style, StopOnError = true, ImportPaths = this._config.SassLoadPaths()
+		    }).Result;
 
 		// FileMode.Create truncates any existing (e.g. stale/partial) file instead of only
 		// overwriting its leading bytes, and the caller's per-cachePath lock already prevents
