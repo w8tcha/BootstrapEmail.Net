@@ -49,9 +49,17 @@ jobs:
         if: steps.check_tag.outputs.exists == 'false'
         run: dotnet build BootstrapEmailNet/BootstrapEmail.Net.csproj -c Release
 
+      - name: Build CLI
+        if: steps.check_tag.outputs.exists == 'false'
+        run: dotnet build BootstrapEmailNet.Cli/BootstrapEmail.Net.Cli.csproj -c Release
+
       - name: Pack
         if: steps.check_tag.outputs.exists == 'false'
         run: dotnet pack BootstrapEmailNet/BootstrapEmail.Net.csproj -c Release -o artifacts
+
+      - name: Pack CLI
+        if: steps.check_tag.outputs.exists == 'false'
+        run: dotnet pack BootstrapEmailNet.Cli/BootstrapEmail.Net.Cli.csproj -c Release -o artifacts /p:Version=${{ steps.version.outputs.version }}
 
       - name: NuGet login (OIDC -> temporary API key)
         if: steps.check_tag.outputs.exists == 'false'

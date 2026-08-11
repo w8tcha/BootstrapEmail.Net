@@ -69,25 +69,58 @@ var bsEmail = new BootstrapEmail();
 bsEmail.Compile("<a href='#' class='btn btn-primary'>Some Button</a>", string.Empty, InputType.String);
 ```
 
-### Via the command line with the BootstrapEmailNet.Cli:
+### Via the command line
+
+[![NuGet](https://img.shields.io/nuget/v/BootstrapEmail.Net.Cli.svg)](https://nuget.org/packages/BootstrapEmail.Net.Cli)
+
+The CLI is published as a [.NET tool](https://learn.microsoft.com/dotnet/core/tools/global-tools) named `BootstrapEmail.Net.Cli`, and installs the `bootstrap-email` command.
+
+#### install globally
+
+```` cmd
+> dotnet tool install --global BootstrapEmail.Net.Cli
+````
+
+#### update to the latest version
+
+```` cmd
+> dotnet tool update --global BootstrapEmail.Net.Cli
+````
+
+#### options
+
+| Option | Long form | Description |
+| --- | --- | --- |
+| `-h` | `--help` | Set output to verbose messages. |
+| `-c` | `--config` | Relative path to JSON config file to customize Bootstrap Email. |
+| `-t` | `--text` | Return the plain text version of the email. |
+| `-s` | `--string` | HTML string to be compiled rather than a file. |
+| `-f` | `--file` | File to be compiled. |
+| `-p` | `--pattern` | Specify a pattern of files to compile and save multiple files at once (used with `--destination`). |
+| `-d` | `--destination` | Destination for compiled files (used with the `--pattern` option). |
+| `-v` | `--version` | Show version. |
 
 #### compile all files ending in .html in the current directory
 ```` cmd
-> BootstrapEmail.Cli
+> bootstrap-email
 ````
 #### compile the file email.html and save it to the file out.html
 ```` cmd
-> BootstrapEmail.Cli -f email.html -d out.html
+> bootstrap-email -f email.html -d out.html
 ````
 #### specify a path pattern and a destination directory for compiled emails to be saved to
 ```` cmd
-> BootstrapEmail.Cli -p 'emails/*' -d 'emails/compiled/*'
+> bootstrap-email -p 'emails/*' -d 'emails/compiled/*'
 ````
 #### compile for a string
 ```` cmd
-> BootstrapEmail.Cli -s '<a href="#" class="btn btn-primary">Some Button</a>'
+> bootstrap-email -s '<a href="#" class="btn btn-primary">Some Button</a>'
 ````
 #### specify a config json file to use custom scss files
 ```` cmd
-> BootstrapEmail.Cli -c bootstrap-email.json
+> bootstrap-email -c bootstrap-email.json
+````
+#### pipe a file through stdin
+```` cmd
+> cat input.html | bootstrap-email
 ````

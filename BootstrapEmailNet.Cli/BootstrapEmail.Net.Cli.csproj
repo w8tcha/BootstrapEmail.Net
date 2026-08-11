@@ -9,6 +9,39 @@
 	  <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>bootstrap-email</ToolCommandName>
+    <PackageId>BootstrapEmail.Net.Cli</PackageId>
+    <Version>1.7.0</Version>
+    <Title>Bootstrap Email CLI</Title>
+    <PackageIcon>bootstrap-email.png</PackageIcon>
+    <Description>Command-line tool for compiling and inlining Bootstrap Email templates into responsive HTML emails.</Description>
+    <PackageProjectUrl>https://github.com/w8tcha/BootstrapEmail.Net</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/w8tcha/BootstrapEmail.Net</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>css;bootstrap;resonsive;html-email;email-quirks;dotnet-tool</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../CHANGELOG.md"))</PackageReleaseNotes>
+    <Copyright>Copyright (c) .NET Version Ingo Herbote</Copyright>
+    <PackageLicenseFile>LICENSE.MD</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\bootstrap-email.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\LICENSE.MD">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
     <PackageReference Include="DartSass.Native.win-x64" Version="1.102.0" />
