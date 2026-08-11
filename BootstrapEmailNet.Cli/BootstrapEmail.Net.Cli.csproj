@@ -13,7 +13,7 @@
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>bootstrap-email</ToolCommandName>
     <PackageId>BootstrapEmail.Net.Cli</PackageId>
-    <Version>1.7.0</Version>
+    <Version>1.7.1</Version>
     <Title>Bootstrap Email CLI</Title>
     <PackageIcon>bootstrap-email.png</PackageIcon>
     <Description>Command-line tool for compiling and inlining Bootstrap Email templates into responsive HTML emails.</Description>
