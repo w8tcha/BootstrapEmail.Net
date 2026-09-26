@@ -44,7 +44,7 @@
 
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
-    <PackageReference Include="DartSass.Native.win-x64" Version="1.104.1" />
+    <PackageReference Include="DartSass.Native.win-x64" Version="1.105.0" />
     <PackageReference Include="SonarAnalyzer.CSharp" Version="10.34.0.3385">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
