@@ -18,5 +18,5 @@ jobs:
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
-      - name: Build
-        run: dotnet build BootstrapEmail.Net.slnx
+      - name: Test
+        run: dotnet test BootstrapEmail.Net.slnx
