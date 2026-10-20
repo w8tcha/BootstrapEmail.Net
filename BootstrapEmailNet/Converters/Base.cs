@@ -55,7 +55,8 @@ public abstract class Base
                     this.Config.SassLocation(),
                     Constants.CoreTemplatesDir,
                     $"{file}.html"));
-            stringContent = File.ReadAllText(path).TrimEnd('\n');
+            // templates may be checked out with CRLF (e.g. git autocrlf on Windows)
+            stringContent = File.ReadAllText(path).ReplaceLineEndings("\n").TrimEnd('\n');
 
             this._cachedTemplates[file] = stringContent;
         }
