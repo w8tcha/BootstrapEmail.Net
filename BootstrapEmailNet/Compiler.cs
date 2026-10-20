@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-using ExCSS.Parser;
+using ExCSS;
 
 namespace BootstrapEmail.Net;
 

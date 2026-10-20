@@ -1,7 +1,6 @@
 ﻿using BootstrapEmail.Net.Extensions;
 
 using ExCSS;
-using ExCSS.Parser;
 
 namespace BootstrapEmail.Net.Converters;
 
@@ -70,7 +69,7 @@ public class Align : Base
         {
             stylesheet.TextAlign = string.Empty;
 
-            node.SetAttribute("style", stylesheet.CssText);
+            node.SetAttribute("style", stylesheet.ToInlineCss());
         }
 
         type = type switch

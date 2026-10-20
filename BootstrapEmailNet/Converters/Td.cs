@@ -1,6 +1,6 @@
 ﻿using BootstrapEmail.Net.Extensions;
 
-using ExCSS.Parser;
+using ExCSS;
 
 namespace BootstrapEmail.Net.Converters;
 
@@ -55,10 +55,10 @@ public class Td : Base
 
                 stylesheet.TextAlign = string.Empty;
 
-                node.SetAttribute("style", stylesheet.CssText);
+                node.SetAttribute("style", stylesheet.ToInlineCss());
             }
 
-            var backgroundColor = stylesheet.BackgroundColor;
+            var backgroundColor = InlineStyleFormatter.ToHexColors(stylesheet.BackgroundColor);
 
             if (backgroundColor is "")
             {
@@ -69,7 +69,7 @@ public class Td : Base
 
             stylesheet.BackgroundColor = string.Empty;
 
-            node.SetAttribute("style", stylesheet.CssText);
+            node.SetAttribute("style", stylesheet.ToInlineCss());
         }
     }
 }
