@@ -230,7 +230,7 @@ public class SassCache
     /// <returns>System.String.</returns>
     private static string GetChecksum(string input)
     {
-        var hashBytes = SHA1.HashData(Encoding.UTF8.GetBytes(input));
+        var hashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(input));
         return BitConverter.ToString(hashBytes).Replace("-", string.Empty).ToLower();
     }
 }

@@ -45,7 +45,7 @@ public static class HtmlUtilities
 
             case HtmlNodeType.Text:
                 // script and style must not be output
-                var parentName = node.ParentNode.Name;
+                var parentName = node.ParentNode?.Name;
                 if (parentName is "script" or "style")
                     break;
 
