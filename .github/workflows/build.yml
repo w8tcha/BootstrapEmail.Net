@@ -19,4 +19,37 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
       - name: Test
-        run: dotnet test BootstrapEmail.Net.slnx
+        run: dotnet test BootstrapEmail.Net.slnx --settings coverlet.runsettings --collect:"XPlat Code Coverage" --results-directory ./coverage
+      - name: Generate coverage report
+        uses: danielpalme/ReportGenerator-GitHub-Action@v5
+        with:
+          reports: 'coverage/**/coverage.cobertura.xml'
+          targetdir: 'coverage-report'
+          reporttypes: 'HtmlInline;Cobertura;MarkdownSummaryGithub'
+      - name: Publish coverage summary
+        shell: bash
+        run: cat coverage-report/SummaryGithub.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage-report
+          path: coverage-report
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v7
+        with:
+          files: coverage-report/Cobertura.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
+      - name: Enforce coverage threshold
+        shell: bash
+        env:
+          MIN_LINE_COVERAGE: '80'
+          MIN_BRANCH_COVERAGE: '65'
+        run: |
+          report=coverage-report/Cobertura.xml
+          line=$(grep -m1 -oE 'line-rate="[0-9.]+"' "$report" | grep -oE '[0-9.]+')
+          branch=$(grep -m1 -oE 'branch-rate="[0-9.]+"' "$report" | grep -oE '[0-9.]+')
+          awk -v l="$line" -v b="$branch" -v ml="$MIN_LINE_COVERAGE" -v mb="$MIN_BRANCH_COVERAGE" 'BEGIN {
+            printf "Line coverage: %.1f%% (min %s%%)\nBranch coverage: %.1f%% (min %s%%)\n", l*100, ml, b*100, mb
+            if (l*100 < ml || b*100 < mb) { print "::error::Coverage is below the required threshold"; exit 1 }
+          }'
