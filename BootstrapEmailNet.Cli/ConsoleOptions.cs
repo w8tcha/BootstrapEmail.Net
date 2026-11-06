@@ -8,9 +8,9 @@ using CommandLine;
 public class ConsoleOptions
 {
     /// <summary>
-    /// Set output to verbose messages.
+    /// Show the help.
     /// </summary>
-    [Option('h', "help", Required = false, HelpText = "Set output to verbose messages.")]
+    [Option('h', "help", Required = false, HelpText = "Show the help.")]
     public bool Help { get; set; }
 
     /// <summary>
@@ -23,7 +23,7 @@ public class ConsoleOptions
     /// Return the plain text version of the email.
     /// </summary>
     [Option('t', "text", Required = false, HelpText = "Return the plain text version of the email.")]
-    public string? Text { get; set; }
+    public bool Text { get; set; }
 
     /// <summary>
     /// HTML string to be compiled rather than a file.
@@ -32,7 +32,7 @@ public class ConsoleOptions
         's',
         "string",
         Required = false,
-        HelpText = "HTML string to be to be compiled rather than a file.")]
+        HelpText = "HTML string to be compiled rather than a file.")]
     public string? String { get; set; }
 
     /// <summary>
@@ -48,17 +48,17 @@ public class ConsoleOptions
         'p',
         "pattern",
         Required = false,
-        HelpText = "Specify a pattern of files to compile and save multiple files at once")]
+        HelpText = "Specify a pattern of files to compile and save multiple files at once (requires --destination).")]
     public string? Pattern { get; set; }
 
     /// <summary>
-    /// Destination for compiled files (used with the --pattern option).
+    /// Output file for --file, or output directory for --pattern.
     /// </summary>
     [Option(
         'd',
         "destination",
         Required = false,
-        HelpText = "Destination for compiled files (used with the --pattern option).")]
+        HelpText = "Output file for --file, or output directory for --pattern.")]
     public string? Destination { get; set; }
 
     /// <summary>

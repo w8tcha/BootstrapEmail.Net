@@ -75,7 +75,7 @@ public class Compiler
 	    this.InputHtml = this.Type switch
 	    {
 		    InputType.String => input,
-		    InputType.File => File.ReadAllText(input),
+		    InputType.File or InputType.Pattern => File.ReadAllText(input),
 		    _ => input
 	    };
 
@@ -251,7 +251,7 @@ public class Compiler
 	/// </summary>
 	private static void GetEmbeddedCoreFiles()
     {
-	    var assembly = typeof(BootstrapEmail).GetTypeInfo().Assembly;
+	    var assembly = typeof(BootstrapEmailCompiler).GetTypeInfo().Assembly;
 
 	    foreach (var s in assembly.GetManifestResourceNames().Where(name => !name.StartsWith(Constants.PrecompiledResourcePrefix, StringComparison.Ordinal)))
 	    {

@@ -12,7 +12,7 @@ public class BootstrapEmailTests
     [Test]
     public void ParallelTests()
     {
-		var compiler = new BootstrapEmail();
+		var compiler = new BootstrapEmailCompiler();
 
 		var tasks = Enumerable.Range(0, 50)
 			.Select(_ => (Action)(() =>
@@ -84,7 +84,7 @@ public class BootstrapEmailTests
     {
         var config = new ConfigStore { plain_text = true };
 
-        var html = new BootstrapEmail(config).Compile(
+        var html = new BootstrapEmailCompiler(config).Compile(
             """<a href="#" class="btn btn-primary">A button</a> <a href="#" class="btn btn-secondary">B button</a>""",
             string.Empty,
             InputType.String);
@@ -100,7 +100,7 @@ public class BootstrapEmailTests
 	[Test]
 	public void TestStringInputWithCss()
 	{
-		var html = new BootstrapEmail(new ConfigStore { CssEmailPath = "SassEmail.css", CssHeadPath = "Head.css" }).Compile(
+		var html = new BootstrapEmailCompiler(new ConfigStore { CssEmailPath = "SassEmail.css", CssHeadPath = "Head.css" }).Compile(
 			"""<a href="#" class="btn btn-primary">A button</a><a href="#" class="btn btn-secondary">B button</a>""",
 			string.Empty,
 			InputType.String);
@@ -162,7 +162,7 @@ public class BootstrapEmailTests
 	[Test]
     public void TestStringInput()
     {
-        var html = new BootstrapEmail().Compile(
+        var html = new BootstrapEmailCompiler().Compile(
             """<a href="#" class="btn btn-primary">A button</a><a href="#" class="btn btn-secondary">B button</a>""",
             string.Empty,
             InputType.String);
@@ -232,7 +232,7 @@ public class BootstrapEmailTests
 
         var files = Directory.GetFiles(path, "*.html", SearchOption.AllDirectories);
 
-        var bsEmail = new BootstrapEmail(new ConfigStore());
+        var bsEmail = new BootstrapEmailCompiler(new ConfigStore());
 
         bsEmail.ClearSassCache();
 
@@ -257,5 +257,56 @@ public class BootstrapEmailTests
         }
 
         TestContext.Out.WriteLine($"Finished compiling tests in {(DateTime.Now - startTime).TotalSeconds:0.00}s 🎉");
+    }
+
+    /// <summary>
+    /// Pattern input has to compile the content of the matching files
+    /// </summary>
+    [Test]
+    public void PatternInputCompilesFileContents()
+    {
+        var directory = $"pattern-test-{Guid.NewGuid():N}";
+
+        Directory.CreateDirectory(directory);
+
+        try
+        {
+            File.WriteAllText(Path.Combine(directory, "email.html"), "<a href='#' class='btn btn-primary'>A button</a>");
+
+            new BootstrapEmailCompiler().Compile($"{directory}/*.html", $"{directory}/compiled", InputType.Pattern);
+
+            var html = File.ReadAllText(Path.Combine(directory, "compiled", "email.html"));
+
+            html.Should().Contain("A button").And.Contain("btn-primary").And.NotContain(directory);
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    /// <summary>
+    /// The plain text option has to apply to files as well
+    /// </summary>
+    [Test]
+    public void ConvertToTextFileInput()
+    {
+        var directory = Directory.CreateTempSubdirectory("bootstrap-email-tests").FullName;
+
+        try
+        {
+            var input = Path.Combine(directory, "email.html");
+            var output = Path.Combine(directory, "email.txt");
+
+            File.WriteAllText(input, "<a href='#' class='btn btn-primary'>A button</a>");
+
+            new BootstrapEmailCompiler(new ConfigStore { plain_text = true }).Compile(input, output, InputType.File);
+
+            File.ReadAllText(output).Should().Be("A button");
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
     }
 }

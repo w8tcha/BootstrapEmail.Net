@@ -1,9 +1,9 @@
 ﻿namespace BootstrapEmail.Net;
 
 /// <summary>
-/// Class BootstrapEmail.
+/// Class BootstrapEmailCompiler.
 /// </summary>
-public class BootstrapEmail
+public class BootstrapEmailCompiler
 {
     /// <summary>
     /// The configuration
@@ -11,18 +11,18 @@ public class BootstrapEmail
     private readonly ConfigStore _config;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="BootstrapEmail"/> class.
+    /// Initializes a new instance of the <see cref="BootstrapEmailCompiler"/> class.
     /// </summary>
-    public BootstrapEmail()
+    public BootstrapEmailCompiler()
     {
         this._config = new ConfigStore();
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="BootstrapEmail"/> class.
+    /// Initializes a new instance of the <see cref="BootstrapEmailCompiler"/> class.
     /// </summary>
     /// <param name="configStore">The configuration store.</param>
-    public BootstrapEmail(ConfigStore configStore)
+    public BootstrapEmailCompiler(ConfigStore configStore)
     {
         this._config = configStore;
     }
@@ -95,7 +95,7 @@ public class BootstrapEmail
 
             var compilerPattern = new Compiler(path, this._config, InputType.Pattern);
 
-            var convertedHtml = compilerPattern.PerformFullCompile();
+            var convertedHtml = this.Render(compilerPattern);
 
             var destinationPath = Path.Combine(Directory.GetCurrentDirectory(), output.TrimEnd('*'));
 
@@ -117,10 +117,17 @@ public class BootstrapEmail
     /// <returns>System.String.</returns>
     private string StringCompile(string input)
     {
-        var compilerString = new Compiler(input, config: this._config);
+        return this.Render(new Compiler(input, config: this._config));
+    }
 
-        return
-            this._config.plain_text ? compilerString.PerformTextCompile() : compilerString.PerformFullCompile();
+    /// <summary>
+    /// Compiles to html, or to plain text if configured.
+    /// </summary>
+    /// <param name="compiler">The compiler.</param>
+    /// <returns>System.String.</returns>
+    private string Render(Compiler compiler)
+    {
+        return this._config.plain_text ? compiler.PerformTextCompile() : compiler.PerformFullCompile();
     }
 
     /// <summary>
@@ -134,7 +141,7 @@ public class BootstrapEmail
 
         var compilerFile = new Compiler(filePath, this._config, InputType.File);
 
-        var compiledHtml = compilerFile.PerformFullCompile();
+        var compiledHtml = this.Render(compilerFile);
 
         if (string.IsNullOrEmpty(savePath))
         {

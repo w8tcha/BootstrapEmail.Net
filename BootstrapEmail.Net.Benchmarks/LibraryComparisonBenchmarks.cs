@@ -132,7 +132,7 @@ public class LibraryComparisonBenchmarks
                                                  """);
     }
 
-    private static readonly BootstrapEmail BsEmail = new();
+    private static readonly BootstrapEmailCompiler BsEmail = new();
 
 	/// <summary>
 	/// Run Benchmark with BootstrapEmail.Net

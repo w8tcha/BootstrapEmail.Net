@@ -1,5 +1,6 @@
 ﻿namespace BootstrapEmail.Net.Cli;
 
+using System.Text;
 using System.Text.Json;
 
 using CommandLine;
@@ -16,7 +17,17 @@ public static class Program
     /// <param name="args">The arguments.</param>
     private static void Main(string[] args)
     {
-        var parser = new Parser(with => with.HelpWriter = null);
+        // The default encoding on Windows can't represent all characters of the compiled emails.
+        Console.InputEncoding = Encoding.UTF8;
+        Console.OutputEncoding = Encoding.UTF8;
+
+        var parser = new Parser(
+            with =>
+                {
+                    with.HelpWriter = null;
+                    with.AutoHelp = false;
+                    with.AutoVersion = false;
+                });
         var parserResult = parser.ParseArguments<ConsoleOptions>(args);
 
         parserResult.WithParsed(options => Run(options, parserResult))
@@ -30,30 +41,33 @@ public static class Program
     /// <param name="result">The result.</param>
     private static void DisplayHelp<T>(ParserResult<T> result)
     {
-        var helpText = HelpText.AutoBuild(
-            result,
-            h =>
-                {
-                    h.AdditionalNewLineAfterOption = false;
+        var helpText = new HelpText
+        {
+            AddDashesToOption = true,
+            AdditionalNewLineAfterOption = false,
+            AutoHelp = false,
+            AutoVersion = false,
+            Heading =
+                "Bootstrap 5 stylesheet, compiler, and in-liner for responsive and consistent emails with the Bootstrap syntax you know and love."
+        };
 
-                    h.Heading =
-                        "Bootstrap 5 stylesheet, compiler, and in-liner for responsive and consistent emails with the Bootstrap syntax you know and love.";
+        if (result.Tag == ParserResultType.NotParsed)
+        {
+            HelpText.DefaultParsingErrorsHandler(result, helpText);
+        }
 
-                    h.AddPostOptionsLine("Usage: BootstrapEmail.Cli <path> [options]");
-                    h.AddPostOptionsLine("");
-                    h.AddPostOptionsLine("Examples:");
-                    h.AddPostOptionsLine("  BootstrapEmail.Cli");
-                    h.AddPostOptionsLine("  BootstrapEmail.Cli email.html > out.html");
-                    h.AddPostOptionsLine("  BootstrapEmail.Cli ./public/index.html");
-                    h.AddPostOptionsLine(
-                        "  BootstrapEmail.Cli -s '<a href=\"#\" class=\"btn btn-primary\">Some Button</a>'");
-                    h.AddPostOptionsLine("  BootstrapEmail.Cli -p 'emails/*' -d emails/compiled");
-                    h.AddPostOptionsLine("  BootstrapEmail.Cli -p 'views/emails/*' -d 'views/compiled_emails'");
-                    h.AddPostOptionsLine("  cat input.html | BootstrapEmail.Cli");
+        helpText.AddOptions(result);
 
-                    return HelpText.DefaultParsingErrorsHandler(result, h);
-                },
-            e => e);
+        helpText.AddPostOptionsLine("Usage: bootstrap-email [options]");
+        helpText.AddPostOptionsLine("");
+        helpText.AddPostOptionsLine("Examples:");
+        helpText.AddPostOptionsLine("  bootstrap-email");
+        helpText.AddPostOptionsLine("  bootstrap-email -f email.html -d out.html");
+        helpText.AddPostOptionsLine("  bootstrap-email -s '<a href=\"#\" class=\"btn btn-primary\">Some Button</a>'");
+        helpText.AddPostOptionsLine("  bootstrap-email -p 'emails/*' -d emails/compiled");
+        helpText.AddPostOptionsLine("  bootstrap-email -t -f email.html -d email.txt");
+        helpText.AddPostOptionsLine("  cat input.html | bootstrap-email");
+
         Console.WriteLine(helpText);
     }
 
@@ -72,7 +86,7 @@ public static class Program
         //do stuff
         if (options.Version)
         {
-            var name = typeof(BootstrapEmail).Assembly.GetName();
+            var name = typeof(BootstrapEmailCompiler).Assembly.GetName();
 
             Console.WriteLine(name.Version);
             Environment.Exit(0);
@@ -105,6 +119,16 @@ public static class Program
 
             type = InputType.Pattern;
         }
+        else if (options.Pattern is not null)
+        {
+            Console.Error.WriteLine("--pattern requires --destination.");
+            Environment.Exit(1);
+        }
+        else if (Console.IsInputRedirected)
+        {
+            input = Console.In.ReadToEnd();
+            type = InputType.String;
+        }
 
         var config = new ConfigStore();
 
@@ -116,7 +140,9 @@ public static class Program
             config = JsonSerializer.Deserialize<ConfigStore>(jsonString)!;
         }
 
-        var bsEmail = new BootstrapEmail(config);
+        config.plain_text |= options.Text;
+
+        var bsEmail = new BootstrapEmailCompiler(config);
 
         if (!string.IsNullOrEmpty(input))
         {
