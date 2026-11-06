@@ -8,5 +8,3 @@ global using AngleSharp.Html.Dom;
 global using AngleSharp.Html.Parser;
 
 global using global::BootstrapEmail.Net.Objects;
-
-global using Citizen17.DartSass;

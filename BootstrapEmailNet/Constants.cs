@@ -48,6 +48,11 @@ public static class Constants
     public const string SassCache = ".sass-cache";
 
     /// <summary>
+    /// The prefix of the embedded resources holding the precompiled css
+    /// </summary>
+    public const string PrecompiledResourcePrefix = "precompiled/";
+
+    /// <summary>
     /// The default output folder
     /// </summary>
     public const string Compiled = "compiled";

@@ -7,6 +7,10 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Security.Cryptography;
 
+using DartSassHost;
+
+using JavaScriptEngineSwitcher.Jint;
+
 /// <summary>
 /// Class SassCache.
 /// </summary>
@@ -107,6 +111,14 @@ public class SassCache
 	        }
         }
 
+        // The unmodified core stylesheets ship precompiled, so only customized Sass needs compiling.
+        var precompiled = this.ReadPrecompiled();
+
+        if (precompiled is not null)
+        {
+            return precompiled + CompiledCssEnding;
+        }
+
         var cachePath = Path.Combine(this._cacheDir,  this._checksum, $"{this._type}.css");
 
         Directory.CreateDirectory(Path.Combine(this._cacheDir, this._checksum));
@@ -117,7 +129,7 @@ public class SassCache
 
         lock (cacheLock)
         {
-            return Cached(cachePath) ? ReadFile(cachePath) : this.CompileAndCacheScss(cachePath);
+            return (Cached(cachePath) ? ReadFile(cachePath) : this.CompileAndCacheScss(cachePath)) + CompiledCssEnding;
         }
     }
 
@@ -125,6 +137,34 @@ public class SassCache
     /// Per cache-path locks guarding <see cref="Compile"/>'s check-then-compile-then-write sequence.
     /// </summary>
     private static readonly ConcurrentDictionary<string, object> CacheLocks = new();
+
+    /// <summary>
+    /// Appended to compiled css, which keeps the generated html the same as with earlier versions.
+    /// </summary>
+    private const string CompiledCssEnding = "\n\n";
+
+    /// <summary>
+    /// Gets the name of the embedded resource holding the precompiled css for the current Sass input.
+    /// </summary>
+    internal string PrecompiledResourceName =>
+        $"{Constants.PrecompiledResourcePrefix}{this._type}.{this._style}.{this._checksum}.css";
+
+    /// <summary>
+    /// Reads the precompiled css for the current Sass input.
+    /// </summary>
+    /// <returns>The css, or <c>null</c> if the Sass input was customized.</returns>
+    private string? ReadPrecompiled()
+    {
+        using var stream = typeof(SassCache).Assembly.GetManifestResourceStream(this.PrecompiledResourceName);
+
+        if (stream is null)
+        {
+            return null;
+        }
+
+        using var reader = new StreamReader(stream);
+        return reader.ReadToEnd();
+    }
 
 	private static string ReadFile(string filePath)
 	{
@@ -169,6 +209,10 @@ public class SassCache
             checkSums.Add(GetChecksum(File.ReadAllText(path)));
         }
 
+        // File enumeration order differs between platforms, but the checksum has to stay stable
+        // because it identifies the precompiled css.
+        checkSums.Sort(StringComparer.Ordinal);
+
         return GetChecksum(string.Join(string.Empty, checkSums));
     }
 
@@ -189,28 +233,20 @@ public class SassCache
 	/// <returns>System.String.</returns>
 	private string CompileAndCacheScss(string cachePath)
     {
-	    var compiler = this._config.ConfigStore.DartSassNativeType.HasValue
-		    ? new DartSassCompiler(this._config.ConfigStore.DartSassNativeType.Value)
-		    : new DartSassCompiler();
-
-		var result = compiler.CompileCodeAsync(this._sassConfig,
-		    new SassCompileOptions
-		    {
-			    StyleType = this._style, StopOnError = true, ImportPaths = this._config.SassLoadPaths()
-		    }).Result;
+		var result = this.CompileScss();
 
 		// FileMode.Create truncates any existing (e.g. stale/partial) file instead of only
 		// overwriting its leading bytes, and the caller's per-cachePath lock already prevents
 		// concurrent writers/readers from observing this file mid-write.
 		using (var fs = new FileStream(cachePath, FileMode.Create, FileAccess.Write))
 		{
-			var dataAsByteArray = new UTF8Encoding(true).GetBytes(result.Code);
+			var dataAsByteArray = new UTF8Encoding(true).GetBytes(result.CompiledContent);
 			fs.Write(dataAsByteArray, 0, dataAsByteArray.Length);
 		}
 
 		if (!this._config.ConfigStore.sass_log_enabled)
         {
-	        return result.Code;
+	        return result.CompiledContent;
         }
 
         Console.WriteLine($"New css file cached for {this._type}");
@@ -220,7 +256,27 @@ public class SassCache
 	        Console.WriteLine(message.Message);
         }
 
-        return result.Code;
+        return result.CompiledContent;
+    }
+
+    /// <summary>
+    /// Compiles the Sass input.
+    /// </summary>
+    /// <returns>The compilation result.</returns>
+    internal CompilationResult CompileScss()
+    {
+        using var compiler = new SassCompiler(new JintJsEngineFactory());
+
+        // The working directory is a load path because the Sass input is passed as a string,
+        // so its "@use" rules have no file location to be resolved against.
+        return compiler.Compile(
+            this._sassConfig,
+            false,
+            new CompilationOptions
+            {
+                OutputStyle = this._style == StyleType.Compressed ? OutputStyle.Compressed : OutputStyle.Expanded,
+                IncludePaths = [.. this._config.SassLoadPaths(), Directory.GetCurrentDirectory()]
+            });
     }
 
     /// <summary>

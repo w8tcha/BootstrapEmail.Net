@@ -5,6 +5,21 @@ on:
       - main
       
 jobs:
+  test-linux:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: |
+            9.0.x
+            10.0.x
+      - name: Test
+        run: dotnet test BootstrapEmail.Net.slnx
+
   build:
 
     runs-on: windows-latest

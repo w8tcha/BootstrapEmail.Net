@@ -14,25 +14,9 @@ Bootstrap Email takes most of its inspiration from these two wonderful framework
 
 ## Runtime
 
-> [!CAUTION]
-> By default package contains only the windows x64 Dart Sass runtime. 
-> If you have different system then it can use the installed Dart Sass in your system, or you can install one of the following nuget packages:
-> * DartSass.Native.win-x64
-> * DartSass.Native.win-x86
-> * DartSass.Native.linux-x64
-> * DartSass.Native.linux-arm64
-> * DartSass.Native.linux-arm
-> * DartSass.Native.linux-x86
-> * DartSass.Native.linux-musl-x64
-> * DartSass.Native.linux-musl-arm64
-> * DartSass.Native.linux-musl-arm
-> * DartSass.Native.linux-musl-x86
-> * DartSass.Native.macos-x64
-> * DartSass.Native.macos-arm64
-> * DartSass.Native.android-x64
-> * DartSass.Native.android-arm64
-> * DartSass.Native.android-arm
-> * DartSass.Native.android-x86
+Bootstrap Email runs on any platform supported by .NET. No Dart Sass binary or other native runtime is needed.
+
+The default stylesheets are included precompiled. Custom Sass is compiled in managed code with [DartSassHost](https://github.com/Taritsyn/DartSassHost) and [Jint](https://github.com/sebastienros/jint). This takes a few seconds, but the result is cached in the Sass cache folder until the Sass files change.
 
 ## Setup
 There are a few different ways you can use Bootstrap Email to compile emails:

@@ -253,7 +253,7 @@ public class Compiler
     {
 	    var assembly = typeof(BootstrapEmail).GetTypeInfo().Assembly;
 
-	    foreach (var s in assembly.GetManifestResourceNames())
+	    foreach (var s in assembly.GetManifestResourceNames().Where(name => !name.StartsWith(Constants.PrecompiledResourcePrefix, StringComparison.Ordinal)))
 	    {
 		    var fileName = s.Replace("BootstrapEmail.Net.", "").Replace(".", Path.DirectorySeparatorChar.ToString());
 
