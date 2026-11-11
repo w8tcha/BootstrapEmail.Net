@@ -46,7 +46,7 @@ See the [Bootstrap Email documentation](https://bootstrapemail.com/docs/introduc
 
 ## Requirements
 
-- .NET 9 or .NET 10
+- .NET 10 or .NET 11
 - Any operating system supported by .NET. No Dart Sass binary or other native runtime is needed.
 
 ## Use the library
