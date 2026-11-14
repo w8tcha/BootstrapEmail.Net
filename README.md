@@ -7,6 +7,7 @@ If you know Bootstrap, you know Bootstrap Email.
 [![NuGet](https://img.shields.io/nuget/v/BootstrapEmail.Net.svg)](https://nuget.org/packages/BootstrapEmail.Net)
 [![build dotnet](https://github.com/w8tcha/BootstrapEmail.Net/actions/workflows/build.yml/badge.svg)](https://github.com/w8tcha/BootstrapEmail.Net/actions/workflows/build.yml)
 [![Coverage](https://github.com/w8tcha/BootstrapEmail.Net/raw/badges/badge_linecoverage.svg)](https://github.com/w8tcha/BootstrapEmail.Net/actions/workflows/build.yml)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-Support%20Me-ff5e5b?logo=ko-fi&logoColor=white)](https://ko-fi.com/w8tcha)
 
 BootstrapEmail.NET is the .NET version of [Bootstrap Email](https://github.com/bootstrap-email/bootstrap-email), converted from Ruby. Write emails with the Bootstrap classes you already know, and it compiles them into the table-based HTML with inline styles that email clients need.
 
