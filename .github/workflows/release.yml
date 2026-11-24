@@ -73,9 +73,30 @@ jobs:
         shell: bash
         run: dotnet nuget push artifacts/*.nupkg --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
 
+      - name: Build release notes from commits
+        if: steps.version.outputs.should_release == 'true'
+        shell: pwsh
+        run: |
+          # Commits since the last release tag (tags are fetched, checkout uses fetch-depth: 0)
+          $previousTag = git describe --tags --abbrev=0 2>$null
+          $range = if ($previousTag) { "$previousTag..HEAD" } else { "HEAD" }
+          Write-Host "Commit range: $range"
+
+          # Subject lines without merge commits and without dependabot updates
+          $commits = git log $range --no-merges --pretty=format:"%an%x09- %s (%h)" |
+            Where-Object { $_ -and ($_.Split("`t")[0] -notmatch 'dependabot') } |
+            ForEach-Object { $_.Split("`t", 2)[1] }
+
+          $notes = "## Changes`n`n"
+          $notes += if ($commits) { ($commits -join "`n") } else { "- No changes" }
+          $notes += "`n"
+
+          Set-Content -Path release-notes.md -Value $notes -Encoding utf8
+          Get-Content release-notes.md
+
       - name: Create GitHub Release
         if: steps.check_tag.outputs.exists == 'false'
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "v${{ steps.version.outputs.version }}" artifacts/*.nupkg --title "v${{ steps.version.outputs.version }}" --generate-notes
+        run: gh release create "v${{ steps.version.outputs.version }}" artifacts/*.nupkg --title "v${{ steps.version.outputs.version }}" --notes-file release-notes.md --generate-notes
